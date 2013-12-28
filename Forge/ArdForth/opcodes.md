@@ -20,13 +20,15 @@ Space separates, tab is reserved, newline triggers interpretation.
 
 Other control characters and escape sequences may be recognized by the core OS. Probably not; we may as well use TAB switching for commands, it's a large key that doesn't see much good use, given that it emits a perfectly sensible 9. Tab could pop out and speak directly to the protocol server, if there is one, and there generally is. 
 
+This would create a Pythonic love-hate relationship with the interface. It's worth having extra code that lints anything that might have come from a text editor. Dont Tab Forth, and DO NOT Tab Orcish. I might even make OrcOS WAAAGH!! at you.
+
 31 glyphs
 16 hexidecimals
 47 single letter codes
             
             	A
             	B
-        	    C
+        	    C   create
             	D   dup
            		E   else
            		F   if
@@ -35,14 +37,14 @@ h 	over :hop	H
 i   input?		I
 j				J 	
 k				K
-l	c-fun :λ	L
+l	does> :λ	L
 m				M
 n 	nip			N
 o   output		O  	dO
 p  				P 	dumP 
 q				Q
 r   rot			R   dRop
-s   swap		S
+s   swap		S   
 t				T 	then
 u				U
 v   r>			V   >r

@@ -8,8 +8,7 @@ First we write it, then we pack it in. If I can get the first edition in under 4
 
 ##ID
 
-We provide a 64 bit checksum, that is the edition. It is not self-calculated, though Uruk will need this capability. Checksums are not weighty operations. There's another 8 bytes gone. Cost of doing business. 
-
+We provide a 64 bit checksum, that is the edition. It need not be self-calculated, though Uruk will need this capability. Checksums are not weighty operations. There's another 8 bytes gone. Cost of doing business. 
 
 ##Count
 

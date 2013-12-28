@@ -1,4 +1,4 @@
-#ArdForth
+#OrcOS
 
 How small can this Forth business get, and still retain the fundamental interactivity?
 
@@ -30,4 +30,52 @@ I've never really tried to think in assembler before. This is fun. We really onl
 
 that's 511 words and a byte. Probably leave the whole bottom word alone. One may readily see why I don't wish to waste bytes on superfluous ASCII when I could own a mastercontroller. I barely need that, but there are good reasons to get chaining into the workflow early: an Arduino, unlike a laptop, can be stepped, and can have its state exported and inspected elsewhere. We may simulate the protocol droid in its entirety, lacking only the realtime guarantees. 
 
-Something cool about this is that we can know to the cycle how long each word is on the processor. that's good mojo to push upstream: Forge can optimize out some timing stuff by just knowing when operations have to happen.
+Something cool about this is that we can know, to the cycle, how long each word is on the processor. that's good mojo to push upstream: Forge can optimize out some timing stuff by just knowing when operations have to happen.
+
+
+##Architecture
+
+We're going to need every dirty trick in the book, my friends. These notes will be subject to frequent revision.
+
+We really actually want it to fit in 1kB, that's 512 words and can't possibly be enough, so we're using up to 256 bits of the eeprom as well. It can't possibly do everything; it can only do enough.
+
+There's no requirement that these bytes be densely packed in. Two or even three regions of Flash would suffice, and for various reasons we want 0-256 of the EEPROM. 
+
+We absolutely require an interrupt-driven, indirect threaded inner loop. We can't afford the overhead of using a linked list for our core words, however. 
+
+###1024 + 256
+
+We count down in bytes. If you see an odd number of bytes on the left, you see a problem.
+
+The AmForth inner loop is 16 instructions. Can we improve it? Hah. I see one instruction that can maybe be shaved, a jump from `interrupt` to `execute`. Call it 16.
+
+###1008 + 256
+
+We now need words. Some can be headless, meaning there's no way to reach them from the interpreter if you don't happen to know the address. Our core control vocabulary is 78 instructions, the number of printing characters needed to avoid collision with hexidecimal. 
+
+We handle these by building an offset table for each instruction, which may be up to 32 operations long. Instead of following a linked list, we accumulate offsets until we have a jump from the table head. No need to provide the character or a link, just code with `next` or `exit`. 
+
+That's as dense as my ingenuity can make it. Unless I come up with something better, this is how we'll do it. 
+
+##Dictionary
+
+The rest of memory is, par Forth, a dictionary. We have special optimizations for cell-length words, but otherwise carry on in the usual indirect linked list fashion. We hope to fit at least the tiny tip of the dictionary in the core operating system. 
+
+##Tail Optimization
+
+Not "tail call" mind you.
+
+With a bunch of headless words sitting around, we can perform tail optimization: running backwards from each exit point, looking for common code patterns. If we write carefully, we can shave some precious words where it matters most. 
+
+If a headless word ends up at the end of a function, we can also inline the headless word and use that tail. In fact, if we have to break up a word so that every headless word ends up inlined inside a definition, that's probably a tradeoff worth making.
+
+Note that 'exit' and 'next' are different beasts for this purpose, because they have different stack effects. 
+
+This could be efficiently accomplished by splitting a word up into two quasiwords and a word that calls both. Say they're both 8 words long (so a big word), and the quasiword we need is the last 5 of the first 8. 
+
+Premature optimization is the root of evil. Knuth also extolls literate programming, and the literature to program ratio is certainly quite high today! 
+
+This is something we do later: we start by defining the minimal OS, then we squeeze it. 
+
+
+

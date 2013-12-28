@@ -16,4 +16,4 @@ The last bit is one reason we need an SD. A given Uruk will have as many useful 
 
 Since the language of the Uruk Hai is a combination of Low Orcish dialect and the Common Tongue, we need OrcOs running first. 
 
-If at all possible, we will include assembler words for AVR systems. This should fit: we have roughly 20 times as much room as we're alloting for the operating system.
+We will include an assembler wordlist for AVR systems. This should fit: we have roughly 20 times as much room as we're alloting for the operating system. Everything is going to be written using the AVR Forth assembler, which will eventually be the mutant Uruk assembler. 

@@ -25,28 +25,16 @@ b = lexicon / 2 / 8 => 39
 a - b => 395
 
 
+##Countdown
 
+osMem = 1024
 
+eeprom = 256
 
+byte = 1
 
+cell = 2
 
+inner loop = osMem - 16 cell => 992
 
-
-
-
-
-###Not So Great Calculation
-
-core offset = 5 bits
-
-nextword = 1 cell
-
-vocab = 78 * core offset * nextword
-
-remaining = ( osMem - vocab ) 
-
-remaining => -6,240 bits + 8,192
-
-vocab => 6,240 bits
-
-kB => 8,192
+checksum = eeprom - 2 cell => 252

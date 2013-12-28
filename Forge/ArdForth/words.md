@@ -13,6 +13,8 @@ How do we get to that word? A linked list would cost us another word-per-word, p
 
 Here's a squeeze: We have some EEPROM. Why not make an offset calculated straight from the single letter show the jump into the table? Then we don't need the byte, or the offset. So take #. It's the third character, so we set a counter equal to three and count the first three offsets from the EEPROM into an accumulator. We now have the jump into the Orc table. We now need one word per word to get out of there, either 'next' or EXIT. So there's 78 words of padding out of 512, leaving us with 434 words of Flash and 174 bytes of EEPROM. 
 
+Technically, we have 3*78 = 234 bits that we can use within the eeprom, because we flag off the offset before adding it. This is still much faster than traversing a linked list. 
+
 EEPROM is maybe not the best choice in which case we need an extra 39 words for the offsets, leaving 395 words of Flash but the full 256 bytes of eeprom. The eeprom can be written ten times as often as the flash, but is awkward to fetch instructions from. 
 
 That saves us two words: a primitive now needs one word, and a word defined in terms of other words needs another. Clearly we save code if we have to use another word, if that word is longer than one instruction, and they all are. 

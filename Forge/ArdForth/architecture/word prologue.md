@@ -25,6 +25,13 @@ If it's not one word, it's two words, or we're speaking Uruk at least. At this p
 
 If the first character is printable, the second char is the whole word. Otherwise all bets are off: we can, and will, keep lots of good stuff in the dictionary. That's why Chuck put it there. 
 
+The minimal structure for the dictionary would seem to be a compact, monotonically increasing dictionary, with a minimal cost of two words per entry. I don't think we can do it for less, and even that is one word less than we're used to. 
+
+Basically, the high byte has the definition offset, and the low byte has the data offset: add them together, you get the next entry. I think we can afford to limit names to 16 characters considering we'll normally use two, so we have a luxurious sixteen flags in the high byte. 
+
+I don't see an advantage over Harvard since actually interpreting is a quick job regardless. Adding will actually be faster for 1-char words, but slower than just 'check and jump', since we check, dup, mask, add, and jump. But we save a word, per word. We're also using word arithmetic, so we can allocate an impressive half a kilobyte of dictionary space as one thing. That's a lot of dictionary in orcish. 
+
+
 ##Quasiwords
 
 We'll want some words that are absent such graces as links and names: pure execution with a `.next`. We might even use `` ` `` like Lisp, but I like `~`, in Uruk, where we will perforce refer to them. I'm thinking that weird little i/o quirks and various kinds of nonsense will be quasiwords. They're small: think of the actual words of the OS like shell commands, and quasiwords as weird hacks that you can do if you have to, that mostly the OS would want to do. Really, unless you're programming in pure Orc, the difference won't be apparent, but a quasiword can't correlate its execution token to its own name. They must be at least three letters long, including the quasi. 

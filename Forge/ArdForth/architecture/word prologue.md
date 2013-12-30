@@ -29,7 +29,7 @@ The minimal structure for the dictionary would seem to be a compact, monotonical
 
 Basically, the high byte has the definition offset, and the low byte has the data offset: add them together, you get the next entry. I think we can afford to limit names to 16 characters considering we'll normally use two, so we have a luxurious sixteen flags in the high byte. 
 
-I don't see an advantage over Harvard since actually interpreting is a quick job regardless. Adding will actually be faster for 1-char words, but slower than just 'check and jump', since we check, dup, mask, add, and jump. But we save a word, per word. We're also using word arithmetic, so we can allocate an impressive half a kilobyte of dictionary space as one thing. That's a lot of dictionary in orcish. 
+I don't see an advantage for linked lists in a Harvard machine since actually interpreting is a quick job regardless. Adding will actually be faster for 1-char words, but slower than just 'check and jump', since we check, dup, mask, add, and jump. But we save a word, per word. We're also using word arithmetic, so we can allocate an impressive half a kilobyte of dictionary space as one thing. That's a lot of dictionary in orcish. 
 
 
 ##Quasiwords

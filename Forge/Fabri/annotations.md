@@ -25,5 +25,13 @@ The annotations are almost like a unit test. When you write words, the annotatio
 
 Of course, if Fabri doesn't like the way the annotations add up, and the code works anyway, something is wrong, something worth fixing. But nothing will prevent the code from executing in such circumstances. After all, it's the easiest way to deduce where the annotations are screwy, or that the code is in fact wrong. 
 
+##Time Annotations
 
+This is... this is an idea.
+
+By writing the Forth core for each processor in assembler, we can know, to the tick, how long each word takes. 
+
+That can be used to perform time inference on various calculations, allowing a clever optimizer to reduce time and sleep calls. 
+
+Perhaps. The idea is that we annotate one level above where we're operating, and then at the top level it all comes together. Using a computer to analyse itself is important, but also miserly. We really have a lot of computers. 
 

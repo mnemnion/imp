@@ -20,7 +20,7 @@ So Orcs don't use ASCII control codes, as a matter of course. They spit printabl
 
 ###Orcish communication
 
-Orcs can see an entire byte, but they can't hear it. Certain values are above and below their threshold of hearing: if a pin is said to be an `ea r`, they will only catch so much when a routine calls `ls n`. When they `to k`, they can only say so much, the threshold being by nature identical. An `ey e` can of course `se e` anything, and a `gr nt` can be anything. 
+Orcs can see an entire byte, but they can't hear it. Certain values are above and below their threshold of hearing: if a pin is said to be an `ea r`, they will only catch so much when a routine calls `ls n`. When they `to k`, they can only say so much, the threshold being by nature identical. An `ey e` can of course `se e` anything, and a `.` can emit anything. 
 
 Typically, so as to be taciturn and save cells, an Orc will simply not hear you at all, and consequently, say nothing in reply. A clever Orc may hear you, and seethe with inner rage that you have addressed him incorrectly. 
 

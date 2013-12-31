@@ -53,4 +53,20 @@ x				X
 y               Y
 z  	sleep	    Z 	freeZe
 
+~   mark        `   forget
+?               /	div
+.	emit        >	les 
+,               <   grt  
+'               "
+;	enddef      :  	def
+{               }
+[               ]
+\               |
+!               @  adr
+#               $
+%               ^
+&               * 	mul 
+(               )
+- 	min         _
++ 	add         =   eq
 

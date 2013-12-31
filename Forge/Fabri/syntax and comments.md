@@ -15,14 +15,14 @@ Forth, being exclusively concerned with movement, is the most dynamic language i
 
 An ordinary Forth stack annotation looks like this: `( a -- a a )`, which is as good as a definition for `dup`. We write this slightly differently: `\ ( a -> a a )`, followed by a newline or an actual comment, then a newline. Note that as usual in Forth, you can add spaces, but cannot take them away. 
 
-Why the double comment? Some minimal protection against reading existing comments in Forth code as Fabri annotations. It might happen, but is easy to fix. Also, it's not a comment, it's an annotation.
+Why the double comment? Some minimal protection against reading existing comments in Forth code as Fabri annotations. It might happen, but is easy to fix. Also, it's not a comment, it's an annotation. Last, it's important that annotations not end up in between Forth blocks on a single line, and using `\` prevents that.
 
-Here's how we'll annotate `: r>`: `\ ( a -- nil -> nil -- a )`. The other side of `--` is the return stack, and the TOS is the next token. It's the mirror token, and works like this: ` 1 2 3 -- 4 -> 1 -- 2 3 4 `, which is easy to read. 
+Here's how we'll annotate `: r>`: `\ ( a -- nil -> nil -- a )`. `nil` is not required, but is illustrative and allowed. The other side of `--` is the return stack, and the TOS is the next token. It's the mirror token, and works like this: ` 1 2 3 -- 4 -> 1 -- 2 3 4 `, which is easy to read. 
 
 
 ### \ ; ephemera
 
-A `\ ;` token pair will make the comment ephemeral. That means a decent editor won't normally show it, and if you 'delete' it, that buries it deeper. Anyone who read `/.` will be comfortable here: your comment may acquire bad karma but it won't go away without special action. I'm not sure what that will look like in actual source, but Fabri code has no hidden information. An editor such as Forge can and will hide info, but Fabri is encoded in ordinary ASCII as God intended. Well, maybe UTF-8; Forth doesn't care how you provide bytes for a word, just that you do so. 
+A `\ ;` token pair (or `( ; `) will make the comment ephemeral. That means a decent editor won't normally show it, and if you 'delete' it, that buries it deeper. Anyone who read `/.` will be comfortable here: your comment may acquire bad karma but it won't go away without special action. I'm not sure what that will look like in actual source, but Fabri code has no hidden information. An editor such as Forge can and will hide info, but Fabri is encoded in ordinary ASCII as God intended. Well, maybe UTF-8; Forth doesn't care how you provide bytes for a word, just that you do so. 
 
 Ordinary comments are ordinary.
 
@@ -66,6 +66,17 @@ I'm slowly working on a spreadsheet of the ANS Forth words. It feels unnervingly
 
 Forth comes pre-annotated! I love the taste of low hanging fruit. 
 
+I like the look of `:=` as an assertion. So ` \ ( -> := foo ) ` would mean that this word leaves a foo on the stack, by definition.
+
+Every word in the dictionary ends up with an assertion token, which is a nice comfortable one cell wide, of which we'll use 32 bits to allow for cruiser-class architectures.  
+
+### Conditional Assertion
+
+Sometimes a word provides a test: the thing on the stack is either a type, or not.
+
+We have a conditional assertion for the premise side of the transforma, like this: ` \ ( foo? -> [:= foo] | false )`. This also shows that Fabri isn't stuck with Forthian whitespace rules, or syntax conventions.
+
+If we have a conditional assertion, we can reuse it if we want to know whether or not a foo? is a foo indeed.
 
 ### Forward Inference
 

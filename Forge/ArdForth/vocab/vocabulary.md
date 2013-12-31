@@ -12,11 +12,13 @@ All the differences between Forth and Orcish stem from two roots: we care only s
 
 We use only that which may be cut and pasted. That's a core tenet of Orcish. 
 
+
 ###Orcish Dictionary
 
 Orcs start with the oldest definition, and can't usually learn a new word as a result. That's a feature: Fancy backwards speakers are Dwarvish or worse, and not to be trusted. 
 
 Orcs also don't use ASCII control codes, as a matter of course. They spit printable unprintables at you. 
+
 
 ###Orcish communication
 
@@ -26,28 +28,40 @@ Typically, so as to be taciturn and save cells, an Orc will simply not hear you 
 
 Be wary of Orcs, my friend. They are contagious. 
 
+
 ###Wun Letta Werdz
 
 Orcs of course have Werdz. One byte words are the core vocabulary of communication and use an eeprom offset table in compatible chipz. They have as much punch as possible.
 
-###Two Letta Werdz
 
-Anything else an Orc understands is likely to be two letters long. Mnemonic wherever possible, as with the core words. Longer words will be misunderstood as a more aggressive form of communication: truncation is not performed by the Orc. An Orc can `ls`, you tell it to `lsn` or `listen` or something civilized like that and the protocol droid takes care of it. Or you Orc at it. Your choice. 
+###Tu Letta Werdz
+
+Anything else an Orc understands is likely to be two letters long. Mnemonic wherever possible, as with the core words. Longer words will be misunderstood as a more aggressive form of communication: truncation is not performed by the Orc. An Orc can `He`, you tell it to `hear` or `listen` or `key`, something civilized like that, and the protocol droid takes care of it. Or you Orc at it. Your choice. 
 
 These live in a dictionary: stunted and primitive, or surprisingly comprehensive and through. Many Orcs can recite all of Hamlet in the original Orcish. 
 
 
-###Thre Letta Werdz
+###Tre Letta Werdz
 
 Fuk you, izz wut. Orcs mislike wasting a byte.
 
-###Forr Letter Werdz.
+There are only one and two letter words in Orcish. Any additional letters are arguments to the command, if the command expects arguments. If it doesn't, the whole word is parsed, and will be an error unless the Orc speaks another language. Which may prove to be quite common.
 
-Orcs often speak in four letter words. Sometimes these are five letters long, because orcs can't spell. 
+Remember, when Orcs hear a word they don't understand they do absolutely nothing and keep listening. Unless they do something else. The least likely thing is that they'll destroy stack state and barf at you.  
 
-The last four letters encode something, either at 2 bits or 4 bits. The first letter, if present, may have significance. Hard to tell with Orcs. 
 
-This is not what you'd call the essence of Orcish, but it's close.
+###Forr Letta Werdz.
+
+Orcs sometimes speak in four letter words. Sometimes these are five letters long, because Orcs can't spell. 
+
+The last four letters encode something, either at 2 bits or 4 bits. The first letter, if present, may have significance. Hard to tell with Orcs. The type is encoded by choice of letter, the value by length of repetition.
+
+When this happens, the first two letters are a command, telling the Orc it's receiving a four-letter word of a particular type. They are parsed in a consistent way then handed off to a unique handler based on type. Hence, four-letter words are five letters long, six if you count the space, which we never do. Words that are actually four letters long are Tre Letta Werz with two commands. Yeah, it's confusing. Orcs can't count, or spell. They think 10 means 16. Iz nutz.
+
+This may prove to be the essence of Orcish. It's a gateway to communicating in noisy, degreded, hostile environments, allowing an essential message to carry a detailed one. Also, it is confusing to non-Orcish life, which simply doesn't think this way and must be induced to accept it. The principle is well known among engineers who read Shannon. Who will understand many aspects of the Orcish way, I hope.
+
+The non-printable ASCII byte values are a noise bridge. We gate it by neglecting those values. I hope this is easy to understand. 
+
 
 ###Middulorc
 

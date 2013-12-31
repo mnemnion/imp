@@ -14,7 +14,7 @@ Really, we'll want a few highlighting modes. Dynamic color change as a way to ev
 
 Defining: red
 
-Comment: dim white
+Comment: dim white, link blue
 
 Annotation: white
 

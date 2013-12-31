@@ -6,18 +6,18 @@ Being primitive, they stick to printable characters, even if they want to say un
 
 The Orc handshake is derived from the Ozzies. I hope they find it amusing.
 
-Hail is `WAGI`, respond is `ORC!`, and it being Forth, we can have conversations like:
+Hail is `wagi`, respond is `Orc!`, and it being Forth, we can have conversations like:
 
-	WAGI WAGI WAGI
+	wagi wagi wagi
 
-	ORC! ORC! ORC!
+	Orc! Orc! Orc!
 
-	WAGI
+	wagi
 
-	ORC!
+	Orc!
 
-	WAGI
+	wagi
 
-	ORC!
+	Orc!
 
 I recommend this hearty form of greeting be used among Orcish users, at least when inebriated. And when is the Orcish programmer other than inebriated? Sleeping and dead, matez.

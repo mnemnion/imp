@@ -6,9 +6,9 @@ There are a few absolutely essential words to make an Orc Forth complete. That's
 
 The thing about Orcs, they don't have to do what you say. But they'll understand you. That's a powerful combination even for a dumb brute. Not all Orcs are dumb; there's a lot of fast silicon out there, and stack machines, as we'll demonstrate, are a force of nature. 
 
-You tell an Orc `2 dup *` you'll get a `WUT`. Orcish would be `2 D *`, because we never speak when we can grunt. An Orc who isn't feeling surly will have a `4` on the stak at this point. 
+You tell an Orc `2 dup *` you'll get a `WAGI!!!`. Orcish would be `2 D *`, because we never speak when we can grunt. An Orc who isn't feeling surly will have a `4` on the sak at this point. 
 
-All the differences between Forth and Orcish stem from two roots: we care only slightly about reading and writing Orcish, and Orcs spend a lot of time talking to each other, rather than to a user. Also, there's not a lot of room, though by Forth standards we normally have more than enough space for a full stack. The Trinket is laughably small compared to the usual cheap 32 bit ARM candy that gets stuck onto everything. 
+All the differences between Forth and Orcish stem from two roots: we care only slightly about reading and writing Orcish, and Orcs spend a lot of time talking to each other, rather than to a user. Also, there's not a lot of room, though by Forth standards we normally have more than enough space for a full stack. The Trinket is laughably small compared to the usual cheap 32 bit ARM candy that gets stuck onto everything, and an ordinary Arduino runs any of several flavors of Forth, hansomely, with room to spare, right now.
 
 We use only that which may be cut and pasted. That's a core tenet of Orcish. 
 
@@ -16,11 +16,11 @@ We use only that which may be cut and pasted. That's a core tenet of Orcish.
 
 Orcs start with the oldest definition, and can't usually learn a new word as a result. That's a feature: Fancy backwards speakers are Dwarvish or worse, and not to be trusted. 
 
-So Orcs don't use ASCII control codes, as a matter of course. They spit printable unprintables at you. 
+Orcs also don't use ASCII control codes, as a matter of course. They spit printable unprintables at you. 
 
 ###Orcish communication
 
-Orcs can see an entire byte, but they can't hear it. Certain values are above and below their threshold of hearing: if a pin is said to be an `ea r`, they will only catch so much when a routine calls `ls n`. When they `to k`, they can only say so much, the threshold being by nature identical. An `ey e` can of course `se e` anything, and a `.` can emit anything. 
+Orcs can see an entire byte, but they can't hear it. Certain values are above and below their threshold of hearing: if a pin is said to be an `ea r`, they will only catch so much when a routine calls `He er`. When they `To k`, they can only say so much, the threshold being by nature identical. An `ey e` can of course `Ei` anything, and a `.` can emit anything. 
 
 Typically, so as to be taciturn and save cells, an Orc will simply not hear you at all, and consequently, say nothing in reply. A clever Orc may hear you, and seethe with inner rage that you have addressed him incorrectly. 
 
@@ -48,3 +48,7 @@ Orcs often speak in four letter words. Sometimes these are five letters long, be
 The last four letters encode something, either at 2 bits or 4 bits. The first letter, if present, may have significance. Hard to tell with Orcs. 
 
 This is not what you'd call the essence of Orcish, but it's close.
+
+###Middulorc
+
+Orcish may be spoken in a slightly expanded form that is more mnemonic. Not to Orcs, but a simple truncation program should suffice. It'll still look weird: prudes and noobs will want to use Forth. If you want to actually learn Orcish, a prettyprinter that makes it into Middulorc will help. 

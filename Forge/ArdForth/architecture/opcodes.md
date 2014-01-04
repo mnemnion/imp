@@ -33,14 +33,14 @@ This would create a Pythonic love-hate relationship with the interface. It's wor
            		E   else
            		F   if
 g				G  
-h 	over :hop	H
+h 				H
 i   input?		I
 j				J 	
 k				K
 l	does> :λ	L
 m				M
 n 	nip			N
-o   output		O  	dO
+o   output		O  	Over
 p  				P 	dumP 
 q				Q
 r   rot			R   dRop
@@ -49,10 +49,9 @@ t				T 	then
 u				U
 v   r>			V   >r
 w				W
-x				X   
+x				X   do :eXec 
 y               Y
 z  	sleep	    Z 	freeZe
-
 ~   mark        `   forget
 ?               /	div
 .	emit        >	les 

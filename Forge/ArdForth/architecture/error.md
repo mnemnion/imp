@@ -6,7 +6,7 @@ Thee is always one W. The A, G, I and ! all vary, significantly.
 
 This is worth including in the core OS, though it may be headless. Probably not, as the user, too, should be able to cry out in anger and frustration, rage, victory, hunger, or simply to hear something loud.
 
-The WAGI! may prove to be the most important thing about Orcs, actually. When you find a chip out in the wild and start poking bytes into its inputs, you'll probably crash it at first. Orcs, unless disguised, will say WAAAAAAGGGGH!!!!!!! if you provoke them. Thus, you know they speak Orcish. 
+The WAGI! may prove to be the most important thing about Orcs, actually. When you find a chip out in the wild and start poking bytes into its inputs, you'll probably crash it at first. Orcs, unless disguised, will say WAAAAAAGGGGI!!!!!!! if you provoke them. Thus, you know they speak Orcish. 
 
 "Ey, Youz! 9 0 /"
 
@@ -24,7 +24,7 @@ Orcs know who they are, and what they are, and how to do it, and that's it. WAGI
 
 When an Orc is insulted in various ways, 'crashed' in Common terms, he will WAGI! at you. The exact WAGI depends on the flavor of Orc. Basically, it will read off its checksum (core check or library check), XOR it across the error byte, and emit a variable number of A, G, I, ! strings. 
 
-If you don't know what the error is, you can send it back, and the Orc, if it's not surly, will send you another WAGI!, this one standard.
+Note that Orcs don't crash just because they didn't understand you. You have to actually tell them to crash.
 
 So by systematically torturing an Orc, you can get its serial information, if it's that kind of Orc. Most are, until battle begins in earnest. Larger parties of the Possi will know a semi-standard (nothing in Orcish is standard) series of words to tease it out. 
 

@@ -13,14 +13,16 @@ All the differences between Forth and Orcish stem from two roots: we care only s
 We use only that which may be cut and pasted. That's a core tenet of Orcish. 
 
 
-###Orcish Dictionary
+##Orcish Dictionary
 
-Orcs start with the oldest definition, and can't usually learn a new word as a result. That's a feature: Fancy backwards speakers are Dwarvish or worse, and not to be trusted. 
+Orcs are far too crude to have a dictionary. They have a weird hybrid organ called a `pak`, which has familiar traits. 
+
+Orcs start with the oldest definition, and can't usually learn a new word as a result. That's a feature: Fancy backwards speakers are Dwarvish or worse, and not to be trusted. The Orcish way rejects backwards anything unless absolutely necessary. 
 
 Orcs also don't use ASCII control codes, as a matter of course. They spit printable unprintables at you. 
 
 
-###Orcish communication
+##Orcish communication
 
 Orcs can see an entire byte, but they can't hear it. Certain values are above and below their threshold of hearing: if a pin is said to be an `ea r`, they will only catch so much when a routine calls `He er`. When they `To k`, they can only say so much, the threshold being by nature identical. An `ey e` can of course `Ei` anything, and a `.` can emit anything. 
 
@@ -29,9 +31,10 @@ Typically, so as to be taciturn and save cells, an Orc will simply not hear you 
 Be wary of Orcs, my friend. They are contagious. 
 
 
+
 ###Wun Letta Werdz
 
-Orcs of course have Werdz. One byte words are the core vocabulary of communication and use an eeprom offset table in compatible chipz. They have as much punch as possible.
+Orcs of course have Werdz. One byte words are the core vocabulary of communication and use an eeprom offset table in compatible chipz. They have as much punch as possible. Back-envelope calculation suggests we can average nine instructions per core word and come in just under 1k cells. Every single one character will be direct threaded because of how the `pak` works, so choice of one or two letters is not 100% about frequency or 'coreness'. Probably.
 
 
 ###Tu Letta Werdz
@@ -39,6 +42,14 @@ Orcs of course have Werdz. One byte words are the core vocabulary of communicati
 Anything else an Orc understands is likely to be two letters long. Mnemonic wherever possible, as with the core words. Longer words will be misunderstood as a more aggressive form of communication: truncation is not performed by the Orc. An Orc can `He`, you tell it to `hear` or `listen` or `key`, something civilized like that, and the protocol droid takes care of it. Or you Orc at it. Your choice. 
 
 These live in a dictionary: stunted and primitive, or surprisingly comprehensive and through. Many Orcs can recite all of Hamlet in the original Orcish. 
+
+There might be two letter words that are core Orcish. Many, but by no means all two letter words will have consistent meanings if present.
+
+It might be smart to compress the reserved two letters into a range, so that even dull Orcs can know when they're hearing something they should understand. That way they can repeat it back at you with a question mark, and you can teach them what it means. It might not; ultimately much of the strength of Orcish is that a stout programmer can learn to read it at a glance, and speak it if necessary. 
+
+What would be stronger, in a way, is to commandeer a couple glyphs and say that they are reserved in either byte of a command cell. Say `$` and `!`. The latter would collide with a lot of existing Forth two-letter words, but it has a command-y flavor. That would give 304 commands that are reserved, leaving the rest for various mongrel dialects. 
+
+The only two-letter which Core must support is `WA`, for reasons explained below. 
 
 
 ###Tre Letta Werdz
@@ -60,9 +71,16 @@ When this happens, the first two letters are a command, telling the Orc it's rec
 
 This may prove to be the essence of Orcish. It's a gateway to communicating in noisy, degreded, hostile environments, allowing an essential message to carry a detailed one. Also, it is confusing to non-Orcish life, which simply doesn't think this way and must be induced to accept it. The principle is well known among engineers who read Shannon. Who will understand many aspects of the Orcish way, I hope.
 
+The only word I've chosen in this family is `WAGI!` which is a moderately complex combination of greeting, handshake and error protocol. The technique may be employed elsewhere; the whole of the Orcish way is not embodied in their central ganglion.
+
 The non-printable ASCII byte values are a noise bridge. We gate it by neglecting those values. I hope this is easy to understand. 
 
+That's the whole of Orcish, really. If you need more words than this makes possible, you need a better language. It's possible to use strings with an Orc, but not in the natively Forthian way. Uruks and anything based on them understand both languages by design.
 
-###Middulorc
 
-Orcish may be spoken in a slightly expanded form that is more mnemonic. Not to Orcs, but a simple truncation program should suffice. It'll still look weird: prudes and noobs will want to use Forth. If you want to actually learn Orcish, a prettyprinter that makes it into Middulorc will help. 
+##Recap
+
+Orcish is, perhaps, the first conversational programming language. Human could speak Orc if they absolutely have to, but mostly Orcs use it to speak to each other. "Metaprogramming". Heh.
+
+ASCII is Orcish DNA. The semantics of the words are the proteins produced by the codon. The single word vocabulary allows for `sak` and `pak` manipulation, general computation, and communication. This core is used to allow Orcs to specialize, while retaining that glimmer of almost-life that is the best we can do with the silicon we have. 
+

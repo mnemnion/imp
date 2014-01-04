@@ -38,3 +38,5 @@ cell = 2
 inner loop = osMem - 16 cell => 992
 
 checksum = eeprom - 2 cell => 252
+
+(lexicon - 2) * 4 => 304

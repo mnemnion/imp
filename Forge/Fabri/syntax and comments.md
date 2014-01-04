@@ -70,13 +70,35 @@ I like the look of `:=` as an assertion. So ` \ ( -> := foo ) ` would mean that 
 
 Every word in the dictionary ends up with an assertion token, which is a nice comfortable one cell wide, of which we'll use 32 bits to allow for cruiser-class architectures.  
 
+
+
+## Aggregate Assertions
+
 ### Conditional Assertion
 
 Sometimes a word provides a test: the thing on the stack is either a type, or not.
 
-We have a conditional assertion for the premise side of the transforma, like this: ` \ ( foo? -> [:= foo] | false )`. This also shows that Fabri isn't stuck with Forthian whitespace rules, or syntax conventions.
+We have a conditional assertion for the premise side of the transform, like this: ` \ ( foo? -> < := foo | false > )`
 
 If we have a conditional assertion, we can reuse it if we want to know whether or not a foo? is a foo indeed.
+
+### Compound Assertion
+
+Some types are have multiple stack members. We's say it like this: ` \ ( nil -> := [ str-vec str-len ] ) `. You can have words return a `str` and the stack effect will be double. If you only consume the `len`, you have a `str-vec` left. That's okay. The annotation should read `[str]` so you know there's a compound effect. Strictly speaking you don't know how deep that effect is, but Fabri does. You could just type `str` and Forge will correct it. I like conversational coding. We could maybe use `[[foo]]` for a four cell and `[[foo]` for a three cell, etc. I kind of like that, because it's bulky, like a deep stack effect. If you're accumulating a lot of brackets, or making variable effects, maybe you shouldn't do that. I'm not even going to define a variable effect vocabulary unless I need one; they'll make Fabri run slow for sure. You can already say `< foo | nil >` and have a variable stack effect of that sort, and compound rules allow this. Word that can have any old stack effect suck, and should return `mu`, meaning "I have fucked your stack discipline up completely, good luck."
+
+### Set Assertion
+
+Sometimes a value may have two types. We use a simple set terminology here, so `\ ( mu -> := { foo bar } )` means the word returns a `foo` that is also a `bar`. 
+
+### Negative Assertion
+
+We may assert that a word or effect produce a value not of a type. `\ ( mu -> != foo )` can produce anything but a foo. The simple IS, AND, OR, and NOT assertions combine. Please don't go crazy or Fabri will get **very** slow. 
+
+###Annotation Level
+
+We don't always care to track annotations, even when we're developing. Between the `\` and the `(` there may be some number of `-` tokens, no whitespace. So `---` is annotation level 3, and if we're running at 0, this is neither compiled nor interpreted, nor even shown in the Forge inspector except as `\ --- ( ...`, dimmed out. `\ --- ( foo bar -- baz )` means we expect that the data stack will have `foo bar` and the return stack will have `baz`, but at annotation level three, we don't care.
+
+This looks a little like a stack, especially at level 2, so we may use another token. `-` is visually persuasive, however, and the Fabri parser is forward-only and literal but not based on the Forth recognizer. 
 
 ### Forward Inference
 

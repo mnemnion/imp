@@ -61,7 +61,7 @@ def search_and_open_file(filename):
        return filehandle
     else:
     # oops, too many files or no one at all no file found?
-    print "wrong # of files:", f , " can be found in ", len(filedirs[f]), " directories"
+   		print "wrong # of files:", f , " can be found in ", len(filedirs[f]), " directories"
     print >>sys.stderr, "Sorry, giving up. You should check the controller!"
     sys.exit(2)
 

@@ -73,13 +73,13 @@ We keep other stuff in the spleen, like the rank, which is a rough guide to what
 
 The pak pointers also live in the spleen, showing where the pak begins and ends. The pak is forward search and zero terminated, so we may not track the end, but it would be a convenience for certain operations. There's also the corepak pointer, showing where the offset region for core words is found. That's right underneath the corkeban, probably, for convenience. Similarly, the pakpointer might want to be right above it, though the utility is less totally clear. 
 
-There is the drpset, which has a copy of the drp's initial state. The drp being the finite state automaton of the memz, it's easiest to just load the drp in a single swoop. Fewer celz in the warm grunt.
+There is the drpset, which has a copy of the drp's initial state. The drp being the finite state automaton of the memz, it's easiest to just load the drp in a single swoop. Fewer celz in the warm grunt. pakstart, pakend, and chunkend might well live here, since having them in the drp will make for faster loads.
 
 The spleen also has the eer, through which the Orc listens, and the tung, through which it talks. An Orc might have many of these; the current one is stored in the derp, within the memz. The spleen contains the ones used by default. 
 
 Various other functions, such as the WAGI counter, end up in the spleen. It's an emotional sort of place. It will most likely have a collection of pointers to the most important grunts, as hooks for convenient use. One of the ways we make Orcish usable is by making some things harder to say: we intend to operate them via protocol droid for the most part, so Orcish looks to the user like a somewhat demented and conversation-oriented Forth. 
 
-Lastly, there is the pad, which is reserved for an entropic one-time pad. This is used by the superego, which is not installed by default. 128 bytes are reserved for the user. 
+Lastly, there is the pad, which is reserved for an entropic one-time pad. This is used by the superego, which is not installed by default. 128 bytes are reserved for the user, as is of course any remaining eeprom.
 
 ## Da Memz
 

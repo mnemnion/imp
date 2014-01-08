@@ -74,6 +74,12 @@ Every word in the dictionary ends up with an assertion token, which is a nice co
 
 ## Aggregate Assertions
 
+
+### Compound Assertion
+
+Some types are have multiple stack members. We's say it like this: ` \ ( nil -> := [ str-vec str-len ] ) `. You can have words return a `str` and the stack effect will be double. If you only consume the `len`, you have a `str-vec` left. That's okay. The annotation should read `[str]` so you know there's a compound effect. Strictly speaking you don't know how deep that effect is, but Fabri does. You could just type `str` and Forge will correct it. I like conversational coding. We could maybe use `[[foo]]` for a four cell and `[[foo]` for a three cell, etc. I kind of like that, because it's bulky, like a deep stack effect. If you're accumulating a lot of brackets, or making variable effects, maybe you shouldn't do that. I'm not even going to define a variable effect vocabulary unless I need one; they'll make Fabri run slow for sure. You can already say `< foo | nil >` and have a variable stack effect of that sort, and compound rules allow this. Word that can have any old stack effect suck, and should return `mu`, meaning "I have fucked your stack discipline up completely, good luck."
+
+
 ### Conditional Assertion
 
 Sometimes a word provides a test: the thing on the stack is either a type, or not.
@@ -82,23 +88,25 @@ We have a conditional assertion for the premise side of the transform, like this
 
 If we have a conditional assertion, we can reuse it if we want to know whether or not a foo? is a foo indeed.
 
-### Compound Assertion
-
-Some types are have multiple stack members. We's say it like this: ` \ ( nil -> := [ str-vec str-len ] ) `. You can have words return a `str` and the stack effect will be double. If you only consume the `len`, you have a `str-vec` left. That's okay. The annotation should read `[str]` so you know there's a compound effect. Strictly speaking you don't know how deep that effect is, but Fabri does. You could just type `str` and Forge will correct it. I like conversational coding. We could maybe use `[[foo]]` for a four cell and `[[foo]` for a three cell, etc. I kind of like that, because it's bulky, like a deep stack effect. If you're accumulating a lot of brackets, or making variable effects, maybe you shouldn't do that. I'm not even going to define a variable effect vocabulary unless I need one; they'll make Fabri run slow for sure. You can already say `< foo | nil >` and have a variable stack effect of that sort, and compound rules allow this. Word that can have any old stack effect suck, and should return `mu`, meaning "I have fucked your stack discipline up completely, good luck."
 
 ### Set Assertion
 
 Sometimes a value may have two types. We use a simple set terminology here, so `\ ( mu -> := { foo bar } )` means the word returns a `foo` that is also a `bar`. 
 
+
 ### Negative Assertion
 
-We may assert that a word or effect produce a value not of a type. `\ ( mu -> != foo )` can produce anything but a foo. The simple IS, AND, OR, and NOT assertions combine. Please don't go crazy or Fabri will get **very** slow. 
+We may assert that a word or effect produce a value not of a type. `\ ( mu -> != foo )` can produce anything but a foo. 
+
+The simple IS, AND, OR, and NOT assertions combine. Please don't go crazy or Fabri will get **very** slow. 
+
 
 ###Annotation Level
 
 We don't always care to track annotations, even when we're developing. Between the `\` and the `(` there may be some number of `-` tokens, no whitespace. So `---` is annotation level 3, and if we're running at 0, this is neither compiled nor interpreted, nor even shown in the Forge inspector except as `\ --- ( ...`, dimmed out. `\ --- ( foo bar -- baz )` means we expect that the data stack will have `foo bar` and the return stack will have `baz`, but at annotation level three, we don't care.
 
 This looks a little like a stack, especially at level 2, so we may use another token. `-` is visually persuasive, however, and the Fabri parser is forward-only and literal but not based on the Forth recognizer. 
+
 
 ### Forward Inference
 
@@ -126,7 +134,7 @@ This does require some backwards reasoning, but hopefully not in a way that will
 This matters quite a bit for writing other programming languages, which is something Fabri should be excellent for, as a design goal. 
 
 
-### I think I accidentally a Prolog
+### Almost Prolog
 
 It occurs to me that in some sense, what we have is a logical language next to a procedural one.
 
@@ -140,12 +148,14 @@ Prolog sucks for almost everyone to program in, but then, this is true of Forth 
 
 Forth is Tao. Fabri is Te. The Te of Forth has been an inner Te; we will take this poetry and give it wings.
 
+Prolog also reasons in any old direction. We consider that difficult to reason about in turn. Forth is as forward-only as practical. So is Fabri.
+
 
 ### Attitude
 
 Fabri is only strict when you ask it to be. We're not Prolog because we have a 'maybe': Fabri can tell the difference between "yes, that's typed", "no, that's not typed", and "sure, might work, don't have the information to be sure". There may be more shades, but what would we do with them? The Basic Principle.
 
-We have trulians: true, false, and mu. Everything begins with a mu token. In principle, mu & true and mu & false are different values: to me, mu & true means "could be true, would be surprised if false". In practice, it is probably clearer to use, shall we say, first order mu resolution: mu & bool is bool. 
+We have trulians: true, false, and mu. Everything begins with a mu token. In principle, mu & true and mu & false are different values: to me, mu & true means "could be true, would be surprised if false". In practice, it is probably clearer to use, shall we say, first order mu resolution: `mu & bool` is `bool`. It is more powerful to use second-order mu resolution: `mu & bool` is `bool?`.
 
 Three and five both have the proper structure; they call them 'odds' for a reason. 5 is more nuanced and nuance is a superpower that we should add later if we need it. 
 
@@ -153,7 +163,7 @@ The attitude toward the codebase is that Forth code should be marked up. Forth i
 
 We are building tools for fundamental system services: data structures, algorithms to work with them, including syntax recognition and transformation, etc. 
 
-The idea is that we can build existing languages from the bottom up: implement their core data structures, define words to manipulate them, write a grammar / parser / environment, and go. If we do it in that direction, the languages can share structure: if we do what the C layer does and optimize them into incompatible doohickeys, incompatible doohickeys is what we'll have. 
+The idea is that we can build languages from the bottom up: implement their core data structures, define words to manipulate them, write a grammar / parser / environment, and go. If we do it in that direction, the languages can share structure: if we do what the C layer does and optimize them into incompatible doohickeys, incompatible doohickeys is what we'll have. 
 
 A thesis here is that such languages will interoperate better, because they will decompose (literally) into a common language and runtime, with the components crafted around the problem space. 
 
@@ -167,6 +177,10 @@ Elegant languages have civilized codebases. I don't want to be able to port some
 Fabri makes possible something Forth notably lacks, namely, homonyms: words which are different in meaning depending on context. 
 
 This is a dangerous power, in the wrong hands. It is power, in other words. The reason it is dangerous is that Fabri is scaffolding, until we use it to resolve homonyms. Then it becomes infrastructure: we have changed Forth. Which is of course allowed, encouraged, inevitable: but to be done carefully. 
+
+Ultimately I mislike languages with operator overloading. Even with something like Forge, it's hard to tell what's going on. If we apply convention to our word syntax, Forge can use that convention to hide our choice, so `*(bignum)` could optionally just be displayed as `*`, maybe with another Unicode token indicating type information is present. 
+
+I think much of Forth's strength is the clarity of the approach to words and dictionary search. We already have `.:` for namespacing and some word manipulations based on that. Changing Forth is not the point: writing languages which are not themselves Forth, that's the point. Fabri/Forge can use thoughtful word conventions to do things, but Forth should not be forced to parse inside of words. That way leads to Factor. 
 
 
 ### Dialects

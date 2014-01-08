@@ -12,13 +12,14 @@ My platforms are finally arriving. Here's what we've got to work with:
 
 In order of power:
 
-1   SainSmart Mega
-1   Arduino Leonardo
-1   Arduino Flora
-1   Arduino Uno
-2   Adafruit Gemma
-6!  Adafruit Trinket
-1   Arduino Light USB
+1   SainSmart Mega		atmega2560
+1   Arduino Leonardo 	atmega32u4
+1   Arduino Flora 		atmega32u4
+1   Arduino Uno         atmega328
+1   Arduino Light USB   atmega8u2
+2   Adafruit Gemma		attiny85
+6!  Adafruit Trinket	attiny85
+
 1   Adafruit loader cable (name?)
 
 Giving us 14 kuntrolaz. Not bad. 

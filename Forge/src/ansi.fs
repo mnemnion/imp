@@ -82,13 +82,13 @@ decimal
 : .|... ." ┈" ; : .|::: ." ┊" ;
 
 : |innerbox \ ( rows cols -- rows-1 cols -1 )
-    dup 1 = if 
-        noop
+    dup 2 < if 
+        drop 1
     else
         1 -
     then swap 
-    dup 1 = if 
-        noop
+    dup 2 < if 
+        drop 1
     else 
         1 -
     then ;

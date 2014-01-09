@@ -1,6 +1,7 @@
 include ansi.fs
 include toolbelt.fs
 include stack-util.fs
+include keyword.fs
 
 \ inner loop
 variable eval-pad 128 allot 
@@ -18,7 +19,7 @@ variable eval-pad 128 allot
    ;
 
 : makeframe  
-	create \ ( rows cols x0 y0 -> )
+	create \ ( := "frame" rows cols x0 y0 -> nil )
 		, , , , ;
 
 : xy.frame \ ( frame -> x0 y0)
@@ -26,6 +27,20 @@ variable eval-pad 128 allot
 
 : rowcol.frame \ ( frame -> rows cols )
 	2 cells + 2@ ;
+
+: makepane 
+	create 				\ (:= "pane" frame -> nil  )
+		rowcol.frame 		\ ( rows cols --    )
+		|innerbox *			\ ( r*c       --    )
+		dup ,               \ ( r*c   -- count! )
+		8 / 1 +  			\ ( c-buf --        )
+							 dup cr ." alloted " . bl ." cells"
+		allot  				\ ( nil  -- c-buf! )
+	does> 				\ ( pane -> [c-str] )
+		dup 				\ ( pane pane  -- )
+		cell + swap         \ ( c-buf pane -- )
+		@					\ ( [c-str]    -- )
+		;
 
 : .frame \ ( frame -> nil "frame" )
 	\ prints a frame, without changing the pane. 
@@ -65,7 +80,23 @@ variable eval-pad 128 allot
 	attribute! which we will abuse the hell out of, no 
 	doubt. in any case, we intend to support ANSI correctly.
 
-	To *really* do this right, we'd need to handle Unicode. Hah.
+	To *really* do this right, we'd need to handle Unicode. 
+
+	Gforth provides an xchar library for dealing with local encoding,
+	actually. GNU, sometimes you gotta love em. "include kitchensink.fth"
+
+	The algorithm: look for a newline. If the literal width is small enough,
+	we don't care about printable characters.
+
+	If it isn't, we regex for escape sequences, and subtract their size from the line.
+
+	If it's still not small enough, we truncate.
+
+	We also return a flag, true if we sent a whole line, false if not.
+
+	If true, there is a newline directly after our string. If false, we're still on a logical
+	line. 
+
 )
 	;
 	

@@ -6,3 +6,5 @@
 	else
 		." not found!"
 	then ;
+
+: .. clearstack ;

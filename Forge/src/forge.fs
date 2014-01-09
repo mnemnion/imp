@@ -14,15 +14,30 @@ defer innerloop
 	eval-pad swap evaluate 
 	innerloop ; is innerloop 
 
-: makebox 
-	create 
+: buf-size \ ( rows cols -- rows cols bufsize )
+   dup 2 - 
+   rot dup 2 - rot *
+   ;
+
+: makebox \ ( create := rows cols x0 y0 -> nil does> nil -> rows cols x0 y0  [c-buffer] )
+	create \ ( rows cols x0 y0 -> )
+		>r >r 
+		buf-size
+		rot
+		r> r> 
 		, , , , 
+		allot
 	does>
-		dup 
-		2 cells + 
-		2@ 
-		rot 
-		2@ ;
+		dup                       \ ( box box  -- )
+		2@ rot dup                \ (x0 y0 box box -- )
+		2 cells + 2@              \ (x0 y0 box rows cols -- )
+		buf-size				  \ (x0 y0 box rows cols bufsize -- )
+		>r rot r> 
+		swap 4 cells + swap ;
+
+: d-box-l-buffer 
+	>r >r ;
+
 ( 
 \ this does something cool:
 page 

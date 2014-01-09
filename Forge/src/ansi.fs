@@ -5,30 +5,30 @@ decimal
 
 \ control code
 
-: .^ 27 emit ; \ cursor control
+: .^ 27 emit [char] [ emit ; 
 
-\ environment
-: @xy? \ -- pair!
-       here form               \  adr x y -- 
-       here 2 cells allot 2!   \  adr! --
-       ;
+: hide-cursor 
+    .^ ." ?25l" ;
+
+: show-cursor
+    .^ ." ?25h" ;
 
 \ colors
-: .!  .^ ." [0m"      ;
-: .r  .^ ." [31m"     ;
-: .g  .^ ." [32m"     ;
-: .y  .^ ." [33m"     ;   
-: .b  .^ ." [34m"     ;
-: .m  .^ ." [35m"     ;
-: .c  .^ ." [36m"     ;
-: .w  .^ ." [37m"     ;
-: .bo .! .^ ." [1m"   ;
-: .di .! .^ ." [2m"   ;
-: .un .! .^ ." [4m"   ;
-: .in .! .^ ." [7m"   ;
-: .bu .! .^ ." [1;4m"    ;
-: .ib .! .^ ." [1;7m" ; 
-: .fu .! .^ ." [5;7m"    ;
+: .!  .^ ." 0m"      ;
+: .r  .^ ." 31m"     ;
+: .g  .^ ." 32m"     ;
+: .y  .^ ." 33m"     ;   
+: .b  .^ ." 34m"     ;
+: .m  .^ ." 35m"     ;
+: .c  .^ ." 36m"     ;
+: .w  .^ ." 37m"     ;
+: .bo .! .^ ." 1m"   ;
+: .di .! .^ ." 2m"   ;
+: .un .! .^ ." 4m"   ;
+: .in .! .^ ." 7m"   ;
+: .bu .! .^ ." 1;4m"    ;
+: .ib .! .^ ." 1;7m" ; 
+: .fu .! .^ ." 5;7m"    ;
 
 \ control holds for number printing
 : .#[e  [char] [ hold 27 hold ;
@@ -50,26 +50,51 @@ decimal
 : .#ib #ℳ [char] 7 hold [char] ; hold [char] 1 hold .#[e ;
 
 \ cursor control \ x -- ""
-: .fwd  .^ ." [" . ." C" ;
-: .up   .^ ." [" . ." A" ;
-: .down .^ ." [" . ." B" ;
-: .back .^ ." [" . ." D" ; 
+: .fwd  .^  dec. ." C" ;
+: .up   .^  dec. ." A" ;
+: .down .^  dec. ." B" ;
+: .back .^  dec. ." D" ; 
+: .xy   .^ swap dec. [char] ; emit dec. ." f" ;
+: .save 27 emit ." 7" ;
+: .restore 27 emit ." 8" ;
 
-\ boxes
+\ Boxes
+
+\ oldschool!
+
+: .crunk 27 emit  ." )0" ;
+: .sanity 27 emit ." )B" ;
+
+\ unicode
 : .|ul ." ┏" ; : .|ut ." ┳" ; : .|ur ." ┓" ;
 : .|ml ." ┣" ; : .|mt ." ╋" ; : .|mr ." ┫" ;
 : .|ll ." ┗" ; : .|lt ." ┻" ; : .|lr ." ┛" ;
 : .|uli ." ┌" ; : .|uti ." ┬" ; : .|uri ." ┐" ;
 : .|mli ." ├" ; : .|mti ." ┼" ; : .|mri ." ┤" ;
 : .|lli ." └" ; : .|lti ." ┴" ; : .|lri ." ┘" ;
+: .|ulr ." ╭" ; : .|urr ." ╮" ; 
+: .|llr ." ╰" ; : .|lrr ." ╯" ;
 : .|uld ." ╔" ; : .|utd ." ╦" ; : .|urd ." ╗" ;
 : .|mld ." ╠" ; : .|mtd ." ╬" ; : .|mrd ." ╣" ;
 : .|lld ." ╚" ; : .|ltd ." ╩" ; : .|lrd ." ╝" ;
 : .|| ." ┃"  ; : .||i ." │" ; : .||d ." ║"  ;
 : .|- ." ━"  ; : .|-i ." ─" ; : .|-d ." ═" ;
+: .|... ." ┈" ; : .|::: ." ┊" ;
 
-: .|box \  y x --  \ do in-place eventually { no cr }
-        dup 
+: |innerbox \ ( rows cols -- rows-1 cols -1 )
+    dup 1 = if 
+        noop
+    else
+        1 -
+    then swap 
+    dup 1 = if 
+        noop
+    else 
+        1 -
+    then ;
+
+: .|box \  ( rows cols -> "box" ) 
+        |innerbox dup 
         .|ul 0 do .|- loop .|ur 
         2dup swap \ y x x y --
         0 do dup dup
@@ -78,7 +103,7 @@ decimal
         .|ll 0 do .|- loop .|lr  
         ;
 : .|boxi
-        dup 
+        |innerbox dup 
         .|uli 0 do .|-i loop .|uri 
         2dup swap \ y x x y --
         0 do dup dup
@@ -87,13 +112,41 @@ decimal
         .|lli 0 do .|-i loop .|lri  
         ;
 : .|boxd
-        dup 
+        |innerbox dup 
         .|uld  0 do .|-d  loop .|urd  
         2dup swap \ y x x y --
         0 do dup dup
         2 + .back 1 .down .||d  .fwd  .||d  
         loop dup 2 + .back 1 .down
         .|lld  0 do .|-d  loop .|lrd   
+        ;
+: .|rbox
+        |innerbox dup 
+        .|ulr 0 do .|-i loop .|urr 
+        2dup swap \ y x x y --
+        0 do dup dup
+        2 + .back 1 .down .||i .fwd  .||i 
+        loop dup 2 + .back 1 .down
+        .|llr 0 do .|-i loop .|lrr  
+        ;
+
+: .|dashbox
+        |innerbox dup 
+        .|uli  0 do .|...  loop .|uri  
+        2dup swap \ y x x y --
+        0 do dup dup
+        2 + .back 1 .down .|:::  .fwd  .|::: 
+        loop dup 2 + .back 1 .down
+        .|lli  0 do .|...  loop .|lri   
+        ;
+: .|wipe \ ( rows cols -- "pane" )
+        |innerbox dup             \ ( row cols cols -- )
+        ." *" 0 do ." *" loop 
+        0 do dup dup
+        1 + .back 1 .down 0 do ." *" loop ." *"
+        loop dup 1 + .back 1 .down
+
+   
         ;
 
 : .\n cr cr 1 .up ;

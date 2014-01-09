@@ -3,41 +3,72 @@ include toolbelt.fs
 include stack-util.fs
 
 \ inner loop
-
 variable eval-pad 128 allot 
 
-defer innerloop
-
 \ we need some way to catch all exceptions here. 
-:noname  \ no more ." ok" cr
-	eval-pad 128 accept 
+: innerloop  \ no more ." ok" cr
+	eval-pad cols accept 
 	eval-pad swap evaluate 
-	innerloop ; is innerloop 
+	recurse ; 
 
-: buf-size \ ( rows cols -- rows cols bufsize )
-   dup 2 - 
-   rot dup 2 - rot *
+\ Frames
+
+: buf-size \ ( rows cols -> rows cols bufsize )
+   over over 2 - >r 2 - r> *
    ;
 
-: makebox \ ( create := rows cols x0 y0 -> nil does> nil -> rows cols x0 y0  [c-buffer] )
+: makeframe  
 	create \ ( rows cols x0 y0 -> )
-		>r >r 
-		buf-size
-		rot
-		r> r> 
-		, , , , 
-		allot
-	does>
-		dup                       \ ( box box  -- )
-		2@ rot dup                \ (x0 y0 box box -- )
-		2 cells + 2@              \ (x0 y0 box rows cols -- )
-		buf-size				  \ (x0 y0 box rows cols bufsize -- )
-		>r rot r> 
-		swap 4 cells + swap ;
+		, , , , ;
 
-: d-box-l-buffer 
-	>r >r ;
+: xy.frame \ ( frame -> x0 y0)
+	2@ ;
 
+: rowcol.frame \ ( frame -> rows cols )
+	2 cells + 2@ ;
+
+: .frame \ ( frame -> nil "frame" )
+	\ prints a frame, without changing the pane. 
+	.save
+	dup
+	xy.frame     .xy
+	rowcol.frame .|box  \ ( nil -- "frame" )
+	.restore
+	;
+
+: .clearpane \ ( frame -> nil "pane" )
+	\ clears the pane of a given frame
+	.save
+	dup
+	xy.frame 
+	swap 1 + swap 1 +
+	.xy
+	rowcol.frame
+    1 - swap 1 -
+    .di 
+	.|wipe 
+	.!
+	.restore
+	;
+
+: n-printables 
+( 	this word has to take a counted string with
+	a maximum width of printable characters. 
+	It returns the number of bytes to read,
+	in order to print up to that many characters.
+	If there is a newline, it returns the count up
+	to, but not including, the newline.
+
+	this requires us to parse ANSI control sequences,
+	which is great fun, since they can be of arbitrary
+	length. Best of all, there's a 'concealed' text
+	attribute! which we will abuse the hell out of, no 
+	doubt. in any case, we intend to support ANSI correctly.
+
+	To *really* do this right, we'd need to handle Unicode. Hah.
+)
+	;
+	
 ( 
 \ this does something cool:
 page 

@@ -19,6 +19,32 @@
 	
 	\ we detect only the ANSI escape sequences we actually embed.
 	\ adding more complicates this word, but shouldn't change the
-	\ interface. 
-
+	\ interface.
+	0 
+	15 0 do 
+		-rot 2dup  \ ( rem c-adr count c-adr count -- )
+		colors" i cells + perform \ ( r [c] c-adr count comp-adr c-count -- )
+		cr ." string " 2dup type ." effect "
+ 		search \ ( r [c-str] result count flag )
+ 		." flag " dup .
+ 		cr .s 
+ 	 	if \ found ( r [c-str] result count] ) 
+ 	 		 
+ 	 		swap >r >r rot r> \ ( c-adr c-count r count -|- result )
+ 	 		max r>
+ 	 		cr .s
+ 	 		drop 
+ 	 		cr .s 
+ 		else 
+ 			2drop rot
+ 		then 
+	loop
+	-rot + \ juggle that muggle
+	swap dup -rot - swap 
+	dup if 
+		noop
+	else 
+		nip
+	then
+    .!
 	;

@@ -73,12 +73,6 @@ include strutils.fs
 		@					\ ( [c-str]    -- )
 		;
 
-: .#teststr s" this is a rather long test string. there are no newlines in it. it should fill a small buffer completely to capacity. I'm adding a great deal of extra test to this of the lorem ipsum etce because running out of test string is annoying at best." ;
-
-: .#tnl s\" this \n string \n has \n newlines." ; 
-
-: .#rstr s\" \e[34mthis \e[31mstring is red\e[0m" ;
-
 : .fillpane-naive \ ( [c-str] frame -> nil "pane" )
 	\ "writes c-str to the pane. naive."
 	dup xy.frame 

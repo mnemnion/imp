@@ -101,6 +101,7 @@ decimal
         2 + .back 1 .down .|| .fwd .|| 
         loop dup 2 + .back 1 .down
         .|ll 0 do .|- loop .|lr  
+        2drop
         ;
 : .|boxi
         |innerbox dup 
@@ -142,11 +143,13 @@ decimal
 : .|wipe \ ( rows cols -- "pane" )
         |innerbox dup             \ ( row cols cols -- )
         ." *" 0 do ." *" loop 
-        0 do dup dup
-        1 + .back 1 .down 0 do ." *" loop ." *"
-        loop dup 1 + .back 1 .down
-
-   
+        0 do 
+            dup dup
+                1 + .back 1 .down 
+            0 do 
+                ." *" loop 
+            ." *"
+        loop drop
         ;
 
 : .\n cr cr 1 .up ;

@@ -12,10 +12,9 @@
 	\ "takes a c-str, returns a c-str at the next newline, w/ flag."
 	s\" \n" search ;
 
-: next-ansi
+: next-ansi \ ( [c-str] -> [c-str+] | 0 )
 
-	\ "takes a c-str, returns offset of next ansi color sequence,
-	\ as -- adr stop start true, or -- adr original-count false "
+	\ "takes a c-str, returns offset of next ansi color sequence or false"
 	
 	\ we detect only the ANSI escape sequences we actually embed.
 	\ adding more complicates this word, but shouldn't change the
@@ -24,17 +23,11 @@
 	15 0 do 
 		-rot 2dup  \ ( rem c-adr count c-adr count -- )
 		colors" i cells + perform \ ( r [c] c-adr count comp-adr c-count -- )
-		cr ." string " 2dup type ." effect "
  		search \ ( r [c-str] result count flag )
- 		." flag " dup .
- 		cr .s 
  	 	if \ found ( r [c-str] result count] ) 
- 	 		 
  	 		swap >r >r rot r> \ ( c-adr c-count r count -|- result )
  	 		max r>
- 	 		cr .s
  	 		drop 
- 	 		cr .s 
  		else 
  			2drop rot
  		then 
@@ -47,4 +40,12 @@
 		nip
 	then
     .!
+	;
+
+: skip-ansi \ ( c-str -- c-str)
+	\ "takes a c-str, with an escape code, and skips past it."
+	s" m" search 
+		if 
+		swap 1 + swap 1 -
+		else ." error" then
 	;

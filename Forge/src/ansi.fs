@@ -26,9 +26,27 @@ decimal
 : .di .! .^ ." 2m"   ;
 : .un .! .^ ." 4m"   ;
 : .in .! .^ ." 7m"   ;
-: .bu .! .^ ." 1;4m"    ;
+: .bu .! .^ ." 1;4m" ;
 : .ib .! .^ ." 1;7m" ; 
-: .fu .! .^ ." 5;7m"    ;
+: .fu .! .^ ." 5;7m" ;
+
+\ color strings
+
+: .!"   s\" \e[0m"        ;
+: .r"   s\" \e[31m"       ;
+: .g"   s\" \e[32m"       ;
+: .y"   s\" \e[33m"       ;
+: .b"   s\" \e[34m"       ;
+: .m"   s\" \e[35m"       ;
+: .c"   s\" \e[36m"       ;
+: .w"   s\" \e[37m"       ;
+: .bo"  s\" \e[0m\e[1m"   ;
+: .di"  s\" \e[0m\e[2m"   ;
+: .un"  s\" \e[0m\e[4m"   ;
+: .in"  s\" \e[0m\e[7m"   ;
+: .bu"  s\" \e[0m\e[1;4m" ;
+: .ib"  s\" \e[0m\e[1;7m" ;
+: .fu"  s\" \e[0m\e[5;1m" ;
 
 \ control holds for number printing
 : .#[e  [char] [ hold 27 hold ;
@@ -91,7 +109,7 @@ decimal
         drop 1
     else 
         1 -
-    then ;
+    then  ;
 
 : .|box \  ( cols rows -> "box" ) 
         swap |innerbox dup 

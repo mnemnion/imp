@@ -17,13 +17,13 @@ include strutils.fs
    ;
 
 : makeframe  
-	create \ ( := "frame" rows cols x0 y0 -> nil )
+	create \ ( := "frame" cols rows x0 y0 -> nil )
 		, , , , ;
 
 : xy.frame \ ( frame -> x0 y0)
 	2@ ;
 
-: rowcol.frame \ ( frame -> rows cols )
+: colrow.frame \ ( frame -> cols rows )
 	2 cells + 2@ ;
 
 : .frame \ ( frame -> nil "frame" )
@@ -31,7 +31,7 @@ include strutils.fs
 	.save
 	dup
 		xy.frame .xy
-	rowcol.frame .|box  \ ( nil -- "frame" )
+	colrow.frame .|box  \ ( nil -- "frame" )
 	.restore
 	;
 
@@ -42,7 +42,7 @@ include strutils.fs
 		xy.frame 
 		swap 1 + swap 1 +
 		.xy
-	rowcol.frame
+	colrow.frame
     1 - swap 1 -
     .di 
 	.|wipe 
@@ -61,7 +61,7 @@ include strutils.fs
 
 : makepane 
 	create 				\ (:= "pane" frame -> nil  )
-		rowcol.frame 		\ ( rows cols --    )
+		colrow.frame 		\ ( rows cols --    )
 		|innerbox *			\ ( r*c       --    )
 		dup ,               \ ( r*c   -- count! )
 		8 / 2 * 			\ ( c-buf --        )
@@ -79,12 +79,13 @@ include strutils.fs
 
 : .#rstr s\" \e[34mthis \e[31mstring is red\e[0m" ;
 
-: .fillpane \ ( [c-str] frame -> nil "pane" )
+: .fillpane-naive \ ( [c-str] frame -> nil "pane" )
 	\ "writes c-str to the pane. naive."
 	dup xy.frame 
 		.save 
 		1 + swap 1 + swap .xy  \ inside box
-	rowcol.frame 	\ ( c-adr count rows cols   -- )
+	colrow.frame 	\ ( c-adr count rows cols   -- )
+	swap            \ this should be factored out
 	|innerbox 		\ box small 
 	rot drop        \ drop count -- will want it later
 	swap     \ ( c-adr rows cols --  )
@@ -97,3 +98,21 @@ include strutils.fs
 	2drop
 	.restore
 	;
+
+: .fillpane \ ( [c-str] frame -> nil "pane" )
+ \ "writes c-str to the pane. context aware."
+
+ \ algorithm
+ \ 	jump to frame 
+ 	dup xy.frame 
+		.save 
+		1 + swap 1 + swap .xy  \ inside box
+ \  get frame dimensions
+ 	colrow.frame \ ( c-adr count rows cols   -- )
+ 	|innerbox
+ 	rot          \ ( c-adr rows cols count   -- )
+ 	>r 2dup * r> \ ( c-adr rows cols rows*cols count )
+ 	;
+
+
+ )

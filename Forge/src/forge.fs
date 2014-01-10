@@ -52,3 +52,5 @@ variable eval-pad 128 allot
 	;
 	
 anew wipeout
+
+include testrig.fs

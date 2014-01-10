@@ -82,19 +82,19 @@ decimal
 : .|... ." ┈" ; : .|::: ." ┊" ;
 
 : |innerbox \ ( rows cols -- rows-1 cols -1 )
-    dup 2 < if 
+    dup 3 < if 
         drop 1
     else
         1 -
     then swap 
-    dup 2 < if 
+    dup 3 < if 
         drop 1
     else 
         1 -
     then ;
 
-: .|box \  ( rows cols -> "box" ) 
-        |innerbox dup 
+: .|box \  ( cols rows -> "box" ) 
+        swap |innerbox dup 
         .|ul 0 do .|- loop .|ur 
         2dup swap \ y x x y --
         0 do dup dup

@@ -7,3 +7,7 @@
 		1 +
 	loop
 	;
+
+: next-cr      
+	\ "takes a c-str, returns a c-str at the next newline."
+	s\" \n" search ;

@@ -79,7 +79,7 @@
 		r> \ finish
 	then
 	;
-: n-printables \ ( [c-str] n -- count )
+: n-printabl0 \ ( [c-str] n -- count )
 ( 	
 	The algorithm: look for a newline. If the literal width is small enough,
 	we don't care about printable characters.
@@ -99,3 +99,47 @@
 	s\" \n" trunc-to-match
 	r>
 	;
+
+: print-n \ ( [c-str] n - "str" )
+	\ "takes a counted string; prints n cols of characters.
+	\  handles newlines and esc sequences correctly"
+
+	\ p-code
+	\ if we haven't printed enough:
+	\ get char. 
+		\ is newline? done.
+		\ is escape? 
+			\ print, without counting, to `m`.
+		\ otherwise
+			\ print next character
+	\ loop
+	 dup -rot 0 do 
+			dup 
+			c@ \ cr .s cr
+			dup #esc <> if  
+				emit
+				1 +
+			else   \ ( n adr #esc -- )
+			\ 	cr .cy ." reached"      
+				rot 1 + -rot 
+			\ 	cr .s .!
+				emit 1 +
+				begin
+					dup c@ 
+						dup [char] m 
+				\ 		cr .cy .s .!
+						= if
+					\ 		cr .g .s .!
+						    emit 1 +
+							true 
+						else
+							emit 1 +
+							false
+						then
+				until 	
+		then
+	loop
+	;
+
+
+

@@ -5,6 +5,8 @@ decimal
 
 \ control code
 
+27 constant #esc
+
 : .^ 27 emit [char] [ emit ; 
 
 : hide-cursor 

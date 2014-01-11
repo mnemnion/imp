@@ -23,7 +23,7 @@ include strutils.fs
 : xy.frame \ ( frame -> x0 y0)
 	2@ ;
 
-: colrow.frame \ ( frame -> cols rows )
+: rowcol.frame \ ( frame -> cols rows )
 	2 cells + 2@ ;
 
 : .frame \ ( frame -> nil "frame" )
@@ -31,7 +31,7 @@ include strutils.fs
 	.save
 	dup
 		xy.frame .xy
-	colrow.frame .|box  \ ( nil -- "frame" )
+	rowcol.frame .|box  \ ( nil -- "frame" )
 	.restore
 	;
 
@@ -42,7 +42,7 @@ include strutils.fs
 		xy.frame 
 		swap 1 + swap 1 +
 		.xy
-	colrow.frame
+	rowcol.frame
     1 - swap 1 -
     .di 
 	.|wipe 
@@ -61,7 +61,7 @@ include strutils.fs
 
 : makepane 
 	create 				\ (:= "pane" frame -> nil  )
-		colrow.frame 		\ ( rows cols --    )
+		rowcol.frame 		\ ( rows cols --    )
 		|innerbox *			\ ( r*c       --    )
 		dup ,               \ ( r*c   -- count! )
 		8 / 2 * 			\ ( c-buf --        )
@@ -78,7 +78,7 @@ include strutils.fs
 	dup xy.frame 
 		.save 
 		1 + swap 1 + swap .xy  \ inside box
-	colrow.frame 	\ ( c-adr count rows cols   -- )
+	rowcol.frame 	\ ( c-adr count rows cols   -- )
 	swap            \ this should be factored out
 	|innerbox 		\ box small 
 	rot drop        \ drop count -- will want it later
@@ -102,7 +102,7 @@ include strutils.fs
 		.save 
 		1 + swap 1 + swap .xy  \ inside box
  \  get frame dimensions
- 	colrow.frame \ ( c-adr count rows cols   -- )
+ 	rowcol.frame \ ( c-adr count rows cols   -- )
  	|innerbox
  	rot          \ ( c-adr rows cols count   -- )
  	>r 2dup * r> \ ( c-adr rows cols rows*cols count )

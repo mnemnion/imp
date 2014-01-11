@@ -114,11 +114,11 @@
 		dup 
 		c@ \ cr .s cr
 		dup #nl = if
-			cr .cy .s .!
-			cr .r i . .!
+\ 			cr .cy .s .!
+\ 			cr .r i . .!
 			drop drop \ ( n n+ -- )
-			swap - i + 0 
-			leave \ 0 protects against final drop
+			swap - i + 0 swap 0
+			leave \ 0 swap 0 protects against final drop/nip. craaaazy
 		else
 			dup #esc <> if  
 				emit
@@ -145,7 +145,7 @@
 			then
 		then
 	loop
-	drop
+	drop nip \ drop advance adr and count, or 0 and 0 for newline.
 	;
 
 

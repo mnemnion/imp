@@ -100,31 +100,36 @@
 	r>
 	;
 
-: print-n \ ( [c-str] n - "str" )
+: print-n \ ( [c-str] n - consumed "str" )
 	\ "takes a counted string; prints n cols of characters.
-	\  handles newlines and esc sequences correctly"
+	\  handles newlines and esc sequences correctly.
+	\  returns number of literal bytes consumed."
 
-	\ p-code
-	\ if we haven't printed enough:
-	\ get char. 
-		\ is newline? done.
-		\ is escape? 
-			\ print, without counting, to `m`.
-		\ otherwise
-			\ print next character
-	\ loop
-	 dup -rot 0 do 
-			dup 
-			c@ \ cr .s cr
+	\  makes no effort to prevent printing past the buffer,
+	\  since calling words know the remaining count.
+
+
+	 dup dup >r -rot r> -rot \ stash copies of n
+	 0 do 
+		dup 
+		c@ \ cr .s cr
+		dup #nl = if
+			cr .cy .s .!
+			cr .r i . .!
+			drop drop \ ( n n+ -- )
+			swap - i + 0 
+			leave \ 0 protects against final drop
+		else
 			dup #esc <> if  
 				emit
 				1 +
 			else   \ ( n adr #esc -- )
 			\ 	cr .cy ." reached"      
-				rot 1 + -rot 
+				\ rot 1 + -rot 
 			\ 	cr .s .!
 				emit 1 +
 				begin
+					swap 1 + swap
 					dup c@ 
 						dup [char] m 
 				\ 		cr .cy .s .!
@@ -137,8 +142,10 @@
 							false
 						then
 				until 	
+			then
 		then
 	loop
+	drop
 	;
 
 

@@ -6,6 +6,7 @@ decimal
 \ control code
 
 27 constant #esc
+10 constant #nl 
 
 : .^ 27 emit [char] [ emit ; 
 

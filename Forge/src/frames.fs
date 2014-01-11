@@ -18,7 +18,7 @@ include strutils.fs
 
 : makeframe  
 	create \ ( := "frame" cols rows x0 y0 -> nil )
-		, , , , ;
+		swap , , swap , , ; \ I am not a clever man.
 
 : xy.frame \ ( frame -> x0 y0)
 	2@ ;

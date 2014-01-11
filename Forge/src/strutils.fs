@@ -8,6 +8,17 @@
 	loop
 	;
 
+: trunc-to-match ( \ c-adr count [c-str] -> <c-adr count- true> | <c-adr count false>)
+	\ "truncates 1st c-str to first match of 2nd c-str, true if successful."
+	>r >r 2dup r> r> search 
+	if
+		cr ." reached true"
+		nip -
+	else
+		cr ." reached false"
+	then
+	;
+
 : cr-next?      
 	\ "takes a c-str, returns a c-str at the next newline, w/ flag."
 	s\" \n" search ;

@@ -18,3 +18,9 @@ variable eval-pad 128 allot
 anew wipeout
 
 include testrig.fs
+
+\ this dumps us to the command line when we fail.
+\ eventually, we want this; innerloop takes over 
+\ everything it can handle. 
+
+\ ." Welcome to the Machine." cr innerloop

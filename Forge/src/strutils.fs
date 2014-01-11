@@ -53,6 +53,20 @@
 		else .bo ." error: no ansi to skip" .! then
 	;
 
+: ansi-offset \ ( c-str -- c-str offset )
+	\ "returns the number of bytes in the ansi offset."
+	2dup skip-ansi nip - nip
+	;
+
+: get-n-p \ " gets n printables from stream"
+	>r 2dup ansi-next? if
+		cr ." ansi next"
+		nip - r> \ ( [c-str] c-adr count limit -- )
+
+	else 
+		r>
+	then
+	;
 : n-printables \ ( [c-str] n -- count )
 ( 	
 	The algorithm: look for a newline. If the literal width is small enough,
@@ -71,17 +85,19 @@
 	dup >r -rot r> \ stash n
 	>r 2dup \ ( n [c-str] [c-str]  -|- n )
 	cr-next? if 
-		>r over r> - r> - \ ( n [c-str] c-adr difference )
-		cr ." cr found " .di .cy .s .!
-		dup 0< if 
-			cr .s
-			negate nip nip nip nip
-		else 
-			cr .g ." nl longer than n"
-			nip nip \ ( n c-adr count )
-			cr .di .s .!
-		then 
-	else
+		cr ." cr found"
+		nip - r> \ ( n c-adr to-nl n ) 
+		2dup - 0< \ (n c-adr to-nl flag )
+		if 
+			cr ." short cr"
+			nip
+		else
+			cr ." long cr"
+			get-n-p
+			cr .bo .b .s .!
+		then
+	else	
 		r> 	
+		cr ." no cr " .di .g .s .!
 	then
 	;

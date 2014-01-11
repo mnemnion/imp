@@ -16,6 +16,7 @@
 		nip -
 	else
 		cr ." reached false"
+		2drop
 	then
 	;
 
@@ -71,11 +72,11 @@
 
 : get-n-p \ " gets n printables from stream"
 	>r 2dup ansi-next? if
-		cr ." ansi next"
-		nip - r> \ ( [c-str] c-adr count limit -- )
-
+			cr ." ansi next"
+			trunc-to-match
+			ansi-offset r>
 	else 
-		r>
+		r> \ finish
 	then
 	;
 : n-printables \ ( [c-str] n -- count )
@@ -95,20 +96,6 @@
 )
 	dup >r -rot r> \ stash n
 	>r 2dup \ ( n [c-str] [c-str]  -|- n )
-	cr-next? if 
-		cr ." cr found"
-		nip - r> \ ( n c-adr to-nl n ) 
-		2dup - 0< \ (n c-adr to-nl flag )
-		if 
-			cr ." short cr"
-			nip
-		else
-			cr ." long cr"
-			get-n-p
-			cr .bo .b .s .!
-		then
-	else	
-		r> 	
-		cr ." no cr " .di .g .s .!
-	then
+	s\" \n" trunc-to-match
+	r>
 	;

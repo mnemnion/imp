@@ -79,7 +79,7 @@
 		r> \ finish
 	then
 	;
-: n-printabl0 \ ( [c-str] n -- count )
+: n-printables \ ( [c-str] n -- count )
 ( 	
 	The algorithm: look for a newline. If the literal width is small enough,
 	we don't care about printable characters.
@@ -94,20 +94,6 @@
 	line. 
 
 )
-	dup >r -rot r> \ stash n
-	>r 2dup \ ( n [c-str] [c-str]  -|- n )
-	s\" \n" trunc-to-match
-	r>
-	;
-
-: print-n \ ( [c-str] n - consumed "str" )
-	\ "takes a counted string; prints n cols of characters.
-	\  handles newlines and esc sequences correctly.
-	\  returns number of literal bytes consumed."
-
-	\  makes no effort to prevent printing past the buffer,
-	\  since calling words know the remaining count.
-
 
 	 dup dup >r -rot r> -rot \ stash copies of n
 	 0 do 
@@ -146,6 +132,19 @@
 		then
 	loop
 	drop nip \ drop advance adr and count, or 0 and 0 for newline.
+	;
+
+: print-n over swap n-printables type ; 
+
+: print-n-- \ ( [c-str] n - consumed "str" )
+	\ "takes a counted string; prints n cols of characters.
+	\  handles newlines and esc sequences correctly.
+	\  returns number of literal bytes consumed."
+
+	\  makes no effort to prevent printing past the buffer,
+	\  since calling words know the remaining count.
+
+
 	;
 
 

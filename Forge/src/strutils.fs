@@ -100,31 +100,24 @@
 		dup 
 		c@ \ cr .s cr
 		dup #nl = if
-\ 			cr .cy .s .!
-\ 			cr .r i . .!
 			drop drop \ ( n n+ -- )
 			swap - i + 0 swap 0
 			leave \ 0 swap 0 protects against final drop/nip. craaaazy
 		else
 			dup #esc <> if  
-				emit
+				drop
 				1 +
 			else   \ ( n adr #esc -- )
-			\ 	cr .cy ." reached"      
-				\ rot 1 + -rot 
-			\ 	cr .s .!
-				emit 1 +
+				drop 1 +
 				begin
 					swap 1 + swap
 					dup c@ 
 						dup [char] m 
-				\ 		cr .cy .s .!
 						= if
-					\ 		cr .g .s .!
-						    emit 1 +
+						    drop 1 +
 							true 
 						else
-							emit 1 +
+							drop 1 +
 							false
 						then
 				until 	

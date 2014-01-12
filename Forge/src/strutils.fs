@@ -80,20 +80,8 @@
 	then
 	;
 : n-printables \ ( [c-str] n -- count )
-( 	
-	The algorithm: look for a newline. If the literal width is small enough,
-	we don't care about printable characters.
-
-	If it isn't, we regex for escape sequences, and subtract their size from the line.
-
-	If it's still not small enough, we truncate.
-
-	We also return a flag, true if we sent a whole line, false if not.
-
-	If true, there is a newline directly after our string. If false, we're still on a logical
-	line. 
-
-)
+	\ "takes a string buffer. returns the offset needed to print
+	\ "n characters, or a full line. ansi escaped."
 
 	 dup dup >r -rot r> -rot \ stash copies of n
 	 0 do 
@@ -104,41 +92,39 @@
 			swap - i + 0 swap 0
 			leave \ 0 swap 0 protects against final drop/nip. craaaazy
 		else
-			dup #esc <> if  
-				drop
-				1 +
-			else   \ ( n adr #esc -- )
+			dup #esc 
+			<> if  
+				drop 1 +
+			else                 \ ( n adr #esc -- )
 				drop 1 +
 				begin
 					swap 1 + swap
 					dup c@ 
 						dup [char] m 
 						= if
-						    drop 1 +
-							true 
+						    drop 1 + true 
 						else
-							drop 1 +
-							false
+							drop 1 + false
 						then
 				until 	
 			then
 		then
 	loop
-	drop nip \ drop advance adr and count, or 0 and 0 for newline.
+	drop nip \ drop advance adr and nip count, or 0 and 0 for newline.
 	;
 
-: print-n over swap n-printables type ; 
+: print-n \ ( [c-str] n -> "string")
+\ "prints n characters, up to a newline, ansi escaped."
+\ "will not overflow a c-str with proper count."
+	>r 2dup drop r> n-printables
+	2dup > if \ safe to print as counted
+		nip type
+	else      \ print the whole thing
+		drop type
+	then
+	; 
 
-: print-n-- \ ( [c-str] n - consumed "str" )
-	\ "takes a counted string; prints n cols of characters.
-	\  handles newlines and esc sequences correctly.
-	\  returns number of literal bytes consumed."
 
-	\  makes no effort to prevent printing past the buffer,
-	\  since calling words know the remaining count.
-
-
-	;
 
 
 

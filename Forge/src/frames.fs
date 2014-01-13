@@ -43,9 +43,7 @@ include strutils.fs
 		swap 1 + swap 1 +
 		.xy
 	rowcol.frame
-    .di 
 	.|wipe 
-	.!
 	.restore
 	;
 

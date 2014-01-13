@@ -1,4 +1,4 @@
-include ansi.fs
+include ansi/ansi.fs
 include toolbelt.fs
 include stack-util.fs
 include keyword.fs

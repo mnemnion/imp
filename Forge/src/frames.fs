@@ -35,7 +35,7 @@ include strutils.fs
 	.restore
 	;
 
-: .clearpane \ ( frame -> nil "pane" )
+: .clearframe \ ( frame -> nil "pane" )
 	\ clears the (screen) pane of a given frame
 	.save
 	dup
@@ -43,7 +43,6 @@ include strutils.fs
 		swap 1 + swap 1 +
 		.xy
 	rowcol.frame
-    1 - swap 1 -
     .di 
 	.|wipe 
 	.!

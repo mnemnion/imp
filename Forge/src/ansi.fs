@@ -127,7 +127,7 @@ variable colors" 14 cells allot
         2drop
         ;
 : .|boxi
-        |innerbox dup 
+        swap |innerbox dup 
         .|uli 0 do .|-i loop .|uri 
         2dup swap \ y x x y --
         0 do dup dup
@@ -136,7 +136,7 @@ variable colors" 14 cells allot
         .|lli 0 do .|-i loop .|lri  
         ;
 : .|boxd
-        |innerbox dup 
+        swap |innerbox dup 
         .|uld  0 do .|-d  loop .|urd  
         2dup swap \ y x x y --
         0 do dup dup
@@ -145,7 +145,7 @@ variable colors" 14 cells allot
         .|lld  0 do .|-d  loop .|lrd   
         ;
 : .|rbox
-        |innerbox dup 
+        swap |innerbox dup 
         .|ulr 0 do .|-i loop .|urr 
         2dup swap \ y x x y --
         0 do dup dup
@@ -155,7 +155,7 @@ variable colors" 14 cells allot
         ;
 
 : .|dashbox
-        |innerbox dup 
+        swap |innerbox dup 
         .|uli  0 do .|...  loop .|uri  
         2dup swap \ y x x y --
         0 do dup dup
@@ -163,16 +163,40 @@ variable colors" 14 cells allot
         loop dup 2 + .back 1 .down
         .|lli  0 do .|...  loop .|lri   
         ;
+
+( Test -- Remove )
+
+: offset-hexpr ( offset n -- new-offset )
+
+ tuck                            \ ( n offset n -- )
+ hex 0 do                        \ ( n -- `hex`    )
+    dup i + 16 mod               \ ( n n+i%16 --   )
+    dup 15 <> if                 \ ( n n2     --   )
+        0 <# # #> type           \ ( n -- "n2"     )
+    else \ red F
+        0 <# .#! # .#r #> type   \ ( n -- "n2"     )
+    then
+ loop decimal                    \ ( n -- `decimal` ) 
+ + 16 mod                        \ ( new-offset --  )
+ ;
+
+ : hexer  \ ( C: nil -> nil D: nil -> nil "hex" )
+    create \ ( nil -> nil )
+        0 ,
+    does>  \ ( nil -> nil )
+    dup >r @ swap offset-hexpr r> ! ;
+
+ hexer rollhex 
+
+( / Test )
+
 : .|wipe \ ( rows cols -- "pane" )
-        |innerbox dup             \ ( row cols cols -- )
-        ." *" 0 do ." *" loop 
-        0 do 
-            dup dup
-                1 + .back 1 .down 
-            0 do 
-                ." *" loop 
-            ." *"
-        loop drop
+        |innerbox              \ ( row col -- )
+        0 do
+            dup rollhex
+            dup .back 1 .down
+        loop
+        drop 
         ;
 
 : .\n cr cr 1 .up ;

@@ -96,13 +96,15 @@
 			<> if  
 				drop 1 +
 			else                 \ ( n adr #esc -- )
-				drop 1 +
+				drop 1 +        \ decrement the do counter?
 				begin
 					swap 1 + swap
 					dup c@ 
 						dup [char] m 
 						= if
-						    drop 1 + true 
+						    drop 1 + 
+						    swap 1 + swap
+						    true 
 						else
 							drop 1 + false
 						then
@@ -124,6 +126,23 @@
 	then
 	; 
 
+: print-advance \ ( [c-str] n -> c-adr+ count- "string" )
+	\ 	"prints n characters, advances the address correspondingly "
+	\   
+		>r 2dup drop r> n-printables
+	2dup > if \ safe to print as counted
+		swap >r 2dup type r> over >r 
+		.! cr .cy .s .!
+		 swap -  
+		.! cr .y .s  .!
+		.! swap r>  .!
+		.! cr .g .s .!
+		.! + swap  .!
+		.! cr .di .w .s .!
+	else      \ print the whole thing
+		drop dup >r 2dup type r@ - swap r> + swap
+ 	then
+	; 
 
 
 

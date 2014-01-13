@@ -1,5 +1,5 @@
 
-include ansi.fs
+include ansi/ansi.fs
 
 : card& here 128 allot 128 + ; \ -- card <- 
 

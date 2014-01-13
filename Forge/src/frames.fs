@@ -47,6 +47,31 @@ include strutils.fs
 	.restore
 	;
 
+: .|print \ ( [c-str] row col -- "pane" )
+	\ (prints c-str into row col )
+	|innerbox \ ([c-str] x y -- )
+	0 do \ ( [c-str] x --        )
+		>r 2dup ( [c-str] [c-str] x -|- x )
+		cr .! .cy .s .!
+		2dup drop r@ 
+		cr .! .g  .s .!
+		n-printables dup >r
+		cr .! .r   .s .!
+	    print-n
+	    cr .! .w  .s .!
+		r@ 2dup - nip nip
+		cr .! .y .s .!
+		swap r> + swap r>  
+		cr .! .b  .s .!
+	loop
+	;
+
+: .printframe \ ( [c-str] frame -> nil "pane" )
+	\ "prints the contents of c-str into frame,"
+	\ "from top left."
+
+	;
+
 ( Panes 
 	
 	Panes are a moderately complex data structure. 

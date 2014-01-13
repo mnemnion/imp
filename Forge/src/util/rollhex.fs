@@ -1,3 +1,4 @@
+include ../ansi/core.fs
 ( Rollhex 
 	a simple closure. 
 )

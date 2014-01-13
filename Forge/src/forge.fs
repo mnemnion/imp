@@ -1,4 +1,5 @@
 include ansi/ansi.fs
+include util/rollhex.fs
 include toolbelt.fs
 include stack-util.fs
 include keyword.fs

@@ -29,16 +29,24 @@ Not yet written. Should have started here. ^_^ .
 
 This word takes a counted string and returns a '1-char', which is a counted string that will produce one terminal character if typed. 
 
-The flag is `0` for 'no printable characters left', `-1` for printable character, and '10' for a newline. 
+The flag is `0` for 'no printable characters left', `-1` for printable character, and `10` for a newline. `2` means a double width character. 
 
 My newline policy: all printers skip them if they are found at the head of a string. Everything which returns a line, returns it up to, but not including, the newline. This preserves the semantics of a newline without ever inserting one into the terminal, provided the frame handler does the correct thing.
 
+1-printable becomes horribly complex as we start to support Unicode. The basic "get a glyph's worth of information" is fairly painless in UTF-8, which is all we'll ever support. Figuring out the width of the resulting glyph is a righteous pain. We'll want a hash to which we add glyphs as the system needs them: I have no interest in recognizing a character I don't personally use. If something screws up my own window, well, I'll add it, and I'll be generous with pull requests to `1-printable` that work. 
+
 #### : n-printables \ ( [c-str] n -- count )
 
-I wrote this first. It was therefore hard, and is not easy to understand. Refactoring it with 1-printable will be clearer.
+I wrote this first. It was therefore hard, and is not easy to understand. Refactoring it with `1-printable` will be clearer.
 
 In any case, it consumes the address, returning only the count needed to print n characters across the screen.
 
 #### : print-advance \ ( [c-str] n -> c-adr+ count- "string" )
 
 This takes n and prints it, advancing the c-str accordingly. This is buffer safe, and will not exceed a string's remaining offset if properly used. It returns up to n characters, or up to a newline, and when printing, skips the newline. 
+
+## Frames
+
+I wrote a little box drawing library and am going to jack it up with simple line drawing and the like.
+
+I uses the Unicode drawing set, rather than switching to graphics mode. This would be a relatively minor rewrite, if anyone out there needs it: all the drawing literals are abstracted behind words, as is the Forth way. 

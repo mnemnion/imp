@@ -76,6 +76,13 @@ variable colors" 14 cells allot
 : .up   .^  dec. ." A" ;
 : .down .^  dec. ." B" ;
 : .back .^  dec. ." D" ; 
-: .xy   .^ swap dec. [char] ; emit dec. ." f" ;
 : .save 27 emit ." 7" ;
 : .restore 27 emit ." 8" ;
+
+variable last-xy 1 cells allot 
+1 1 last-xy 2!
+
+: .xy   
+	2dup last-xy 2!
+	.^ swap dec. [char] ; emit dec. ." f" ;
+

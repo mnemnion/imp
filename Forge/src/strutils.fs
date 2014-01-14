@@ -135,9 +135,9 @@
 	dup 0 <> if 
 		swap dup c@ \ ( count c-adr char -- )
 		10 = if 
-	 		cr .bo ." cr skipped" .! 
+	 	\ 	cr .bo ." cr skipped" .! 
 			1 + swap 1 - \ ( c-adr+ count+ -- )
-			cr .s ." "
+		\ 	cr .s ." "
 		else
 			swap
 		then

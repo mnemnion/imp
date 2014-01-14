@@ -53,7 +53,7 @@ include strutils.fs
 	0 do \ ( [c-str] x --        )
 	\ 	.! cr .m .s  
 		dup >r print-advance r> 
-		dup .back 1 .down
+		last-xy 2@ swap 1 + swap .xy
 	loop
 	;
 
@@ -70,63 +70,4 @@ include strutils.fs
 	.restore
 	;
 
-( Panes 
-	
-	Panes are a moderately complex data structure. 
-	This complexity is reflected in their use words,
-	not the layout, which is a simple string combining
-	printable ASCII and escape codes. 
-
-)
-
-: makepane 
-	create 				\ (:= "pane" frame -> nil  )
-		rowcol.frame 		\ ( rows cols --    )
-		|innerbox *			\ ( r*c       --    )
-		dup ,               \ ( r*c   -- count! )
-		8 / 2 * 			\ ( c-buf --        )
-		\   			    dup cr ." alloted " . bl ." cells"
-		allot  				\ ( nil  -- c-buf! )
-	does> 				\ ( pane -> [c-str] )
-		dup 				\ ( pane pane  -- )
-		cell + swap         \ ( c-buf pane -- )
-		@					\ ( [c-str]    -- )
-		;
-
-: .fillpane-naive \ ( [c-str] frame -> nil "pane" )
-	\ "writes c-str to the pane. naive."
-	dup xy.frame 
-		.save 
-		1 + swap 1 + swap .xy  \ inside box
-	rowcol.frame 	\ ( c-adr count rows cols   -- )
-	swap            \ this should be factored out
-	|innerbox 		\ box small 
-	rot drop        \ drop count -- will want it later
-	swap     \ ( c-adr rows cols --  )
-	0 do
-		dup -rot 	\ (rows c-adr rows -- count ) \ cr .b ." s:" .! .s 
-		type-n
-		swap dup
-			.back 1 .down
-	loop
-	2drop
-	.restore
-	;
-
-: .fillpane \ ( [c-str] frame -> nil "pane" )
- \ "writes c-str to the pane. context aware."
-
- \ algorithm
- \ 	jump to frame 
- 	dup xy.frame 
-		.save 
-		1 + swap 1 + swap .xy  \ inside box
- \  get frame dimensions
- 	rowcol.frame \ ( c-adr count rows cols   -- )
- 	|innerbox
- 	rot          \ ( c-adr rows cols count   -- )
- 	>r 2dup * r> \ ( c-adr rows cols rows*cols count )
- 	;
-
-
- )
+: .xy   .^ swap dec. [char] ; emit dec. ." f" ;

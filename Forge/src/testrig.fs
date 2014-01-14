@@ -28,7 +28,7 @@ page .save
 20 6 60 10 makeframe foo   
 20 6 60 17 makeframe bar
 foo .frame  foo .clearframe 
- bar .frame .#teststr bar .fillpane-naive .restore
+ bar .frame .#teststr bar .printframe .restore
 
 : .xy* .save .xy .g ." *" .! .restore ;
 

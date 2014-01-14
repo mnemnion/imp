@@ -49,4 +49,23 @@ This takes n and prints it, advancing the c-str accordingly. This is buffer safe
 
 I wrote a little box drawing library and am going to jack it up with simple line drawing and the like.
 
-I uses the Unicode drawing set, rather than switching to graphics mode. This would be a relatively minor rewrite, if anyone out there needs it: all the drawing literals are abstracted behind words, as is the Forth way. 
+It uses the Unicode drawing set, rather than switching to graphics mode. This would be a relatively minor rewrite, if anyone out there needs it: all the drawing literals are abstracted behind words, as is the Forth way. 
+
+A frame, proper, is simply a row col x y array. There are access words; a frame gets its coordinates when created, and getters and setters are defined. The 'pane' of a frame is the part of that frame which is writable. In Fabri, these will be types. 
+
+## Printing
+
+Printing happens into a frame, and expects the frame on top of the counted buffer. 
+
+Right now, it's top-down, left-right. We can add right and center versions of that as we go: stacks should be right justified and grow from the bottom, for example. 
+
+We'll eventually add fancy compound words like `size-frame-to-longest-line`, which will take a frame and a counted buffer, return the screen count of the longest line, and resize the cols of the frame accordingly. The window manager decides what to do after any frame gets sized. We'll also have `size-frame-to-buffer`, which does a rowcol resize in the same fashion. 
+
+We have no window manager yet, but we're almost ready to write one! Forge will have multiple windows in a single terminal, so we can pop between entire views. Useful when developing another interactive terminal program, among other purposes. Forge proper will use one of them; we'll keep the hooks to a minimum. Chuck always says you don't need them, I'm starting to get why. 
+
+## Buffer
+
+I keep talking about a buffer. It's specifically a composed view, just a chunk of string that may be fairly rapidly painted into a frame. It's not line based, but line movement words will be provided. It's not for editing text, it's for displaying composed text. 
+
+We'll be adding input handlers after this. That's a separate page.  
+

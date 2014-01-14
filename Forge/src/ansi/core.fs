@@ -78,6 +78,8 @@ variable colors" 14 cells allot
 : .back .^  dec. ." D" ; 
 : .save 27 emit ." 7" ;
 : .restore 27 emit ." 8" ;
+\ screen clear
+: .page .^ ." 2J" ;
 
 variable last-xy 1 cells allot 
 1 1 last-xy 2!

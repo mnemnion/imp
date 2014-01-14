@@ -12,13 +12,11 @@
 
 include strutils.fs
 
-: buf-size \ ( rows cols -> rows cols bufsize )
-   over over 2 - >r 2 - r> *
-   ;
+
 
 : makeframe  
 	create \ ( := "frame" cols rows x0 y0 -> nil )
-		swap , , swap , , ; \ I am not a clever man.
+		swap , , swap , , ;
 
 : xy.frame \ ( frame -> x0 y0)
 	2@ ;
@@ -70,4 +68,8 @@ include strutils.fs
 	.restore
 	;
 
-: .xy   .^ swap dec. [char] ; emit dec. ." f" ;
+: .windowclear \ ( nil -- "clear screen" )
+	.save 1 1 .xy cols 0 do 
+				 rows 0 do 
+				 32 emit
+				 loop loop .restore ; 

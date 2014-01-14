@@ -93,7 +93,7 @@
     .!
     ;
 
-: .|perform \ ( xt rows cols -- nil `xt` )
+: .|perform \ ( xt rows cols -> nil `xt` )
 	\ "performs a line action and carriage return "
 	\ "within the xy.pane 'rows cols'. "
 	    |innerbox               \ ( xt row col --    )

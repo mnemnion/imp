@@ -24,3 +24,16 @@ include ../ansi/core.fs
  	dup >r @ swap offset-hexpr r> ! ;
 
  hexer rollhex 
+
+ : .|hex \ ( rows cols -> nil "pane" )
+ 	\ "fills a frame with hex"
+ 	\ 0 ['] rollhex >body !
+	|innerbox                   \ (  row col --    )
+    0 do                        \ (  row     --    )
+    	dup				\ (  row row  -- ) 
+    	rollhex					\ (  row     --    )
+        dup .back 1 .down       \ (  row     --    )
+    loop
+    drop 
+    0  ['] rollhex  >body !
+    ;

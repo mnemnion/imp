@@ -12,8 +12,6 @@
 
 include strutils.fs
 
-
-
 : makeframe  
 	create \ ( := "frame" cols rows x0 y0 -> nil )
 		swap , , swap , , ;
@@ -23,6 +21,11 @@ include strutils.fs
 
 : rowcol.frame \ ( frame -> cols rows )
 	2 cells + 2@ ;
+
+: xy.into-frame
+	xy.frame 
+	swap 1 + swap 1 +
+	.xy ;
 
 : .frame \ ( frame -> nil "frame" )
 	\ prints a frame, without changing the pane. 
@@ -37,9 +40,7 @@ include strutils.fs
 	\ clears the (screen) pane of a given frame
 	.save
 	dup
-		xy.frame 
-		swap 1 + swap 1 +
-		.xy
+		xy.into-frame
 	rowcol.frame
 	.|wipe 
 	.restore
@@ -60,11 +61,19 @@ include strutils.fs
 	\ "from top left."
 	.save
 	dup 
-		xy.frame
-		swap 1 + swap 1 +
-		.xy
+		xy.into-frame
 	rowcol.frame 
 	.|print 
+	.restore
+	;
+
+: .hexframe \ ( frame -> nil "pane" )
+	\ "fills a pane with hexidecimals"
+	.save 
+	dup
+		xy.into-frame
+	rowcol.frame
+		.|hex 
 	.restore
 	;
 

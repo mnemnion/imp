@@ -51,13 +51,13 @@ I wrote a little box drawing library and am going to jack it up with simple line
 
 It uses the Unicode drawing set, rather than switching to graphics mode. This would be a relatively minor rewrite, if anyone out there needs it: all the drawing literals are abstracted behind words, as is the Forth way. 
 
-A frame, proper, is simply a row col x y array. There are access words; a frame gets its coordinates when created, and getters and setters are defined. The 'pane' of a frame is the part of that frame which is writable. In Fabri, these will be types. 
+A frame, proper, is simply a `row col x y` array. There are access words; a frame gets its coordinates when created, and getters and setters are defined. The 'pane' of a frame is the part of that frame which is writable. In Fabri, these will be types. 
 
 ## Printing
 
 Printing happens into a frame, and expects the frame on top of the counted buffer. 
 
-Right now, it's top-down, left-right. We can add right and center versions of that as we go: stacks should be right justified and grow from the bottom, for example. 
+Right now, it's top-down, left-right. We can add right and center versions of that as we go: stacks should be right justified and down: we call it a 'push down' stack and this creates the right picture in my head at least. Moves like `rot` and `dup` will affect the same part of the stack frame every time: that helps push information into the subconscious where it belongs. 
 
 We'll eventually add fancy compound words like `size-frame-to-longest-line`, which will take a frame and a counted buffer, return the screen count of the longest line, and resize the cols of the frame accordingly. The window manager decides what to do after any frame gets sized. We'll also have `size-frame-to-buffer`, which does a rowcol resize in the same fashion. 
 
@@ -69,3 +69,8 @@ I keep talking about a buffer. It's specifically a composed view, just a chunk o
 
 We'll be adding input handlers after this. That's a separate page.  
 
+## Key Handling
+
+This is arguable a terminal-level function. `key?` is native Forth, and we want a `termkey` that produces one 'event' in VT-100 terms, by collecting it into a pad and pushing it onto the stack, along with a flag showing the basic family of the key. This is more transparent than the Emacs I mean Gforth way of doing it, imho. 
+
+Our interpreter, which we build after the stack printer probably, will eat termkeys and respond appropriately. Line based, at first, so we're rewriting `accept` in our own terms. Also another page.

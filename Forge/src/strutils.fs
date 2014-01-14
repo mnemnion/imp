@@ -88,9 +88,13 @@
 		dup 
 		c@ \ cr .s cr
 		dup #nl = if
-			drop drop \ ( n n+ -- )
-			swap - i + 0 swap 0
-			leave \ 0 swap 0 protects against final drop/nip. craaaazy
+			i 0 = if
+				drop 1 +
+			else 
+				drop drop \ ( n n+ -- )
+				swap - i + 0 swap 0
+				leave \ 0 swap 0 protects against final drop/nip. craaaazy
+			then
 		else
 			dup #esc 
 			<> if  
@@ -126,19 +130,34 @@
 	then
 	; 
 
+: skip-cr \ ( [c-str] -> [c-str] | [c-str+] )
+	\ "skip a leading newline"
+	dup 0 <> if 
+		swap dup c@ \ ( count c-adr char -- )
+		10 = if 
+	 		cr .bo ." cr skipped" .! 
+			1 + swap 1 - \ ( c-adr+ count+ -- )
+			cr .s ." "
+		else
+			swap
+		then
+	else then 
+	;
+
+
 : print-advance \ ( [c-str] n -> c-adr+ count- "string" )
 	\ 	"prints n characters, advances the address correspondingly "
 	\   
-		>r 2dup drop r> n-printables
+		>r skip-cr 2dup drop r> n-printables
 	2dup > if \ safe to print as counted
 		swap >r 2dup type r> over >r 
-		.! cr .cy .s .!
+	\ 	.! cr .cy .s .!
 		 swap -  
-		.! cr .y .s  .!
-		.! swap r>  .!
-		.! cr .g .s .!
-		.! + swap  .!
-		.! cr .di .w .s .!
+	\ 	.! cr .y .s  .!
+		 swap r> 
+	\ 	.! cr .g .s .!
+		+ swap 
+	\ 	 cr .di .w .s .!
 	else      \ print the whole thing
 		drop dup >r 2dup type r@ - swap r> + swap
  	then

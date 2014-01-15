@@ -54,6 +54,7 @@ include strutils.fs
 		dup >r print-advance r> 
 		last-xy 2@ swap 1 + swap .xy
 	loop
+	2drop drop
 	;
 
 : .printframe \ ( [c-str] frame -> nil "pane" )

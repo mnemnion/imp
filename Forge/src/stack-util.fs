@@ -8,3 +8,5 @@
 	then ;
 
 : .. clearstack ;
+
+: .sp [char] < emit depth bl . [char] > emit  depth 0 do depth i - dup pick . loop ;

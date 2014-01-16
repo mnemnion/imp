@@ -9,4 +9,16 @@
 
 : .. clearstack ;
 
-: .sp [char] < emit depth bl . [char] > emit  depth 0 do depth i - dup pick . loop ;
+: .sp 
+	depth dup 0 <> if 
+		[char] < emit
+		0 <# #s #> type 
+		[char] > emit bl emit 
+		depth 0 do 
+			depth i 1 + - 
+			pick . 
+		loop
+	else 
+		[char] > [char] 0 [char] < 
+		emit emit emit
+	then ;

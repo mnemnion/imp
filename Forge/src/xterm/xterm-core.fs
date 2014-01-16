@@ -1,3 +1,5 @@
+xterm-core.fs
+
 	include vt100.fs
 
 	decimal

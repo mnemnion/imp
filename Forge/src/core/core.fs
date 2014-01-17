@@ -1,3 +1,2 @@
-\ include string.fs
-
-\ include roll-allot.fs
+include ./string.fs
+\ include ./roll-allot.fs

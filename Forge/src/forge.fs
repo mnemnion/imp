@@ -2,14 +2,10 @@
 : ANEW  ( "name" -- )( Run: -- )  >IN @ POSSIBLY  >IN ! MARKER ;
 \ include core/string.fs
 \ include core/roll-allot.fs
-include ansi/ansi.fs
-require util/rollhex.fs
-\ include toolbelt.fs
-require stack-util.fs
-require keyword.fs
-\ require xterm/xterm.fs
-\ ui
-include frames.fs
+require ansi/ansi.fs
+require util/util.fs
+require viz/viz.fs
+require xterm/xterm.fs
 
 \ inner loop
 variable eval-pad 128 allot 

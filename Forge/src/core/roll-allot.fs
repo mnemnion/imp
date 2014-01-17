@@ -19,10 +19,10 @@
 
 \ designed for string pads, to provide some small amount of persistence. 
 
-: roll-allocator \ ( C: cell-offset -> nil := roll-alloc! )
+( : roll-allocator \ ( C: cell-offset -> nil := roll-alloc! )
 	\ "creates a rolling allocator."
-	create 1 - cells allot 
+( 	create 1 - cells allot 
 	does>
 	20 dump
 
-	;
+	; )

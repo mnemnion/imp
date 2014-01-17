@@ -45,8 +45,10 @@ variable ""pad 255 cells allot \ 4k pad
 
 : ("pad!) "! ;    \ add a proper rolling allocator
 
+\ `` -- state-smart word.
+
 :noname 34 parse ""pad ("pad!) ""pad
-    ; 
+    ;     
 :noname
   34 parse 
   POSTPONE SLiteral 
@@ -55,7 +57,7 @@ variable ""pad 255 cells allot \ 4k pad
   POSTPONE ""pad ;    interpret/compile: ``
 
 : ->" \ convert one cell to a counted string
-	0 <# #s #> ""pad ("pad!) ""pad
+	0 <# #s #> ""pad ("pad!) ""pad ;
 
 
 

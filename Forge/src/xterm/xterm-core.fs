@@ -1,6 +1,6 @@
 ( # Xterm core library )
 
-require ../core/core.fs
+require ~+/core/core.fs
 
 ( ## Control code words )
 
@@ -13,6 +13,7 @@ require ../core/core.fs
 \ @"xterm-bg 	\ ( byte -> c-str)
 \  takes a byte, composes the appropriate xterm-color background command. 
 
+defer whatthehell
 
 :noname 
 	create 
@@ -23,7 +24,7 @@ require ../core/core.fs
 		0 <# #s #> r>  "!+
 	    dup [char] m swap "c+
   	    dup "@ `` [38;5;26m" "!+
-		; execute xterm-fg
+		; is whatthehell
 
 
 	decimal

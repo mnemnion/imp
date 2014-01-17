@@ -1,6 +1,3 @@
-include util/rollhex.fs
-include util/adder.fs
-
 
 
 : .#teststr s" this is a rather long test string. there are no newlines in it. it should fill a small buffer completely to capacity. I'm adding a great deal of extra test to this of the lorem ipsum etce because running out of test string is annoying at best." ;

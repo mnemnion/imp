@@ -10,7 +10,7 @@
 
 )
 
-include strutils.fs
+require ~+/util/util.fs
 
 : makeframe  
 	create \ ( := "frame" cols rows x0 y0 -> nil )

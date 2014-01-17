@@ -38,5 +38,14 @@ The bag being on the return stack is a complecting, to use a Clojurism. It compl
 
 ### The Bag and Pain
 
-One advantage of using the return stack is that if you try to pass values between words using it, you will almost certainly crash. That's only an advantage because of the defiantly primitive environment of modern publicly-available Forths. Fabri will be very stern with you if there's anything on the bag or 
+One advantage of using the return stack is that if you try to pass values between words using it, you will almost certainly crash. That's only an advantage because of the defiantly primitive environment of modern publicly-available Forths. Fabri will be very stern with you if there's anything on the bag or return stack that shouldn't be, when you exit your definition.
+
+### Lambda
+
+interpretation semantics: stores the contents of tos stack somewhere
+compilation semantics: compiles the last stored value followed by 'perform'
+
+:noname does something important ; lambda : named-word does something lambda something else ;
+
+lambda lasts until you reuse it. It's up to you to make sure there's an XT in it. 
 

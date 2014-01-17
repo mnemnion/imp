@@ -25,10 +25,10 @@ include util/adder.fs
  ;
 
 page .save
-20 6 60 10 makeframe foo   
-20 6 60 17 makeframe bar
-foo .frame  foo .clearframe 
- bar .frame .#teststr bar .printframe .restore
+20 6 60 10 makeframe tframe   
+20 6 60 17 makeframe bframe
+tframe .frame  tframe .clearframe 
+ bframe .frame .#teststr bframe .printframe .restore
 
 : .xy* .save .xy .g ." *" .! .restore ;
 

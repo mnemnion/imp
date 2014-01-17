@@ -1,12 +1,13 @@
 : POSSIBLY  ( "name" -- )  BL WORD FIND  ?dup AND IF  EXECUTE  THEN ;
 : ANEW  ( "name" -- )( Run: -- )  >IN @ POSSIBLY  >IN ! MARKER ;
-include core/string.fs
+\ include core/string.fs
+\ include core/roll-allot.fs
 include ansi/ansi.fs
-include util/rollhex.fs
+require util/rollhex.fs
 \ include toolbelt.fs
-include stack-util.fs
-include keyword.fs
-require xterm/xterm.fs
+require stack-util.fs
+require keyword.fs
+\ require xterm/xterm.fs
 \ ui
 include frames.fs
 

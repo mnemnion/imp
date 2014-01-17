@@ -1,5 +1,7 @@
 ( # Xterm core library )
 
+require ../core/core.fs
+
 ( ## Control code words )
 
 \ @"ansi 	\ ( byte -> c-str)
@@ -12,41 +14,16 @@
 \  takes a byte, composes the appropriate xterm-color background command. 
 
 
-defer @"xterm-fg
-
-: mcove \ "why doesn't it work like this??"
-	swap rot rot 
-	\ cr .cy .s .!
-	chars move ;
-
-: cat \ ( [a.str] [b.str] -> [c.str] )
-	\ "basic fucking business"
-	2swap 			\ ( [b.str] a.adr a.count -- )
-	dup >r          \ ( [b.str] a.adr a.count -- a.count )
-	+      			\ ( b.adr b.count a.adr+ --  )
-	swap 
-	r> .
-	;	
-
 :noname 
-	\ "takes a byte, composes the appropriate single ANSI command (fg, bg etc.)"
-	create 32 allot     	\ ( := pad       		    )
-	does>			    	\ ( byte  -> c-str  		)
- 	dup dup >r >r             	\ ( byte -|-  pad pad       )
- 	s\" \e[38;5;" dup >r    \ ( byte c-adr c-count -|- c-count pad pad )
- 	\ cr .r .s .!
- 	mcove				\ ( byte -|-  c-count pad pad  )
- 	\ advance the buffer
- 	r> r> +                 \ ( byte pad+ -|- pad  )
- 	swap 0 <# #s #>     	\
- 	cr .g 2dup type .!
- 	dup >r  				\ ( pad+ adr count -|- count pad   )
-    mcove					\ ( nil            -|- count pad   )
-    r> r> dup               \ ( count pad pad  -- )
-    7 + [char] m swap c!     \ 
-    swap 8 +         	\ ( pad count     --        ) 7 hardcoded s\" length
- 	; execute @"xterm-fg
-
+	create 
+		0 , 0 , 0 ,
+	does>
+		dup s\" \e[38;5;" rot "!
+		dup >r swap 
+		0 <# #s #> r>  "!+
+	    dup [char] m swap "c+
+  	    dup "@ `` [38;5;26m" "!+
+		; execute xterm-fg
 
 
 	decimal

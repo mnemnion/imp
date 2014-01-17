@@ -37,28 +37,25 @@ variable ""pad 255 cells allot \ 4k pad
 	1 r> +!
 	;
 
-
-: ""  \ like s"   
-	34 parse ""pad "! ""pad 
-	;  
-
 \ : ahuh [ 34 parse until" ] ;
 
 : "..   \ like type
 	"@ type 
 	;
 
-:noname 34 parse ""pad "! ""pad
-    ;  
+: ("pad!) "! ;    \ add a proper rolling allocator
+
+:noname 34 parse ""pad ("pad!) ""pad
+    ; 
 :noname
   34 parse 
   POSTPONE SLiteral 
   POSTPONE ""pad 
-  POSTPONE "! 
-  POSTPONE ""pad ; 
-  interpret/compile: ""
+  POSTPONE ("pad!) 
+  POSTPONE ""pad ;    interpret/compile: ``
 
-"" like a boss" "..
+: ->" \ convert one cell to a counted string
+	0 <# #s #> ""pad ("pad!) ""pad
 
 
 

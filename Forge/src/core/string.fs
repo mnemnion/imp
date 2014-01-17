@@ -4,7 +4,7 @@
 
 ( Being Forth, strings have to live somewhere, typically inside a subject.   )
 
-variable s"pad 255 cells allot \ 4k pad
+variable ""pad 255 cells allot \ 4k pad
 
 : "@  \ ( str -> buf off )
 	\ "takes a string, returning a (byte) counted offset buffer"
@@ -30,7 +30,6 @@ variable s"pad 255 cells allot \ 4k pad
 
 : "c+  \ char str -> nil -- char! )
 	\ "appends a single char to the end of string"
-
 	dup >R 
 	dup @ +
 	cell +
@@ -38,8 +37,29 @@ variable s"pad 255 cells allot \ 4k pad
 	1 r> +!
 	;
 
+
 : ""  \ like s"   
-	34 parse s"pad "! s"pad ;
+	34 parse ""pad "! ""pad 
+	;  
+
+\ : ahuh [ 34 parse until" ] ;
 
 : "..   \ like type
-	"@ type ;
+	"@ type 
+	;
+
+:noname 34 parse ""pad "! ""pad
+    ;  
+:noname
+  34 parse 
+  POSTPONE SLiteral 
+  POSTPONE ""pad 
+  POSTPONE "! 
+  POSTPONE ""pad ; 
+  interpret/compile: ""
+
+"" like a boss" "..
+
+
+
+

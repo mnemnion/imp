@@ -19,10 +19,39 @@
 
 \ designed for string pads, to provide some small amount of persistence. 
 
-( : roll-allocator \ ( C: cell-offset -> nil := roll-alloc! )
-	\ "creates a rolling allocator."
-( 	create 1 - cells allot 
-	does>
-	20 dump
+\ Gen 1: will just fuck up if you try to pass it something larger than it can hold.
 
-	; )
+: roll-allocator \ ( C: cell-offset -> nil := roll-alloc! )
+	\ "creates a rolling allocator."
+ 	create dup cells , cells allot 
+	does>
+	dup 2@                  \ ( request.num self offset limit -- )
+	rot >r
+	rot 			        \ ( offset limit request -|- self   )
+	2dup > if  \ buffer can hold request
+		cr .cy ." true" .!
+		dup 			
+		rot swap             \ ( offset request limit request -- self )
+		>r rot rot
+		cr .g .s .! 
+		+ 2dup > if       \ buffer can allocate without reset
+			cr .cy ." true!  " .s .!
+			r> r>
+		else
+			cr .r ." false!  " .s .!
+			r> r>
+		then
+		cr .g .s .!
+		\ 2 cells + +  \ 
+	 \ r> \ test
+	else 
+		cr .r ." false" !
+		r>
+	then
+	
+	; 
+
+256 roll-allocator rolly
+
+: rolltest
+  128 rolly ;

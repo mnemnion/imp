@@ -40,6 +40,8 @@
 
 \ It's just faster and cleaner, and these buffers are for short-term use by definition.
 
+\ an actual problem: it allocates an extra two cells at the end which are unreachable. I want to fix that.
+
  : (rollocate)  \ ( adr req -> )
  	cr .cy ." rollocation  " 
  	over 2@
@@ -63,7 +65,9 @@
 
  : (over-limit?)
  		swap 
- 		dup cell mod cell swap - + \ pad out to cell width 
+ 		dup cell mod 0 <> if
+ 		 		dup cell mod cell swap - + \ pad out to cell width 
+ 		then
  		swap     
  		dup           \ ( req adr adr )
  		2@            \ ( req adr offset limit  )

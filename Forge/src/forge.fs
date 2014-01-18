@@ -18,6 +18,8 @@ variable eval-pad 128 allot
 	
 anew wipeout
 
+: .. clearstack ;
+
 include testrig.fs
 
 \ this dumps us to the command line when we fail.

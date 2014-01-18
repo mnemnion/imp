@@ -1,57 +1,81 @@
-\ require core.fs
+( Rolling Allocator
 
-\ ( A Simple Rolling Allocator )
+	Create: 2 cells, one for limit one for offset, plus N cells memory:
 
-\ Assigned a block of memory at birth, defined 
-\ in *cells*
+	\ { n-cells -> !limit !offset := roller }
+	 
+	limit and offset are in bytes. The allocator keeps allocations cell-aligned.
 
-\ When called, taking one cell as argument, it
-\ allocates memory into that block, until
-\ it encounters a block that it can't fit.
-\ returns the address and offset. 
+	Does: \ { request -> < offset | 0 > flag }
 
-\ it then *silently* restarts the assignment
-\ at the zero place of the block. 
+	request is in bytes.
 
-\ returns -1 in the event that the allocation can't fit;
-\ naively, this will fuck up memory access and lose data,
-\ but will not overwrite anything. 
+	Behavior: There are three conditions.
 
-\ designed for string pads, to provide some small amount of persistence. 
+	If the request exceeds the limit, we exit in failure. 
 
-\ Gen 1: will just fuck up if you try to pass it something larger than it can hold.
+	If the request plus the offset is less than the limit we must:
 
-: roll-allocator \ ( C: cell-offset -> nil := roll-alloc! )
-	\ "creates a rolling allocator."
- 	create dup cells , cells allot 
-	does>
-	dup 2@                  \ ( request.num self offset limit -- )
-	rot >r
-	rot 			        \ ( offset limit request -|- self   )
-	2dup > if  \ buffer can hold request
-		cr .cy ." true" .!
-		dup 			
-		rot swap             \ ( offset request limit request -- self )
-		>r rot rot
-		cr .g .s .! 
-		+ 2dup > if       \ buffer can allocate without reset
-			cr .cy ." true!  " .s .!
-			r> r>
-		else
-			cr .r ." false!  " .s .!
-			r> r>
-		then
-		cr .g .s .!
-		\ 2 cells + +  \ 
-	 \ r> \ test
-	else 
-		cr .r ." false" !
-		r>
-	then
-	
-	; 
+		add the request to the limit -> new-offset.
 
-256 roll-allocator rolly
+		save the new offset into the roller. 
 
-: rolltest
-  128 rolly ;
+		add the *old* offset to the address.
+
+		return this, and the flag 1.
+
+	IF the request plus the offset is greater than the limit we must:
+
+		reset the offset to *2 cells* and store it.
+
+		add 2 cells to the address 
+
+		return this, and the flag 1.
+
+ )
+
+ : over-limit? 0 ;
+
+ : rollocate  \ ( adr req -> )
+ 	cr .cy ." rollocation  " 
+ 	over 2@
+ 	rot rot over +
+ 	rot < if 
+ 		cr .y ." room in buffer"
+ 		cr .s
+ 		over 2@ drop \ ( adr req limit -- )
+ 		dup >r + 
+ 		over !
+ 		r> + 1
+ 	else 
+ 		cr .b ." no room in buffer"
+ 		cr .s 
+ 	then
+ 	cr .w .s
+ ;
+
+ : roll-allot 
+
+ 	create 
+ 		cells ,       \ limit in bytes
+ 		2000 ,		  \ allocated near rolly limit: test
+ 	does>
+ 		swap 
+ 		dup cell mod cell swap - +
+ 		swap     \ pad out to cell width 
+ 		dup           \ ( req adr adr )
+ 		2@            \ ( req adr offset limit  )
+ 		cr .g ." offset limit: " .s
+ 		nip rot tuck  \ ( adr req limit req)
+ 		< if
+ 			cr .r ." over limit!" 
+ 			2drop 0 0 
+ 			cr .r .s
+ 		else           \ adr req
+ 			rollocate
+ 		then
+ 		.!
+ 	;
+
+256 roll-allot rolly
+

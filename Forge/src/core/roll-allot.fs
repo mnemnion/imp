@@ -34,6 +34,12 @@
 
  )
 
+\ note: in the case that we request an even number of cells, an extra cell is allocated.
+
+\ as no effort is made to clear the buffer between resets, this is not a reliable pad.
+
+\ It's just faster and cleaner, and these buffers are for short-term use by definition.
+
  : (rollocate)  \ ( adr req -> )
  	cr .cy ." rollocation  " 
  	over 2@
@@ -57,8 +63,8 @@
 
  : (over-limit?)
  		swap 
- 		dup cell mod cell swap - +
- 		swap     \ pad out to cell width 
+ 		dup cell mod cell swap - + \ pad out to cell width 
+ 		swap     
  		dup           \ ( req adr adr )
  		2@            \ ( req adr offset limit  )
  		cr .g ." offset limit: " .s
@@ -68,10 +74,12 @@
 
  : roll-allocator 
 
- 	create 
- 		cells ,       \ limit in bytes
- 		2000 ,		  \ allocated near rolly limit: test
- 	does>
+ 	create ( limit-cells -> ,!limit-bytes ,!offset ,buffer := roller )
+ 		dup  
+ 		cells ,       			\ limit in bytes
+ 		2 cells ,		  		\ allocated near rolly limit: test
+ 		cells allot             \ room for our buffer
+ 	does>  ( request -> < offset flag | 0 false > )
 		(over-limit?) if
  			cr .r ." over limit!" 
  			2drop 0 0 
@@ -82,5 +90,5 @@
  		.!
  	;
 
-256 roll-allocator rolly
+128 roll-allocator rolly
 

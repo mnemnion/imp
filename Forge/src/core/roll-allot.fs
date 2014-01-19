@@ -34,6 +34,8 @@
 
  )
 
+require ~+/ansi/core.fs
+
 
  : (rollocate)  \ ( adr req -> )
  	cr .cy ." rollocation  " 

@@ -1,10 +1,13 @@
 ( # String Library )
 
+require roll-allot.fs
+
 ( We define a string, unusually, as an area of memory, fronted with a count. )
 
 ( Being Forth, strings have to live somewhere, typically inside a subject.   )
 
-variable ""pad 255 cells allot \ 4k pad
+256 cells roll-allocator roll-pad
+
 
 : "@  \ ( str -> buf off )
 	\ "takes a string, returning a (byte) counted offset buffer"
@@ -43,8 +46,15 @@ variable ""pad 255 cells allot \ 4k pad
 	"@ type 
 	;
 
-: "pad! "!
-	 ;    \ add a proper rolling allocator
+
+: "pad ( buf off -> str ) 
+	\ "stores a counted offset into the roll pad"
+	dup cell + roll-pad if
+		dup >r "! r>	
+	else
+		cr .r ." string exceeds pad" .!
+	then
+	;   \ add a proper rolling allocator
 
 : string \ creates a named string.
 	create \ ( str -> ,str := 'str' )
@@ -55,6 +65,8 @@ variable ""pad 255 cells allot \ 4k pad
 	;
 
 \ `` -- state-smart word.
+
+( 
 
 :noname 34 parse ""pad "pad! ""pad
     ;     
@@ -68,6 +80,6 @@ variable ""pad 255 cells allot \ 4k pad
 : ->" \ convert one cell to a counted string
 	0 <# #s #> ""pad "pad! ""pad ;
 
-
+ )
 
 

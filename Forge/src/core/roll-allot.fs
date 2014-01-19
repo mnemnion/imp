@@ -71,12 +71,12 @@
  ;
 
  : roll-allocator 
-
  	create ( limit-cells -> ,!limit-bytes ,!offset ,buffer := roller )
  		dup  
- 		cells 2 cells + ,       			\ limit in bytes
- 		2 cells ,		  		\ allocated near rolly limit: test
+ 		cells 2 cells + ,       \ limit in bytes
+ 		2 cells ,		  		\ protect header
  		cells allot             \ room for our buffer
+ 	
  	does>  ( request -> < offset flag | 0 false > )
 		(over-limit?) if
  			cr .r ." over limit!" 

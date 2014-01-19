@@ -43,21 +43,28 @@ variable ""pad 255 cells allot \ 4k pad
 	"@ type 
 	;
 
-: ("pad!) "! ;    \ add a proper rolling allocator
+: "pad! "!
+	 ;    \ add a proper rolling allocator
+
+: string
+	create
+	"@ dup allot here "!
+	does>
+	;
 
 \ `` -- state-smart word.
 
-:noname 34 parse ""pad ("pad!) ""pad
+:noname 34 parse ""pad "pad! ""pad
     ;     
 :noname
   34 parse 
   POSTPONE SLiteral 
   POSTPONE ""pad 
-  POSTPONE ("pad!) 
+  POSTPONE "pad! 
   POSTPONE ""pad ;    interpret/compile: ``
 
 : ->" \ convert one cell to a counted string
-	0 <# #s #> ""pad ("pad!) ""pad ;
+	0 <# #s #> ""pad "pad! ""pad ;
 
 
 

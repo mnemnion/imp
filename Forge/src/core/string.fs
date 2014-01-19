@@ -46,9 +46,11 @@ variable ""pad 255 cells allot \ 4k pad
 : "pad! "!
 	 ;    \ add a proper rolling allocator
 
-: string
-	create
-	"@ dup allot here "!
+: string \ creates a named string.
+	create \ ( str -> ,str := 'str' )
+	here >r
+	"@ dup 2 cells + allot
+	r> "!
 	does>
 	;
 

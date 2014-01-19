@@ -71,7 +71,7 @@
  ;
 
  : roll-allocator 
- 	create ( limit-cells -> ,!limit-bytes ,!offset ,buffer := roller )
+ 	create ( limit-cells -> ,!limit-bytes ,!offset ,buffer := 'roller' )
  		dup  
  		cells 2 cells + ,       \ limit in bytes
  		2 cells ,		  		\ protect header

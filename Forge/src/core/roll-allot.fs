@@ -34,13 +34,6 @@
 
  )
 
-\ note: in the case that we request an even number of cells, an extra cell is allocated.
-
-\ as no effort is made to clear the buffer between resets, this is not a reliable pad.
-
-\ It's just faster and cleaner, and these buffers are for short-term use by definition.
-
-\ an actual problem: it allocates an extra two cells at the end which are unreachable. I want to fix that.
 
  : (rollocate)  \ ( adr req -> )
  	cr .cy ." rollocation  " 
@@ -56,6 +49,7 @@
  	else 
  		cr .b ." no room in buffer"
  		cr .s 
+ 		2 cells +
  		over cell + !
  		2 cells +
  		2
@@ -80,7 +74,7 @@
 
  	create ( limit-cells -> ,!limit-bytes ,!offset ,buffer := roller )
  		dup  
- 		cells ,       			\ limit in bytes
+ 		cells 2 cells + ,       			\ limit in bytes
  		2 cells ,		  		\ allocated near rolly limit: test
  		cells allot             \ room for our buffer
  	does>  ( request -> < offset flag | 0 false > )

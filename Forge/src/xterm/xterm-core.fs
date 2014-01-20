@@ -17,14 +17,22 @@ require ~+/core/core.fs
 variable "esc cell allot
 1 "esc ! 27 "esc cell+ ! 
 
-variable xterm-var 3 cells allot
 
-: xterm-fg
+
+: xterm-fg ( byte -> str )
+	\ "pads a string that changes the foreground color"
+	\ "to byte"
 	"esc ;" [38;5;" "cat
 	swap #->`  "cat 
-    \ ;" m" "cat
+    ;" m" "cat
 	;
 
+: xterm-bg ( byte -> str )
+	\ "pads a string that changes the background color"
+	"esc ;" [48;5;" "cat
+	swap #->`  "cat 
+    ;" m" "cat
+	;
 
 	decimal
 

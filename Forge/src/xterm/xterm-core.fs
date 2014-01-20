@@ -14,14 +14,15 @@ require ~+/core/core.fs
 \  takes a byte, composes the appropriate xterm-color background command. 
 
 
-s\" \e" "pad string "esc
+variable "esc cell allot
+1 "esc ! 27 "esc cell+ ! 
 
 variable xterm-var 3 cells allot
 
 : xterm-fg
-	"esc `@ xterm-var 
-	dup >r `! r> dup
-    `@ ;" [38;5;155m" \ "!+
+	"esc ;" [38;5;" "cat
+	swap #->`  "cat 
+    \ ;" m" "cat
 	;
 
 

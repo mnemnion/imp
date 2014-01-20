@@ -78,7 +78,7 @@ require roll-allot.fs
 
 : "cat ( a.str b.str -> a+b.str )
 	\ "concatenates two strings into the cat pad"
-	swap 2dup @ swap @ + cat-pad if
+	swap 2dup @ swap @ cell + + cat-pad if
 		dup >r swap `@ rot `! r@       \ store foo
 		swap `++ r>       
 	else

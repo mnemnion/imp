@@ -6,8 +6,8 @@ require roll-allot.fs
 
 ( Being Forth, strings have to live somewhere, typically inside a subject.   )
 
-256 cells roll-allocator roll-pad
-512 cells roll-allocator cat-pad 
+2 KiB roll-allocator roll-pad
+4 KiB roll-allocator cat-pad 
 
 :  `@  \ ( str -> buf off )
 \ "takes a string, returning a (byte) counted offset buffer"
@@ -24,13 +24,10 @@ require roll-allot.fs
 : `++ 	\ ( a.str b.str -> nil -- str! )
 	\ "concatenates b.str to the end of a.str"
 	\ to do this we must:
-	\ cache the b.str 
 	\ add the a offset to the a buffer
 	\ save the a+b offset to the a count
-	\ use the a+ buffer offset to store the contents of 
-	\ the b.buf 
-	\ get a beer
-
+	\ use the a+ buffer offset to store the b.buf
+	\ 
 	over             				\ ( a b a   --   )
 	`@ +             				\ ( a b a+  --   )
 	-rot 	         				\ ( a+ a b  --   )
@@ -39,11 +36,12 @@ require roll-allot.fs
 	rot  ! 					\ ( a+ b    --   ) 
  	`@ rot swap                     \ ( b.off b.count a+ -- )
  	cmove   
-
-	cr .cy .s .!
+\ 	cr .cy .s .!
 	;
 
-: `c+  \ char str -> nil -- char! )
+
+\ the following is dubious.
+: `c+  \ char buf off -> nil -- char! )
 	\ "appends a single char to the end of string"
 	dup >R 
 	dup @ +
@@ -53,7 +51,7 @@ require roll-allot.fs
 	;
 
 
-: `,  \ allocate a string into the dictionary, returning address
+: str,  \ allocate a string into the dictionary, returning address
 	here >r
 	`@ dup cell + allot
 	r> `! align
@@ -87,7 +85,7 @@ require roll-allot.fs
 
 : string \ creates a named string.
 	create \ ( str -> ,str := 'str' )
-	`,
+	str,
 	does>
 	;
 

@@ -1,4 +1,4 @@
-include ~+/ansi/core.fs
+require ~+/ansi/ansi.fs
 ( Rollhex 
 	a simple closure. 
 )

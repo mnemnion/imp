@@ -1,2 +1,2 @@
-include core.fs
+include ansi-core.fs
 include boxes.fs

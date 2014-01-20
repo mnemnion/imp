@@ -52,12 +52,11 @@ require roll-allot.fs
 	1 r> +!
 	;
 
-\ : ahuh [ 34 parse until" ] ;
 
 : `,  \ allocate a string into the dictionary, returning address
 	here >r
-	`@ dup 2 cells + allot
-	r> `!
+	`@ dup cell + allot
+	r> `! align
 	;
 
 : .`   \ like type

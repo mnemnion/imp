@@ -4,20 +4,18 @@ require ~+/core/core.fs
 
 ( ## Control code words )
 
-\ @"ansi 	\ ( byte -> c-str)
+\  ansi-color 	\ ( byte -> str)
 \  takes a byte, composes the appropriate single ANSI command (fg, bg etc.)
 
-\ @"xterm-fg 	\ ( byte -> c-str)
+\  xterm-fg 	\ ( byte -> str)
 \  takes a byte, composes the appropriate xterm-color foreground command. 
 
-\ @"xterm-bg 	\ ( byte -> c-str)
+\  xterm-bg 	\ ( byte -> str)
 \  takes a byte, composes the appropriate xterm-color background command. 
 
 
-variable "esc cell allot
+variable "esc cell allot \ lovingly hand-constructed non-printable string.
 1 "esc ! 27 "esc cell+ ! 
-
-
 
 : xterm-fg ( byte -> str )
 	\ "pads a string that changes the foreground color"
@@ -33,6 +31,15 @@ variable "esc cell allot
 	swap #->`  "cat 
     ;" m" "cat
 	;
+
+: ansi-color ( byte -> str )
+	\ "pads a string that changes the background color"
+	"esc ;" [" "cat
+	swap #->`  "cat 
+    ;" m" "cat
+	;
+
+
 
 	decimal
 
@@ -62,9 +69,9 @@ variable "esc cell allot
 	: .di .! .^ ." 2m"   ;
 	: .un .! .^ ." 4m"   ;
 	: .in .! .^ ." 7m"   ;
-: .bu .! .^ ." 1;4m" ;
-: .ib .! .^ ." 1;7m" ; 
-: .fu .! .^ ." 5;7m" ;
+	: .bu .! .^ ." 1;4m" ;
+	: .ib .! .^ ." 1;7m" ; 
+	: .fu .! .^ ." 5;7m" ;
 
 \ color strings
 

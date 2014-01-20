@@ -13,18 +13,16 @@ require ~+/core/core.fs
 \ @"xterm-bg 	\ ( byte -> c-str)
 \  takes a byte, composes the appropriate xterm-color background command. 
 
-defer whatthehell
 
-:noname 
-	create 
-		0 , 0 , 0 ,
-	does>
-		dup s\" \e[38;5;" rot "!
-		dup >r swap 
-		0 <# #s #> r>  "!+
-	    dup [char] m swap "c+
-  	    dup "@ `` [38;5;26m" "!+
-		; is whatthehell
+s\" \e" "pad string "esc
+
+variable xterm-var 3 cells allot
+
+: xterm-fg
+	"esc "@ xterm-var 
+	dup >r "! r> dup
+    "@ ;" [38;5;155m" \ "!+
+	;
 
 
 	decimal

@@ -4,7 +4,7 @@ require core/core.fs
 require ansi/ansi.fs
 require util/util.fs
 require viz/viz.fs
-\ require xterm/xterm.fs
+require xterm/xterm.fs
 
 \ inner loop
 variable eval-pad 128 allot 

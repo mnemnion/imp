@@ -37,29 +37,37 @@
 require ~+/ansi/core.fs
 
 
- : (rollocate)  \ ( adr req -> )
- 	cr .cy ." rollocation  " 
+: (rollocate)  \ ( adr req -> )
+\ 	cr .cy ." rollocation  " 
  	over 2@
  	rot rot over +
  	rot < if 
- 		cr .y ." room in buffer"
- 		cr .s
+\ 		cr .y ." room in buffer"
+\ 		cr .s
  		over 2@ drop \ ( adr req limit -- )
  		dup >r + 
  		over cell + !
- 		r> + 1
+ 		r> + 
+ 		1
  	else 
- 		cr .b ." no room in buffer"
- 		cr .s 
+\ 		cr .b ." no room in buffer"
+\ 		cr .s 
  		2 cells +
  		over cell + !
  		2 cells +
  		2
  	then
- 	cr .w .s
+\ 	cr .w .s
  ;
 
- : (over-limit?)
+: (over-limit?)
+	\ "checks if the allocation request is larger than the buffer size,"
+	\ "sets cell alignment."
+	\ 
+	\ tradeoff -- we do an extra calculation to see if we need to pad. 
+ 	\ this saves the occasional byte at the expense of speed. 
+ 	\ depending on the allocator, this may be the wrong tradeoff.
+ 	\ 
  		swap 
  		dup cell mod 0 <> if
  		 		dup cell mod cell swap - + \ pad out to cell width 
@@ -67,12 +75,12 @@ require ~+/ansi/core.fs
  		swap     
  		dup           \ ( req adr adr )
  		2@            \ ( req adr offset limit  )
- 		cr .g ." offset limit: " .s
+\ 		cr .g ." offset limit: " .s
  		nip rot tuck  \ ( adr req limit req)
  		<
  ;
 
- : roll-allocator 
+: roll-allocator 
  	create ( limit-cells -> ,!limit-bytes ,!offset ,buffer := 'roller' )
  		dup  
  		cells 2 cells + ,       \ limit in bytes
@@ -81,13 +89,13 @@ require ~+/ansi/core.fs
  	
  	does>  ( request -> < offset flag | 0 false > )
 		(over-limit?) if
- 			cr .r ." over limit!" 
+\ 			cr .r ." over limit!" 
  			2drop 0 0 
- 			cr .r .s
+\ 			cr .r .s
  		else           \ adr req
  			(rollocate)
  		then
- 		.!
+\ 		.!
  	;
 
 128 roll-allocator rolly

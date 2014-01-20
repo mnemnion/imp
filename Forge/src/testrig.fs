@@ -39,4 +39,9 @@ tframe .frame  tframe .clearframe
 
 .#hex 16 print-n cr .#hex drop 16 n-printables .bo . .! 
 
-.s clearstack
+variable foo 100 cells allot
+
+;" String Bar" string bar
+;" String Foo " "@ foo "!
+
+.s ..

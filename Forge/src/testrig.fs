@@ -42,6 +42,6 @@ tframe .frame  tframe .clearframe
 variable foo 100 cells allot
 
 ;" String Bar" string bar
-;" String Foo " "@ foo "!
+;" String Foo " `@ foo `!
 
 .s ..

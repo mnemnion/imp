@@ -19,9 +19,9 @@ s\" \e" "pad string "esc
 variable xterm-var 3 cells allot
 
 : xterm-fg
-	"esc "@ xterm-var 
-	dup >r "! r> dup
-    "@ ;" [38;5;155m" \ "!+
+	"esc `@ xterm-var 
+	dup >r `! r> dup
+    `@ ;" [38;5;155m" \ "!+
 	;
 
 

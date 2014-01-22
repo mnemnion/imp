@@ -68,32 +68,73 @@ set-current previous
 	\ 'macro'
 	key byte>cha if else recurse then ;
 
-: heer 
-	\ "get a word from input.""
-	key byte>cha if 
-	    key byte>cha if else 
-			half-heer
-		then
-	else recurse then ;
-
 : unspaz
 	\ "advance past spacemarks"
 	\ 'macro' ( 'grunt' ) ?
 	over 				\ ( a b a --       )
 	32 = if         \ first byte was a space
-		cr ." space"
+\ 		cr ." space"
 		nip         \ drop it
 		half-heer	\ get another 
 		recurse	    \ grok
 	else then
 	;
 
+: heer 
+	\ "get a word from input.""
+	key byte>cha if 
+	    key byte>cha if else 
+			half-heer
+		then
+	else recurse then  ;
+
+: numba? \ ( cha -> flag )
+	\ " is the cha a numba?"
+	dup 97 103 within >r \ a-f
+	    48 58  within r> \ 0-9
+	\ cr .cy .s .!
+	or
+	;
+
+: numba-ta-byte \ ( numba -> byte )
+	\ "change one numba to a byte"
+	dup 97 103 within if \ convert alphas
+		87 - 
+	else
+		48 -
+	then ;
+
+: numba-one \ ( numba cha -> < byte true > | < 0 false > )
+	\ "pushes one numba onto the stack, if"
+	\ "the top byte is also a numba"
+
+	dup 32 = 
+	if 
+		drop numba-ta-byte
+	else dup numba? if 
+			cr .y ." good numba!"
+			numba-ta-byte
+			swap
+			numba-ta-byte
+			16 * +
+		else
+			cr .r ." bad numba >.<"
+		then
+	then
+
+	;
 
 
 : grok \ "comprehend a werd"
 	heer unspaz
-	cr .cy .s .!
-	cr swap emit emit ;
+	over numba? if
+		cr .y ." numba!"
+	else
+		cr .g ." letta!"
+	then
+\ 	cr .cy .s .!
+ 	cr .! swap emit emit 
+	;
 
 
 

@@ -107,9 +107,7 @@ set-current previous
 : numba-one \ ( numba cha -> < byte true > | < 0 false > )
 	\ "pushes one numba onto the stack, if"
 	\ "the top byte is also a numba"
-
-	dup 32 = 
-	if 
+	dup 32 = if 
 		drop numba-ta-byte
 	else dup numba? if 
 			cr .y ." good numba!"
@@ -119,24 +117,45 @@ set-current previous
 			16 * +
 		else
 			cr .r ." bad numba >.<"
+			2drop     \ Orcs ignore bullshit of all sorts
 		then
 	then
 
 	;
 
-
-: grok \ "comprehend a werd"
-	heer unspaz
-	over numba? if
-		cr .y ." numba!"
+: numbaz 
+	\ "tries to make up to once cell from up to 4 chaz"
+	numba-one
+	half-heer
+	dup 32 = if
+		drop
 	else
-		cr .g ." letta!"
+		half-heer
+		over numba? if 
+			numba-one
+			swap 256 * +
+		else
+			cr .r ." bad numba >.<"
+			2drop
+		then
 	then
-\ 	cr .cy .s .!
- 	cr .! swap emit emit 
 	;
 
 
+
+: grk \ "comprehend a werd"
+	
+	over numba? if
+		numbaz
+	else
+		cr .g ." letta!"
+	then
+ 	cr .cy .s .!
+
+	;
+
+: grok 
+	heer unspaz grk .! ;
 
 
 

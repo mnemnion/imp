@@ -1,6 +1,7 @@
 \ test includes
 
-\ include ~+/core/lambda.fs
+include ~+/test/vocab.fs
+include ~+/simulorc/tawka.fs
 
 \ end includes
 

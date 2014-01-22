@@ -21,6 +21,8 @@ anew wipeout
 
 include testrig.fs
 
+:noname cr ." Welcome to the Machine" ; is bootmessage
+
 \ this dumps us to the command line when we fail.
 \ eventually, we want this; innerloop takes over 
 \ everything it can handle. 

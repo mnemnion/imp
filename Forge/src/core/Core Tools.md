@@ -12,11 +12,11 @@ I intend to use this pattern and variants of it quite heavily.
 
 The simplest rolling allocator takes a request for memory and returns it if possible. Two succesful exits and one error: the allocator either returns a block of memory, or resets and returns a block of memory. It will fail rather than corrupt memory in the event that a word makes an improper request for more memory than the allocator contains.
 
-Allocators handle memory on cell boundaries, because our strings (later) require cell alignment. 
-
 Currently this is considered a user error, more sophisticated allocator systems may rely on this behavior to select a pad with sufficient room for the operation.
 
-We can create interesting variations on this: generational allocators, which keep track of how many times they have reset: lock allocators, which may be set to 'full' by a particular handler and freed only by that handler; this is all static memory, remember, so free just means the allocator can accept transcients again.
+Allocators handle memory on cell boundaries, because our strings (later) require cell alignment. 
+
+We can create interesting variations on this: generational allocators, which keep track of how many times they have reset: lock allocators, which may be set to 'full' by a particular handler and freed only by that handler; this is all static memory, remember, so free just means the allocator can accept transients again.
 
 Also, functional allocators, which save their allocation block to disk any time they roll over, tracking the generation accordingly. Our operating systems maintain an in-memory disk cache, so this is a fine way to push data around, get it back, and never ever lose it. 
 

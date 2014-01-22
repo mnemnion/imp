@@ -77,8 +77,7 @@ set-current previous
 		nip         \ drop it
 		half-heer	\ get another 
 		recurse	    \ grok
-	else then
-	;
+	else then ;
 
 : heer 
 	\ "get a word from input.""
@@ -86,15 +85,14 @@ set-current previous
 	    key byte>cha if else 
 			half-heer
 		then
-	else recurse then  ;
+	else recurse then ;
 
 : numba? \ ( cha -> flag )
 	\ " is the cha a numba?"
 	dup 97 103 within >r \ a-f
 	    48 58  within r> \ 0-9
 	\ cr .cy .s .!
-	or
-	;
+	or ;
 
 : numba-ta-byte \ ( numba -> byte )
 	\ "change one numba to a byte"
@@ -119,9 +117,7 @@ set-current previous
 			cr .r ." bad numba >.<"
 			2drop     \ Orcs ignore bullshit of all sorts
 		then
-	then
-
-	;
+	then ;
 
 : numbaz 
 	\ "tries to make up to once cell from up to 4 chaz"
@@ -141,6 +137,12 @@ set-current previous
 	then
 	;
 
+: lettaz \ "parse words"
+	dup 32 = if \ liva word
+		cr .cy ." liva!"
+	else
+		cr .m ." bakpak!"
+	then ;
 
 
 : grk \ "comprehend a werd"
@@ -149,6 +151,7 @@ set-current previous
 		numbaz
 	else
 		cr .g ." letta!"
+		lettaz
 	then
  	cr .cy .s .!
 

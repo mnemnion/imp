@@ -59,8 +59,17 @@ set-current previous
 
 )
 
+: hexabyte \ hexes a byte
+	dup 10 < if
+		48 +
+	else
+		87 +
+	then 
+	;
+
+
 hex
-: (sez) \ "print up to 4 bytes, high cell first"
+: ~(sez) \ "print up to 4 bytes, high cell first"
 
 	dup c rshift dup 0 <> if
 		cr .y ." four bytes"
@@ -83,6 +92,26 @@ hex
 		dup
 		cr .w ." one byte"
 		cr .
+	;
+
+: (sez) \ "print up to 4 bytes, high cell first"
+
+	dup c rshift dup 0 <> if
+		 hexabyte emit
+	else
+		drop
+	then dup 8 rshift 0f and
+	dup 0 <> if
+		hexabyte emit
+	else
+		drop
+	then dup 4 rshift 0f and
+	dup 0 <> if
+		hexabyte emit
+	else 
+		drop
+	then dup 00f and
+		hexabyte emit
 	;
 decimal
 
@@ -182,7 +211,6 @@ decimal
 			then
 		then
 	then 
-	dup 0 <# #s #> ." \ " type bl emit ." \ " \ this is cheating
 	;
  
 variable (liver) 126 cells allot
@@ -222,6 +250,7 @@ variable (liver) 126 cells allot
 	
 	over numba? if
 		numbaz
+		sez
 	else
 		cr .g ." letta!"
 		lettaz

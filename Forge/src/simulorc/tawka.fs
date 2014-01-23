@@ -50,7 +50,7 @@ set-current previous
 	first byte accordingly.
 
 	If the second byte is not a space, we swap and test the first byte for numba status. If it's a numba, we try to make both bytes into
-	a numba and immediately try to pull another key if successful. If we keep getting numbas, we make numbas, 16 bits at a time, and push
+	a numba and immediately try to pull another key if successful. If we keep getting numbas, we make numbas, a cell at a time, and push
 	to stack. If we get a space, we succeed: if we get a letta, we fucked up. Scrub everything and glare silently. 
 
 	If the first byte received is a letta, we look it up in the bakpak, because it might itself consume keys. If we find it, we echo 
@@ -120,13 +120,12 @@ set-current previous
 	then ;
 
 : numbaz 
-	\ "tries to make up to once cell from up to 4 chaz"
+	\ "tries to make up to one cell from up to 4 chaz"
 	numba-one if
 		dup 32 = if \ 1 sig fig
 			drop
 		else
 			half-heer
-	\ 		cr .g .s
 			dup 32 = if \ 2 sig fig
 				drop
 			else
@@ -142,11 +141,12 @@ set-current previous
 					then
 				else
 					cr .r ." bad numba2 >.<"
-				 	2drop
+				 	2drop 
 				then
 			then
 		then
-	then
+	then 
+	dup 0 <# #s #> ." \ " type bl emit ." \ " \ this is cheating
 	;
  
 variable (liver) 126 cells allot
@@ -156,7 +156,7 @@ variable (liver) 126 cells allot
 \ because it's byte-addressable
 
 : nope-nope-nope
-	cr .di .w ." nope" .! ;
+	cr .m ." nope" .! ;
 
 :noname (liver) 127 0 do
 		dup i cells + 
@@ -164,9 +164,9 @@ variable (liver) 126 cells allot
 
 : liva \ ( letta -> `effect` )
 	\ "process a liva word"
-	dup
+	dup >r
 		(liver) swap cells + perform
-		\ report success
+		r> ." \ " 0 <# #s #> type bl emit ." \ " 
 	;
 
 : bakpak \ "process a bakpak word" 
@@ -175,7 +175,7 @@ variable (liver) 126 cells allot
 : lettaz \ "parse words"
 	dup 32 = if \ liva word
 		cr .cy ." liva!"
-		liva
+		drop liva
 	else
 		cr .m ." bakpak!"
 		bakpak

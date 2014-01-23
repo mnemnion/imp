@@ -106,33 +106,45 @@ set-current previous
 	\ "pushes one numba onto the stack, if"
 	\ "the top byte is also a numba"
 	dup 32 = if 
-		drop numba-ta-byte
+		swap numba-ta-byte swap true
 	else dup numba? if 
-			cr .y ." good numba!"
+\ 			cr .y ." good numba!"
 			numba-ta-byte
 			swap
 			numba-ta-byte
-			16 * +
+			16 * + true
 		else
 			cr .r ." bad numba >.<"
-			2drop     \ Orcs ignore bullshit of all sorts
+			2drop false    \ Orcs ignore bullshit of all sorts
 		then
 	then ;
 
 : numbaz 
 	\ "tries to make up to once cell from up to 4 chaz"
-	numba-one
-	half-heer
-	dup 32 = if
-		drop
-	else
-		half-heer
-		over numba? if 
-			numba-one
-			swap 256 * +
+	numba-one if
+		dup 32 = if \ 1 sig fig
+			drop
 		else
-			cr .r ." bad numba >.<"
-			2drop
+			half-heer
+	\ 		cr .g .s
+			dup 32 = if \ 2 sig fig
+				drop
+			else
+				half-heer
+				over numba? if 
+					numba-one if
+						dup 32 = if \ 3 sig fig
+							drop 
+							swap 16 * +
+						else            \ 4 sig fig
+							swap 256 * +
+						then
+					then
+				else
+					cr .r ." bad numba2 >.<"
+				 	2drop
+				then
+			then
 		then
 	then
 	;
@@ -185,13 +197,7 @@ variable (liver) 126 cells allot
 : grok 
 	heer unspaz grk .! ;
 
-: not-\
-	begin
-		key dup [char] \ 
-		= if
-			
-		else cr emit
-	then again ;
+
 
 
 

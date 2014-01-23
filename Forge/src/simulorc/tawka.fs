@@ -59,6 +59,42 @@ set-current previous
 
 )
 
+hex
+: (sez) \ "print up to 4 bytes, high cell first"
+
+	dup c rshift dup 0 <> if
+		cr .y ." four bytes"
+	    .s cr .
+	else
+		drop
+	then dup 8 rshift 0f and
+	dup 0 <> if
+		cr .cy ." three bytes"
+		cr .
+	else
+		drop
+	then dup 4 rshift 0f and
+	dup 0 <> if
+		cr .m ." two bytes"
+		cr  .
+	else 
+		drop
+	then dup 00f and
+		dup
+		cr .w ." one byte"
+		cr .
+	;
+decimal
+
+: sez 	\ ( cell -> cell "cell-ascii" ) 
+	\ "respond to correct input after execution"
+	[char] \ 
+	emit bl emit \ ignore on
+ 	(sez)
+	bl emit [char] \ 
+	emit bl emit \ ignore off
+	;
+
 : byte>cha \ ( byte -> < := cha true | false > -- := ?cha )
 	\ "filters out non-printable ascii"
 	\ 'grunt'

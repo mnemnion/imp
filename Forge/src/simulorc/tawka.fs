@@ -136,12 +136,37 @@ set-current previous
 		then
 	then
 	;
+ 
+variable (liver) 126 cells allot
+\ holds the execution tokens for the liva
+\ and some padding because we're simulating
+\ normally the liva table resides in the spleen
+\ because it's byte-addressable
+
+: nope-nope-nope
+	cr .di .w ." nope" .! ;
+
+:noname (liver) 127 0 do
+		dup i cells + 
+		['] nope-nope-nope swap ! loop ; execute  \ stuff the liver with no-ops
+
+: liva \ ( letta -> `effect` )
+	\ "process a liva word"
+	dup
+		(liver) swap cells + perform
+		\ report success
+	;
+
+: bakpak \ "process a bakpak word" 
+	;
 
 : lettaz \ "parse words"
 	dup 32 = if \ liva word
 		cr .cy ." liva!"
+		liva
 	else
 		cr .m ." bakpak!"
+		bakpak
 	then ;
 
 
@@ -160,7 +185,13 @@ set-current previous
 : grok 
 	heer unspaz grk .! ;
 
-
+: not-\
+	begin
+		key dup [char] \ 
+		= if
+			
+		else cr emit
+	then again ;
 
 
 

@@ -8,7 +8,7 @@ In principle, probably in practice, Fabri uses a different set of codewords. In 
 
 Fabri's handlers will retrieve the assertion token first and put it on the assert stack, caching the stack effect number underneath it. The assertion token jumps directly to the assert handler, which is triggered by special jump versions of `next` and `exit`. 
 
-This is how we handle annotation level: Fabri compiles fast-threaeded (aka ordinary) words for anything below the annotation threshold. You're supposed to push annotations down when you're confident of them. Fabri still uses the annotations when interpreting, to do inference. 
+This is how we handle annotation level: Fabri compiles fast-threaded (aka ordinary) words for anything below the annotation threshold. You're supposed to push annotations down when you're confident of them. Fabri still uses the annotations when interpreting, to do inference. 
 
 ##Inference
 
@@ -70,7 +70,11 @@ This is all very easy until you go using `+` on two different types. I'm deeply 
 
 Note the type system itself is just a set of assertion words. If you're implementing Urbit, you can make `true` a 0 value. Fabri will keep up. We'll have to do something kinda fancy to set up the fundamental relationships, but that's okay, it's the essence of Fabri's inferential abilities. 
 
-So if we define a literal type called `utf8`, an assertion word over `byte` values, adding a `byte` to a `utf8` will give a `utf8`. If we define an address called `@ut8` which contains a zero-terminated UTF-8 string, and we do `6 +` to the address, we still have a `@ut8` pointer, *and* Fabri knows that there's a `utf8` byte at that address, since it knows the 'struct' values. 
+Sometimes you might have to reassert within a word, to suppress a complaint. Best practice is to put all assertions into colon annotations.
+
+Say if we define a literal type called `utf8`, an assertion word over `byte` values, adding a `byte` to a `utf8` will give a `utf8`. If we define an address called `@ut8` which contains a zero-terminated UTF-8 string, and we do `6 +` to the address, we still have a `@ut8` pointer, *and* Fabri knows that there's a `utf8` byte at that address, since it knows the 'struct' values. 
+
+Since all addressable memory is handled through the stack, it takes some serious metaprogramming to break inference on addresses and address ranges: even anonymous words may be annotated as to type and effect.
 
 there are not structs, you may have noticed. You can do anything at all with an address, static, dynamic, doesn't matter. If you define a semi-traditional struct word, you can do so mostly in the Fabri code, simply using `here n cells allot` or `create does>` in the Forge code. This avoids the word pollution of the gforth-style struct: the type names are off in the corner. 
 

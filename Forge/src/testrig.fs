@@ -1,7 +1,7 @@
 \ test includes
 
 include ~+/test/vocab.fs
-include ~+/simulorc/tawka.fs
+include ~+/simulorc/simulorc.fs
 
 \ end includes
 

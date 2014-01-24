@@ -1,5 +1,7 @@
 \ Da Tawka
 
+require anatomy.fs
+
 ( # Da Tawka 
 
 this is how native orcs speak Orcish. 
@@ -67,34 +69,15 @@ set-current previous
 	then 
 	;
 
+: ignorance-tog \ toggles ignorance
+	bl emit
+	[char] \
+	emit bl emit ;
 
 hex
-: ~(sez) \ "print up to 4 bytes, high cell first"
 
-	dup c rshift dup 0 <> if
-		cr .y ." four bytes"
-	    .s cr .
-	else
-		drop
-	then dup 8 rshift 0f and
-	dup 0 <> if
-		cr .cy ." three bytes"
-		cr .
-	else
-		drop
-	then dup 4 rshift 0f and
-	dup 0 <> if
-		cr .m ." two bytes"
-		cr  .
-	else 
-		drop
-	then dup 00f and
-		dup
-		cr .w ." one byte"
-		cr .
-	;
-
-: (sez) \ "print up to 4 bytes, high cell first"
+: (sez) ( cell -> nil ) 
+	\ "print up to 4 bytes, high cell first"
 
 	dup c rshift dup 0 <> if
 		 hexabyte emit
@@ -110,18 +93,16 @@ hex
 		hexabyte emit
 	else 
 		drop
-	then dup 00f and
+	then 00f and
 		hexabyte emit
 	;
 decimal
 
 : sez 	\ ( cell -> cell "cell-ascii" ) 
 	\ "respond to correct input after execution"
-	[char] \ 
-	emit bl emit \ ignore on
- 	(sez)
-	bl emit [char] \ 
-	emit bl emit \ ignore off
+	ignorance-tog
+ 	dup (sez)
+	ignorance-tog
 	;
 
 : byte>cha \ ( byte -> < := cha true | false > -- := ?cha )
@@ -213,18 +194,7 @@ decimal
 	then 
 	;
  
-variable (liver) 126 cells allot
-\ holds the execution tokens for the liva
-\ and some padding because we're simulating
-\ normally the liva table resides in the spleen
-\ because it's byte-addressable
 
-: nope-nope-nope
-	cr .m ." nope" .! ;
-
-:noname (liver) 127 0 do
-		dup i cells + 
-		['] nope-nope-nope swap ! loop ; execute  \ stuff the liver with no-ops
 
 : liva \ ( letta -> `effect` )
 	\ "process a liva word"

@@ -27,7 +27,7 @@ As mentioned, they have a bag and a sak, with which they do their grunt work. Th
 
 Gutz are Flash, conceptually. Most of the pak is in the gutz. The pak is the only complex data structure in a true Orc. 
 
-Everything can of course go in the memz. Orcs went to Harvard, that's why they talk funny. 
+Everything can of course go in the memz, if that's all you got. Orcs went to Harvard, that's why they talk funny. 
 
 That's the core anatomy of Orcish life. Thankfully, they aren't born with limbs. The spit, though, that's a powerful organ. 
 
@@ -55,7 +55,7 @@ Look, existing architectures are brittle and that's stupid. Orcs are as hard as 
 
 As it is, the spleen is delicate and somewhat prone to failure. EEPROM can only be rewritten so many times, and a few values in the spleen, like the confusion byte, may change frequently. If possible, we'll set it up so that the bytes we might wear out can be manually relocated, by putting their location in the gutz. Gutz can be written to even less frequently than EEPROM, but we're talking about rewriting a single offset here, manually, in the event of spleen problemz.
 
-The largest organelle in the spleen is called the corkeban, and is the ASCII offset value table for core command words. It is fixed: the length of a core command must be recorded at the physical location of that command. 
+The largest organelle in the spleen is called the corkeban, and is the ASCII offset value table for core command words. It is fixed: the length of a core command must be recorded at the physical location of that command. It is part of the liva, which is part of the pak.
 
 So `*`, which means what you'd expect, has a certain length in asm words, including the bookends. At EEPROM location 2a, exactly, there will be a byte indicating how many words * takes up in the pak. This is probably up to 64 words long, giving us two bits to indicate things. I don't know what we'll use them for, yet. 
 
@@ -83,7 +83,7 @@ Lastly, there is the pad, which is reserved for an entropic one-time pad. This i
 
 ## Da Memz
 
-An Orc doesn't presume to have more than 512 bytes of Memz. The spleen knows the true number, for user convenience. There are 16 celz apiece for the sak and 32 for the bag, chewing up 96. There's also a 32 celz gab, where werdz land, and a 48 celz tnk, where thinks accumulate. Thinks are like werdz except they don't live in the gutz; an Orc accumulates a think until it gets a newline, then it does it. The gab and the tnk rotate, so you can accumulate a few short thinks and still do them. They reset to the halfway point: the sak overflows into the bottom of the gab, the bag into the bottom of the tnk. Sak underflows are checked for in the interrupt, while bag underflows should be impossible, and would end up in the top of the gab. 
+An Orc doesn't presume to have more than 512 bytes of Memz. The spleen knows the true number, for user convenience. There are 16 celz  for the sak and 32 for the bag, chewing up 96. There's also a 32 celz gab, where werdz land, and a 48 celz tnk, where thinks accumulate. Thinks are like werdz except they don't live in the gutz; an Orc accumulates a think until it gets a newline, then it does it. The gab and the tnk rotate, so you can accumulate a few short thinks and still do them. They reset to the halfway point: the sak overflows into the bottom of the gab, the bag into the bottom of the tnk. Sak underflows are checked for in the interrupt, while bag underflows should be impossible, and would end up in the top of the gab. 
 
 The uza gets 128 celz, and the first byte posts to the next available offset. Orcs can't keep track of names for varz, not for long, though they can keep a few in the derp. 
 

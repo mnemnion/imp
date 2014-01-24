@@ -41,13 +41,10 @@ require roll-allot.fs
 
 
 \ the following is dubious.
-: `c+  \ char buf off -> nil -- char! )
+: `c+  \ char str -> nil -- char! )
 	\ "appends a single char to the end of string"
-	dup >R 
-	dup @ +
-	cell +
-	c!
-	1 r> +!
+	tuck `@ + !   \ ( str -- !char )
+	`@ 1 + swap cell - !  \ ( nil -- !offset+1 )
 	;
 
 

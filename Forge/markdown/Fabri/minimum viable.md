@@ -24,7 +24,7 @@ The way the interpreter works is simple. It maintains a separate stack containin
 
 Fabri follows the same rule as Forth: it has no knowledge of anything that isn't in its dictionary, which is loaded in the same order as the Forth program. I see no use for a `defer` mechanism other than infinite regress and the need for a union algorithm. 
 
-Followed to its logical conclusion, Fabri has little interest in the Forth. It compiles the annotation for every word on load: it merely needs to `= if` the matching annotations. I'm prevaricating here; `=` has to do inference as to allowable types on the fly, otherwise `dup` will cast the TOS and NOS to `cell`.  
+Followed to its logical conclusion, Fabri has little interest in the Forth. It compiles the annotation for every word on load: it merely needs to `= if` the matching annotations. I'm prevaricating here; "`=`" has to do inference as to allowable types on the fly, otherwise `dup` will cast the TOS and NOS to `cell`.  
 
 Furthermore, there's no alternative to checking the stack on any sort of branch operation that could effect the stack outcome. There's no way to tell if a branch will effect the stack outcome without adding a layer of backtracking: the naive way of checking the actual return value of `if` and friends is likely to prove more flexible and less costly. This is an ideal point to come back to and add hooks for runtime optimization.
 

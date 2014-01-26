@@ -42,6 +42,6 @@ If you go in there directly with `@`, you've lost the type information. If you s
 
 When this matters, we provide a definite type to the pad in question. Fabri can look up anything that's in the dictionary, so it can know that area should always be `bongo`s and if you try to write a `binghi` it can both complain and redefine the word's annotation to include a `binghi`. If the pad is of type `mu`, then redefining it to hold a `bongo` is correct behavior and Fabri will simply do so. 
 
-Typing your pad spares an annotation; Fabri has no choice but to re-type a dictionary words data store if you add a typed field to it. 
+Typing your pad spares an annotation; Fabri has no choice but to re-type a dictionary words data store if you add a typed field to it. This is meant to also be hyperstatic, so correctness is not difficult, but devising pathological code that blows up the dictionary is quite achieveable.
 
 This will eventually matter if we're trying to write a dynamic system on top of Forth. Sticking to the global-hyperstatic paradigm, and choosing to type memory areas that function as transcient regions, is both good Forth and comparatively easy to support. 

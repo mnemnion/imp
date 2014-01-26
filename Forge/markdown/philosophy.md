@@ -82,17 +82,5 @@ You want what? Sorry, I can't hear you over the sound of my parsers crunching th
 
 What I mean to say is, there's almost certainly advantage to writing a very nice Lisp that is in essence a parser and a dictionary of words to go with it. S-expressions are almost as elegant as pure concatenation, and may certainly be implemented with reasonable efficiency using a stack machine.
 
-###Hardware
-
-Ultimately, we're making caving tools. We intend to start with well-documented caves, before moving into the goblin-infested depths. 
-
-In hardware, the ratio of documentation to code should be several lines to one. For something like a sensor, it's all documentation, in a sense: I need to know what numbers a thermometer, say, is producing, but the words to make use of that information will be specific to my hardware and application. 
-
-My first practical demo is going to be a NeoPixel library for the Arduino. There's FlashForth as an existing target, which should be broadly cross-compatible with our existing toolchain. This is all going to take awhile! 
-
-I also want to write a cross loader that uses a tiny Arduino, like a Trinket, to bridge across to another Arduino, so that the Trinket pretends to be a USB hub and the second chained device doesn't have to mess around. 
-
-Within a couple years I want to be able to do serious robotics by combining BeagleBones or Rasberrys or whatever with a realtime host, with QNX as the front runner. These will master drive conceivably dozens of computers, including ones (like the Parallela) which will prove larger than themselves. Others will be quite small. Orchestrating is the proper term here, a symphony of discrete computation. 
-
-Start small and build towards the problem. The problem is that doing hardware development requires an interactive feedback loop that we don't have a solid handle on. That starts with a language that understands small hardware, and knows that it's living in enormous hardware, dedicated to nothing but understanding and transforming code into software. 
+ feedback loop that we don't have a solid handle on. That starts with a language that understands small hardware, and knows that it's living in enormous hardware, dedicated to nothing but understanding and transforming code into software. 
 

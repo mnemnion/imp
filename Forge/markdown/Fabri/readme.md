@@ -14,8 +14,13 @@ It should be possible to compile an image, forget the Fabri code, and run the re
 
 ##Guide
 
-The Markdown to code ratio here is almost criminal.
+The Markdown to code ratio here is almost criminal. Anything not reachable from this page should be considered off-trunk on purpose.
 
 These files should be read in about the following order:
 
-[Typed Forth](typed forth.md)
+[Typed Forth](typed forth.md) the only virtue of this is that I wrote it first. 
+[Forward Inference](forward inference.md)
+[Syntax and Comments](syntax and comments.md)
+[Annotation Strings](annotation strings.md)
+[Interactive Back Word Inference](interactive back word inference.md)
+[Minimum Viable Fabri](minimum viable.md)

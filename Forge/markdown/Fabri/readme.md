@@ -18,9 +18,9 @@ The Markdown to code ratio here is almost criminal. Anything not reachable from 
 
 These files should be read in about the following order:
 
-[Typed Forth](typed forth.md) the only virtue of this is that I wrote it first. 
-[Forward Inference](forward inference.md)
-[Syntax and Comments](syntax and comments.md)
-[Annotation Strings](annotation strings.md)
-[Interactive Back Word Inference](interactive back word inference.md)
-[Minimum Viable Fabri](minimum viable.md)
+* [Typed Forth](typed forth.md) the only virtue of this is that I wrote it first. 
+* [Forward Inference](forward inference.md)
+* [Syntax and Comments](syntax and comments.md)
+* [Annotation Strings](annotation strings.md)
+* [Interactive Back Word Inference](interactive back word inference.md)
+* [Minimum Viable Fabri](minimum viable.md)

@@ -6,7 +6,9 @@ Machine: Machine
 
 (Inner) Interpreter: Virtual Machine
 
-Cell: Token
+Cell: Word
+
+Word: Token
 
 Dictionary: Environment
 

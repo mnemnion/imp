@@ -14,6 +14,10 @@ variable eval-pad 128 allot
 	eval-pad cols accept 
 	eval-pad swap evaluate 
 	recurse ; 
+
+\ this dumps us to the command line when we fail.
+\ eventually, we want this; innerloop takes over 
+\ everything it can handle. 
 	
 anew wipeout
 
@@ -23,8 +27,4 @@ include testrig.fs
 
 :noname cr ." Welcome to the Machine" ; is bootmessage
 
-\ this dumps us to the command line when we fail.
-\ eventually, we want this; innerloop takes over 
-\ everything it can handle. 
 
-\ ." Welcome to the Machine." cr innerloop

@@ -14,29 +14,31 @@ require ~+/core/core.fs
 \  takes a byte, composes the appropriate xterm-color background command. 
 
 
-variable "esc cell allot \ lovingly hand-constructed non-printable string.
-1 "esc ! 27 "esc cell+ ! 
+27 charpad str `esc  \ there we go
+
+`esc char [ charpad `cat str `^
+
+: .^ `^ .` ;
 
 : xterm-fg ( byte -> str )
 	\ "pads a string that changes the foreground color"
 	\ "to byte"
-	"esc ;" [38;5;" "cat
-	swap #->`  "cat 
-    ;" m" "cat
+	`^  ;" 38;5;" `cat 
+	swap #->`  `cat  
+    ;" m" `cat 
 	;
 
 : xterm-bg ( byte -> str )
 	\ "pads a string that changes the background color"
-	"esc ;" [48;5;" "cat
-	swap #->`  "cat 
-    ;" m" "cat
+	`^  ;" 48;5;" `cat 
+	swap #->`  `cat  
+    ;" m" `cat 
 	;
 
 : ansi-color ( byte -> str )
 	\ "pads a string that changes the background color"
-	"esc ;" [" "cat
-	swap #->`  "cat 
-    ;" m" "cat
+	`^ swap #->` `cat  
+    ;" m" `cat 
 	;
 
 

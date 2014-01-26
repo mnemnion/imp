@@ -17,7 +17,7 @@ require ~+/ansi/ansi.fs
  + 16 mod						 \ ( new-offset --  )
  ;
 
- : hexer  \ ( C: nil -> nil D: nil -> nil "hex" )
+ : hexer  \ ( C: nil -> nil := !hexer D: nil -> nil "hex" )
  	create \ ( nil -> nil )
  		0 ,
  	does>  \ ( nil -> nil )
@@ -27,10 +27,9 @@ require ~+/ansi/ansi.fs
 
  : .|hex \ ( rows cols -> nil "pane" )
  	\ "fills a frame with hex"
- 	\ 0 ['] rollhex >body !
 	|innerbox                   \ (  row col --    )
     0 do                        \ (  row     --    )
-    	dup				\ (  row row  -- ) 
+    	dup				        \ (  row row  -- ) 
     	rollhex					\ (  row     --    )
         dup .back 1 .down       \ (  row     --    )
     loop

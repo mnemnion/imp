@@ -47,8 +47,14 @@ require roll-allot.fs
 	`@ 1 + swap cell - !  \ ( nil -- !offset+1 )
 	;
 
+: charpad \ pad a single character into a string
+	2 cells roll-pad if
+		1 over !
+		tuck cell + !
+	then
+	;
 
-: str,  \ allocate a string into the dictionary, returning address
+: str,  \ allocate a string into the dictionary
 	here >r
 	`@ dup cell + allot
 	r> `! align
@@ -59,7 +65,7 @@ require roll-allot.fs
 	;
 
 
-: "pad ( buf off -> str ) 
+: `pad  ( buf off -> str ) 
 	\ "stores a counted offset into the roll pad"
 	dup cell + roll-pad if
 		dup >r `! r>	
@@ -70,7 +76,7 @@ require roll-allot.fs
 
 
 
-: "cat ( a.str b.str -> a+b.str )
+: `cat  ( a.str b.str -> a+b.str )
 	\ "concatenates two strings into the cat pad"
 	swap 2dup @ swap @ cell + + cat-pad if
 		dup >r swap `@ rot `! r@       \ store foo
@@ -80,7 +86,7 @@ require roll-allot.fs
 	then
 	;
 
-: string \ creates a named string.
+: str \ creates a named string.
 	create \ ( str -> ,str := 'str' )
 	str,
 	does>
@@ -89,16 +95,19 @@ require roll-allot.fs
 \ `` -- state-smart word.
 
 
+\ note: we need to natively compile this;
+\ the compile time behavior is fundamentally broken. 
 
-:noname 34 parse  "pad 
+:noname 34 parse  `pad  
     ;     
 :noname
   34 parse 
   POSTPONE SLiteral 
-  POSTPONE "pad ;    interpret/compile: ;"
+  POSTPONE `pad  
+   ;    interpret/compile: ;"
 
 : #->` \ convert one cell to a counted string
-	0 <# #s #> "pad ;
+	0 <# #s #> `pad  ;
 
 
 

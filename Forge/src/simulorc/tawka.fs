@@ -14,9 +14,9 @@ Also if some of the ideas are looking expensive, we can drop them here.
 
       )
 
-: vocab-table ( -- )
-    table create ,
-does> ( -- )
+: vocab-table 
+    table create , ( nil -> nil !table )
+does> ( nil -> nil `wordlist` )
     \ replaces the wordlist on the top of the search list with the
     \ vocabulary's wordlist
     @ >r

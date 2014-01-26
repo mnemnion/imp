@@ -1,0 +1,222 @@
+( attiny2313 )
+( daniel j kruszyna )
+( http://krue.net/avr/ )
+( 2006.06.18 )
+
+40 constant iosize
+80 constant ramsize
+400 constant flashsize
+80 constant eepromsize
+
+21 constant didr
+  1 constant ain1d
+  0 constant ain0d
+22 constant ubrrh
+23 constant ucsrc
+  6 constant umsel
+  5 constant upm1
+  4 constant upm0
+  3 constant usbs
+  2 constant ucsz1
+  1 constant ucsz0
+  0 constant ucpol
+28 constant acsr
+  7 constant acd
+  6 constant acbg
+  5 constant aco
+  4 constant aci
+  3 constant acie
+  2 constant acic
+  1 constant acis1
+  0 constant acis0
+29 constant ubrrl
+2a constant ucsrb
+  7 constant rxcie
+  6 constant txcie
+  5 constant udrie
+  4 constant rxen
+  3 constant txen
+  2 constant ucsz2
+  1 constant rxb8
+  0 constant txb8
+2b constant ucsra
+  7 constant rxc
+  6 constant txc
+  5 constant udre
+  4 constant fe
+  3 constant dor
+  2 constant upe
+  1 constant u2x
+  0 constant mpcm
+2c constant udr
+2d constant usicr
+  7 constant usisie
+  6 constant usioie
+  5 constant usiwm1
+  4 constant usiwm0
+  3 constant usics1
+  2 constant usics0
+  1 constant usiclk
+  0 constant usitc
+2e constant usisr
+  7 constant usisif
+  6 constant usioif
+  5 constant usipf
+  4 constant usidc
+  3 constant usicnt3
+  2 constant usicnt2
+  1 constant usicnt1
+  0 constant usicnt0
+2f constant usidr
+30 constant pind
+31 constant ddrd
+32 constant portd
+33 constant gpior0
+34 constant gpior1
+35 constant gpior2
+36 constant pinb
+37 constant ddrb
+38 constant portb
+39 constant pina
+3a constant ddra
+3b constant porta
+3c constant eecr
+  5 constant eepm1
+  4 constant eepm0
+  3 constant eerie
+  2 constant eempe
+  1 constant eepe
+  0 constant eere
+3d constant eedr
+3e constant eear
+40 constant pcmsk
+41 constant wdtcsr
+  7 constant wdif
+  6 constant wdie
+  5 constant wdp3
+  4 constant wdce
+  3 constant wde
+  2 constant wdp2
+  1 constant wdp1
+  0 constant wdp0
+42 constant tccr1c
+  7 constant foc1a
+  6 constant foc1b
+43 constant gtccr
+  0 constant psr10
+44 constant icr1l
+45 constant icr1h
+46 constant clkpr
+  7 constant clkpce
+  3 constant clkps3
+  2 constant clkps2
+  1 constant clkps1
+  0 constant clkps0
+48 constant ocr1bl
+49 constant ocr1bh
+4a constant ocr1al
+4b constant ocr1ah
+4c constant tcnt1l
+4d constant tcnt1h
+4e constant tccr1b
+  7 constant icnc1
+  6 constant ices1
+  4 constant wgm13
+  3 constant wgm12
+  2 constant cs12
+  1 constant cs11
+  0 constant cs10
+4f constant tccr1a
+  7 constant com1a1
+  6 constant com1a0
+  5 constant com1b1
+  4 constant com1a0
+  1 constant wgm11
+  0 constant wgm10
+50 constant tccr0a
+  7 constant com0a1
+  6 constant com0a0
+  5 constant com0b1
+  4 constant com0b0
+  1 constant wgm01
+  0 constant wgm00
+51 constant osccal
+52 constant tcnt0
+53 constant tccr0b
+  7 constant foc0a
+  6 constant foc0b
+  3 constant wgm02
+  2 constant cs02
+  1 constant cs01
+  0 constant cs00
+54 constant mcusr
+  3 constant wdrf
+  2 constant borf
+  1 constant extrf
+  0 constant porf
+55 constant mcucr
+  7 constant pud
+  6 constant sm1
+  5 constant se
+  4 constant sm0
+  3 constant isc11
+  2 constant isc10
+  1 constant isc01
+  0 constant isc00
+56 constant ocr0a
+57 constant spmcsr
+  4 constant ctpb
+  3 constant rflb
+  2 constant pgwrt
+  1 constant pgers
+  0 constant selfprgen
+58 constant tifr
+  7 constant tov1
+  6 constant ocf1a
+  5 constant ocf1b
+  3 constant icf1
+  2 constant ocf0b
+  1 constant tov0
+  0 constant ocf0a
+59 constant timsk
+  7 constant toie1
+  6 constant ocie1a
+  5 constant ocie1b
+  3 constant icie1
+  2 constant ocie0b
+  1 constant toie0
+  0 constant ocie0a
+5a constant eifr
+  7 constant intf1
+  6 constant intf0
+  5 constant pcif
+5b constant gimsk
+  7 constant int1
+  6 constant int0
+  5 constant pcie
+5c constant ocr0b
+5d constant spl
+5f constant sreg
+
+00 constant reset
+01 constant external_interrupt_0
+02 constant external_interrupt_1
+03 constant timer1_capture
+04 constant timer1_compare_a
+05 constant timer1_overflow
+06 constant timer0_overflow
+07 constant usart_rxc
+08 constant usart_udre
+09 constant usart_txc
+0a constant analog_comparator
+0b constant pin_change
+0c constant timer1_compare_b
+0d constant timer0_compare_a
+0e constant timer0_compare_b
+0f constant usi_start
+10 constant usi_overflow
+11 constant eeprom_ready
+12 constant watchdog_overflow
+
+13 constant start
+

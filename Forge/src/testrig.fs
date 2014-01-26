@@ -41,10 +41,3 @@ tframe .frame  tframe .clearframe
 17 6 + 60 20 + .xy*
 
 .#hex 16 print-n cr .#hex drop 16 n-printables .bo . .! 
-
-variable foo 100 cells allot
-
-;" String Bar" string bar
-;" String Foo " `@ foo `!
-
-.s ..

@@ -33,7 +33,7 @@ variable last-xy 1 cells allot
 : [;]? dup 59 = ;
 
 : control-to-num \ ( mu -> num )
-	\ "converts up to four chars to a number"
+	\ "converts up to 4 chars to a number"
 	\ "stops at, and consumes semicolons"
 	\ first byte
 	dup ascii-num? if
@@ -47,6 +47,10 @@ variable last-xy 1 cells allot
 			then
 			dup ascii-num? if
 				ascii>num 100 * + swap
+			else [;]? if drop then
+			then
+			dup ascii-num? if
+				ascii>num 1000 * + swap
 			else [;]? if drop then
 			then
 		then
@@ -64,7 +68,12 @@ variable last-xy 1 cells allot
 			key dup r@ = 
 		until
 		r> 2drop
-	else drop then
+	else r> 2drop then
  ;
 
- : (.form) .^ 18 dec. ." t" [char] t xterm-accept ;
+ : (.form) .^ 18 dec. ." t" [char] t xterm-accept 
+ 	control-to-num >r
+ 	control-to-num nip nip r> 
+ ;
+
+

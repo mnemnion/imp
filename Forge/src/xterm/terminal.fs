@@ -85,6 +85,15 @@ variable last-xy 1 cells allot
 
 : row? whereami drop ; : col? whereami nip ;
 
+: mouse-on
+	\ "turn on mouse handling"
+	.^ ." ?1000h" ;
+
+: mouse-off
+	\ "turn off mouse handling"
+	.^ ." ?1000l" ;
+
+
 
 
 

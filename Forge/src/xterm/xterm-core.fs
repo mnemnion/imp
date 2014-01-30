@@ -14,31 +14,31 @@ require ~+/core/core.fs
 \  takes a byte, composes the appropriate xterm-color background command. 
 
 
-27 charpad str `esc  \ there we go
+27 charpad str $esc  \ there we go
 
-`esc char [ charpad `cat str `^
+$esc char [ charpad $cat str $^
 
-: .^ `^ .` ;
+: .^ $^ .$ ;
 
 : xterm-fg ( byte -> str )
 	\ "pads a string that changes the foreground color"
 	\ "to byte"
-	`^  ;" 38;5;" `cat 
-	swap #->`  `cat  
-    ;" m" `cat 
+	$^  ;" 38;5;" $cat 
+	swap #->$  $cat  
+    ;" m" $cat 
 	;
 
 : xterm-bg ( byte -> str )
 	\ "pads a string that changes the background color"
-	`^  ;" 48;5;" `cat 
-	swap #->`  `cat  
-    ;" m" `cat 
+	$^  ;" 48;5;" $cat 
+	swap #->$  $cat  
+    ;" m" $cat 
 	;
 
 : ansi-color ( byte -> str )
 	\ "pads a string that changes the background color"
-	`^ swap #->` `cat  
-    ;" m" `cat 
+	$^ swap #->$ $cat  
+    ;" m" $cat 
 	;
 
 

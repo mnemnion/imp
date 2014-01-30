@@ -92,9 +92,6 @@ require roll-allot.fs
 	does>
 	;
 
-\ $$ -- state-smart word.
-
-
 \ note: we need to natively compile this;
 \ the compile time behavior is fundamentally broken. 
 

@@ -25,6 +25,8 @@ anew wipeout
 
 include testrig.fs
 
+..
+
 :noname cr ." Welcome to the Machine" ; is bootmessage
 
 

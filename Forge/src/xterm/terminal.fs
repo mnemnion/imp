@@ -4,8 +4,6 @@ require xterm-core.fs
 
 \ cursor control \ x -- ""
 
-
-
 : .fwd  .^  dec. ." C" ;
 : .up   .^  dec. ." A" ;
 : .down .^  dec. ." B" ;
@@ -71,9 +69,16 @@ variable last-xy 1 cells allot
 	else r> 2drop then
  ;
 
- : (.form) .^ 18 dec. ." t" [char] t xterm-accept 
+ : form .^ 18 dec. ." t" [char] t xterm-accept 
  	control-to-num >r
  	control-to-num nip nip r> 
  ;
 
+: rows form drop ; : cols form nip ; 
 
+: whereami \ ( nil -> rows cols )
+	\ "gets cursor position"
+	.^ ." 6n" [char] R xterm-accept
+	control-to-num >r
+	control-to-num drop r>
+	; 

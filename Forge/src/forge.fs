@@ -1,5 +1,20 @@
 : POSSIBLY  ( "name" -- )  BL WORD FIND  ?dup AND IF  EXECUTE  THEN ;
 : ANEW  ( "name" -- )( Run: -- )  >IN @ POSSIBLY  >IN ! MARKER ;
+
+: [warmer]
+	s" forge.fs" included ;
+
+defer [wump]
+
+: warm 
+	[wump]
+ 	[warmer] 
+	;
+
+anew [smasher]
+
+' [smasher] is [wump]
+
 require core/core.fs
 require ansi/ansi.fs
 require util/util.fs

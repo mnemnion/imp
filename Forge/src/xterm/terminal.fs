@@ -74,11 +74,30 @@ variable last-xy 1 cells allot
  	control-to-num nip nip r> 
  ;
 
-: rows form drop ; : cols form nip ; 
-
-: whereami \ ( nil -> rows cols )
+ : whereami \ ( nil -> rows cols )
 	\ "gets cursor position"
 	.^ ." 6n" [char] R xterm-accept
 	control-to-num >r
 	control-to-num drop r>
 	; 
+
+: rows form drop ; : cols form nip ; 
+
+: row? whereami drop ; : col? whereami nip ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

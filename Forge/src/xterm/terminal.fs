@@ -7,11 +7,15 @@ require xterm-core.fs
 : .fwd  .^  dec. ." C" ;
 : .up   .^  dec. ." A" ;
 : .down .^  dec. ." B" ;
-: .back .^  dec. ." D" ; 
+: .back .^  dec. ." D" ;
+
 : .save 27 emit ." 7" ;
 : .restore 27 emit ." 8" ;
-\ screen clear
-: .page .^ ." 2J" ;
+
+: hide-cursor  .^ ." ?25l" ;
+: show-cursor  .^ ." ?25h" ;
+
+: .page .^ ." 2J" ; \ .|wipe preferred
 
 variable last-xy 1 cells allot 
 1 1 last-xy 2!
@@ -85,6 +89,8 @@ variable last-xy 1 cells allot
 
 : row? whereami drop ; : col? whereami nip ;
 
+\ Mouse Mode. Note that actually using this is... intricate. 
+
 : mouse-on
 	\ "turn on mouse handling"
 	.^ ." ?1000h" ;
@@ -93,6 +99,16 @@ variable last-xy 1 cells allot
 	\ "turn off mouse handling"
 	.^ ." ?1000l" ;
 
+\ When the mouse is 'on' it sends the knock 27 91 77, or esc[M. Then 3 bytes:
+\ Type of event, x+32, y+32.
+\ unless you want to get into modifier clicks, mask for the bottom four values of event:
+\ 0 button:1
+\ 1 button:2
+\ 2 button:3
+\ 4 release.
+\ the modifiers are: 4 shift, 8 meta, 16 control.
+\ effectively, these are not portable across platforms. 
+\ and now ya know. 
 
 
 

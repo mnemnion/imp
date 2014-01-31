@@ -1,3 +1,4 @@
+
 \ test includes
 
 include ~+/test/vocab.fs
@@ -28,16 +29,21 @@ include ~+/simulorc/simulorc.fs
  loop decimal
  ;
 
-page .save
-20 6 60 10 makeframe tframe   
-20 6 60 17 makeframe bframe
-tframe .frame  tframe .clearframe 
- bframe .frame .#teststr bframe .printframe .restore
+ : .xy* .save .xy .g ." *" .! .restore ;
 
-: .xy* .save .xy .g ." *" .! .restore ;
+ : clickloop	
+ 	begin
+	 	event
+	 	dup 32 = if       \ mousedown
+	 		drop .xy* 0   \ make a star
+	 	else dup 35 = if  \ release
+	 		drop 2drop 0  \ dispose of
+	 	else dup 34 =     \ 'right'-click
+	 then then
+	 until                \ exits loop
+	 	drop 2drop
+	 	event drop 2drop \ clear mouse release
+	 ; 
 
-10 60 .xy* 17 60 .xy*
-10 6 + 60 20 + .xy*
-17 6 + 60 20 + .xy*
-
-.#hex 16 print-n cr .#hex drop 16 n-printables .bo . .! 
+page
+.windowclear

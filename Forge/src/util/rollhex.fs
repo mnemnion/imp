@@ -1,4 +1,4 @@
-require ~+/ansi/ansi.fs
+require ~+/xterm/xterm.fs
 ( Rollhex 
 	a simple closure. 
 )

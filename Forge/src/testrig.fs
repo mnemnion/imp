@@ -46,4 +46,7 @@ include ~+/simulorc/simulorc.fs
 	 ; 
 
 page
-.windowclear
+\ .windowclear
+
+
+

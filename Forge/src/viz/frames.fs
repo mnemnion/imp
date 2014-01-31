@@ -2,84 +2,57 @@
 
 	Frames describe physical space on the screen.
 
-	Frames have at least one pane, and can switch between panes.
+	The interior of a frame is its 'pane'. 
 
-	Panes are specific to frames, and are not buffers; they are 
-	composed areas, used for a combination of literal text and 
-	syntax highlighting. 
+	Frames have six elements, in order: 
+	column row
+	x0 y0
+	input display
+	
+	input and display are both handlers. 
+	input will begin as a global default, and will be added later.
 
+	display will get complex, but to begin it will simply take:
+	{ offset frame } and display accordingly. 
+
+	the display handler, not the frame, holds a pointer to the subject,
+	which is the data under display. To change frames, move the handler. 
+	
 )
 
 require ~+/util/util.fs
 
+: [default-input] 
+	cr .r ." not yet implemented"
+	;
+
+: [default-display]
+	cr .r ." no display attached"
+	;
+
 : makeframe  
-	create \ ( := "frame" cols rows x0 y0 -> nil )
-		swap , , swap , , ;
+	create \ ( := 'frame' cols rows x0 y0 -> nil )
+		swap , , 
+		swap , , 
+		['] [default-input] ,
+		['] [default-display] ,
+	;
 
 : xy.frame \ ( frame -> x0 y0)
 	2@ ;
 
-: rowcol.frame \ ( frame -> cols rows )
+: set-xy.frame \ ( x0 y0 frame -> nil -- !x0 !yo )
+	>r swap r> 2! ;
+
+: colrow.frame \ ( frame -> cols rows )
 	2 cells + 2@ ;
 
+: set-colrow.frame \ ( co)
+ 	2 cells +
+ 	>r swap r> 2!
+ 	;
+ 	
 : xy.into-frame
 	xy.frame 
 	swap 1 + swap 1 +
 	.xy ;
-
-: .frame \ ( frame -> nil "frame" )
-	\ prints a frame, without changing the pane. 
-	.save
-	dup
-		xy.frame .xy
-	rowcol.frame .|box  \ ( nil -- "frame" )
-	.restore
-	;
-
-: .clearframe \ ( frame -> nil "pane" )
-	\ clears the (screen) pane of a given frame
-	.save
-	dup
-		xy.into-frame
-	rowcol.frame
-	.|wipe 
-	.restore
-	;
-
-: .|print \ ( [c-str] row col -- "pane" )
-	\ (prints c-str into row col )
-	|innerbox \ ([c-str] x y -- )
-	0 do \ ( [c-str] x --        )
-	\ 	.! cr .m .s  
-		dup >r print-advance r> 
-		last-xy 2@ swap 1 + swap .xy
-	loop
-	2drop drop
-	;
-
-: .printframe \ ( [c-str] frame -> nil "pane" )
-	\ "prints the contents of c-str into frame,"
-	\ "from top left."
-	.save
-	dup 
-		xy.into-frame
-	rowcol.frame 
-	.|print 
-	.restore
-	;
-
-: .hexframe \ ( frame -> nil "pane" )
-	\ "fills a pane with hexidecimals"
-	.save 
-	dup
-		xy.into-frame
-	rowcol.frame
-		.|hex 
-	.restore
-	;
-
-: .windowclear \ ( nil -- "clear screen" )
-	.save 1 1 .xy cols 0 do 
-				 rows 0 do 
-				 32 emit
-				 loop loop .restore ; 

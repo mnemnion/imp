@@ -41,6 +41,12 @@ require ~+/util/util.fs
 : xy.frame \ ( frame -> x0 y0)
 	2@ ;
 
+ 	 	
+: xy.into-frame
+	xy.frame 
+	swap 1 + swap 1 +
+	.xy ;
+
 : set-xy.frame \ ( x0 y0 frame -> nil -- !x0 !yo )
 	>r swap r> 2! ;
 
@@ -51,8 +57,19 @@ require ~+/util/util.fs
  	2 cells +
  	>r swap r> 2!
  	;
- 	
-: xy.into-frame
-	xy.frame 
-	swap 1 + swap 1 +
-	.xy ;
+
+ : input.frame \ ( frame -> nil -- `i-handle` )
+ 	4 cells + perform ;
+
+: set-input.frame \ ( i-handle frame -> nil -- !i-handle )
+	 4 cells +  ! ; 
+
+ : display.frame \ ( frame -> nil -- "display" )
+ 	5 cells + perform ;
+
+: set-display.frame \ ( o-handle frame -> nil -- !o-handle )
+	5 cells + ! ;
+
+
+
+

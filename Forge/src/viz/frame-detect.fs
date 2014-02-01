@@ -8,13 +8,13 @@
 : in-btw 
 	2dup = if 
 		cr .m ." on" 
-		{on}
+		2drop {on}
 	else > if
 		cr .m ." less than" 
 		{in}
 	else
 		cr .m ." grt than"
-		{out}
+		2drop {out}
 	then then
 	;
 
@@ -53,6 +53,9 @@
 	dup dup .frame .clearframe
 	-rot 2dup .xy* rot
 	cr .cy .s .!
-	y-detect >r
-	x-detect r>
+	y-detect 
+	dup 0 < if
+		drop x-detect
+	else -rot 2drop
+	then
 	;

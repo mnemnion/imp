@@ -22,13 +22,13 @@
 
 require ~+/util/util.fs
 
-: [default-input] 
-	cr .r ." not yet implemented"
-	;
+defer [default-input] 
+:noname	cr .r ." no input attached" .! drop
+	; is [default-input]
 
-: [default-display]
-	cr .r ." no display attached"
-	;
+defer [default-display]
+:noname	cr .r ." no display attached" .! drop
+	; is [default-display]
 
 : frame, \ ( cols rows x0 y0 -> nil -- := ,frame )
 		swap , ,                   	\ ( cols rows -- ,y0 ,x0 )
@@ -51,18 +51,19 @@ require ~+/util/util.fs
 	swap 1 + swap 1 +
 	.xy ;
 
-: set-xy.frame \ ( x0 y0 frame -> nil -- !x0 !yo )
+: set-xy.frame \ ( x0 y0 frame -> nil -- !y0 !x0 )
 	>r swap r> 2! ;
 
 : colrow.frame \ ( frame -> cols rows )
 	2 cells + 2@ ;
 
-: set-colrow.frame \ ( co)
+: set-colrow.frame \ ( cols rows -> nil -- !rows !cols )
  	2 cells +
  	>r swap r> 2!
  	;
 
  : input.frame \ ( frame -> nil -- `i-handle` )
+ 	dup 
  	4 cells + perform ;
 
 : set-input.frame \ ( i-handle frame -> nil -- !i-handle )

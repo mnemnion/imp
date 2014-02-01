@@ -35,7 +35,7 @@ defer [default-display]
 
 : frame, \ ( cols rows x0 y0 -> nil -- := ,frame )
 		, ,                   		\ ( cols rows -- ,y0 ,x0 )
-		swap , , 				   	\ ( nil -- ,rows ,cols )
+	    , , 				     	\ ( nil -- ,cols ,rows )
 		['] [default-input] ,       \ ( nil -- ,i-handle )
 		['] [default-display] ,     \ ( nil -- ,o-handle )
 		;
@@ -54,15 +54,14 @@ defer [default-display]
 	swap 1 + swap 1 +
 	.xy ;
 
-: set-xy.frame \ ( x0 y0 frame -> nil -- !y0 !x0 )
+: set-xy.frame \ ( x0 y0 frame -> nil -- !x0 !y0 )
 	 2! ;
 
 : colrow.frame \ ( frame -> cols rows )
 	2 cells + 2@ ;
 
-: set-colrow.frame \ ( cols rows -> nil -- !rows !cols )
- 	2 cells +
- 	>r swap r> 2!
+: set-colrow.frame \ ( cols rows -> nil -- !cols !rows )
+ 	2 cells + 2!
  	;
 
  : input.frame \ ( frame -> nil -- `i-handle` )

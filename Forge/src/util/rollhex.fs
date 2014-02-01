@@ -25,9 +25,9 @@ require ~+/xterm/xterm.fs
 
  hexer rollhex 
 
- : .|hex \ ( rows cols -> nil "pane" )
+ : .|hex \ ( cols rows -> nil "pane" )
  	\ "fills a frame with hex"
-	|innerbox                   \ (  row col --    )
+	swap |innerbox                   \ (  row col --    )
     0 do                        \ (  row     --    )
     	dup				        \ (  row row  -- ) 
     	rollhex					\ (  row     --    )

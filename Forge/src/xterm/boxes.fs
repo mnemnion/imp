@@ -35,7 +35,7 @@
     then  ;
 
 : .|box \  ( cols rows -> "box" ) 
-    swap |innerbox dup 
+    |innerbox dup 
     .|ul 0 do .|- loop .|ur 
     2dup swap \ y x x y --
     0 do dup dup
@@ -45,7 +45,7 @@
     2drop
     ;
 : .|boxi
-    swap |innerbox dup 
+    |innerbox dup 
     .|uli 0 do .|-i loop .|uri 
     2dup swap \ y x x y --
     0 do dup dup
@@ -54,7 +54,7 @@
     .|lli 0 do .|-i loop .|lri  
     ;
 : .|boxd
-    swap |innerbox dup 
+    |innerbox dup 
     .|uld  0 do .|-d  loop .|urd  
     2dup swap \ y x x y --
     0 do dup dup
@@ -63,7 +63,7 @@
     .|lld  0 do .|-d  loop .|lrd   
     ;
 : .|rbox
-    swap |innerbox dup 
+    |innerbox dup 
     .|ulr 0 do .|-i loop .|urr 
     2dup swap \ y x x y --
     0 do dup dup
@@ -73,7 +73,7 @@
     ;
 
 : .|dashbox
-    swap |innerbox dup 
+    |innerbox dup 
     .|uli  0 do .|...  loop .|uri  
     2dup swap \ y x x y --
     0 do dup dup
@@ -82,8 +82,8 @@
     .|lli  0 do .|...  loop .|lri   
     ;
 
-: .|wipe \ ( rows cols -- "pane" )
-    |innerbox                   \ ( row col --  )
+: .|wipe \ ( cols rows -- "pane" )
+    swap |innerbox                   \ ( row col --  )
     .di .w                      \ ( "ansi"      )
     0 do                        \ ( row     --  )
         dup 0 do ." *" loop     \ ( row -- "*+" )

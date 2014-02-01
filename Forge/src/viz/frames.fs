@@ -17,6 +17,9 @@
 
 	the display handler, not the frame, holds a pointer to the subject,
 	which is the data under display. To change frames, move the handler. 
+
+	the input handler processes events. Typically it will receive one event,
+	handle it, and turn over control to the window loop to refresh the display.
 	
 )
 

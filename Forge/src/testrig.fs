@@ -29,7 +29,7 @@ include ~+/simulorc/simulorc.fs
  loop decimal
  ;
 
- : .xy* .save .xy .g ." *" .! .restore ;
+36 12 cols 36 - 1 frame: status
 
  : clickloop	
  	begin
@@ -45,8 +45,8 @@ include ~+/simulorc/simulorc.fs
 	 	event drop 2drop \ clear mouse release
 	 ; 
 
-page
+\ page
 .windowclear
-
+status dup .frame .clearframe 0 0 .xy
 
 

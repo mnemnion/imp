@@ -22,7 +22,7 @@ variable last-xy 1 cells allot
 
 : .xy   
 	2dup last-xy 2!
-	.^ swap dec. [char] ; emit dec. ." f" ; 
+	.^ dec. [char] ; emit dec. ." f" ; 
 
 : ascii-num? \ ( char ->  flag )
 	\ "tests a byte for numeracy in ASCII terms"

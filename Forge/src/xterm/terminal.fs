@@ -109,6 +109,9 @@ variable last-xy 1 cells allot
 \ the modifiers are: 4 shift, 8 meta, 16 control.
 \ effectively, these are not portable across platforms. 
 \ and now ya know. 
+\ 
+\ furthermore, you cannot click on 'null' areas of the terminal. fill your screen with spaces
+\ to get the full effect.
 
 
 

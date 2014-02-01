@@ -30,13 +30,17 @@ require ~+/util/util.fs
 	cr .r ." no display attached"
 	;
 
-: makeframe  
-	create \ ( := 'frame' cols rows x0 y0 -> nil )
-		swap , , 
-		swap , , 
-		['] [default-input] ,
-		['] [default-display] ,
-	;
+: frame, \ ( cols rows x0 y0 -> nil -- := ,frame )
+		swap , ,                   	\ ( cols rows -- ,y0 ,x0 )
+		swap , , 				   	\ ( nil -- ,rows ,cols )
+		['] [default-input] ,       \ ( nil -- ,i-handle )
+		['] [default-display] ,     \ ( nil -- ,o-handle )
+		;
+
+: frame:  \ ( C: cols rows x0 y0 -> nil := 'frame'
+             \   D: nil -> frame )
+	create frame, ;  
+
 
 : xy.frame \ ( frame -> x0 y0)
 	2@ ;
@@ -65,6 +69,7 @@ require ~+/util/util.fs
 	 4 cells +  ! ; 
 
  : display.frame \ ( frame -> nil -- "display" )
+ 	dup
  	5 cells + perform ;
 
 : set-display.frame \ ( o-handle frame -> nil -- !o-handle )

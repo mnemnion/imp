@@ -5,30 +5,17 @@
 1  constant {out}  \ ( := hit-flag )
 
 
-: in-btw 
-	2dup = if 
-		cr .m ." on" 
-		drop {on}
-	else > if
-		cr .m ." less than" 
-		{in}
-	else
-		cr .m ." grt than"
-		drop {out}
-	then then
-	;
-
 : in-between ( in? low high -> hit-flag )
 	3dup
-	rot tuck = >r = r> or if 
-		cr .m ." on" .!
-		2drop drop {on}
-	else
+		rot tuck = >r = r> or if 
+\ 			cr .m ." on" .!
+			2drop drop {on}
+		else
 	rot within if
-		cr .b ." in" .! 
+\ 		cr .b ." in" .! 
 		{in}
 	else
-		cr .r ." out" .!
+\ 		cr .r ." out" .!
 		{out}
 	then
 	then
@@ -40,7 +27,7 @@
 		xy.frame nip swap
 	colrow.frame nip \ ( x frame y y.frame rows.frame )
 	over +
-	cr .w .s
+\ 	cr .w .s
 	in-between 
 	;
 
@@ -49,18 +36,15 @@
 		xy.frame drop swap
 	colrow.frame drop 
 	over + 
-	cr .y .s
+\ 	cr .y .s
 	in-between
 	;
 
-: in-on-out? \ ( x y frame -> hit-flag )
-	dup dup .frame .clearframe
-	-rot 2dup .xy* rot
-	
-	cr .cy ." y-detect" cr .s .!
+: in-on-out? \ ( x y frame -> hit-flag )	
+\   cr .cy ." y-detect" cr .s .!
 	y-detect 
 	dup 0 < if
-		cr .b ." x-detect" cr .s .!
+\ 		cr .b ." x-detect" cr .s .!
 		drop x-detect
 	else -rot 2drop
 	then

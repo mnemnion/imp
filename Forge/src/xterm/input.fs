@@ -4,7 +4,7 @@
 	key \ type
 	key 32 - \ x
 	key	32 - \ y
-	swap rot    \ ( rows cols type -- )
+    rot    \ ( rows cols type -- )
 	;
 
 : csi-parse 

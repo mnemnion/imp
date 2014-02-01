@@ -7,6 +7,8 @@
 : 3dup \ chuck forgive me
 	2 pick 2 pick 2 pick ;
 
+: 3drop 2drop drop ;
+
 : 3dup-alt
 	rot dup >r
 	rot dup >r

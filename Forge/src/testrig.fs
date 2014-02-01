@@ -31,11 +31,32 @@ include ~+/simulorc/simulorc.fs
 
 36 12 cols 36 - 1 frame: status
 
- : clickloop	
+: in-status? \ ( x y -> hit-flag )
+	status in-on-out?
+	;
+
+: click-handle
+		cr .cy .s 
+	dup 0= if
+		.b status .frame
+	else 0 < if
+		.g status .frame
+	else
+		.r status .frame
+	then then ;
+
+
+ : clickloop
+ 	0	
  	begin
+
 	 	event
 	 	dup 32 = if       \ mousedown
-	 		drop .xy* 0   \ make a star
+	 		drop 
+	 		
+	 		\ 	.xy* 
+	 			in-status?
+	 			click-handle 0   \ make a star
 	 	else dup 35 = if  \ release
 	 		drop 2drop 0  \ dispose of
 	 	else dup 34 =     \ 'right'-click
@@ -45,7 +66,8 @@ include ~+/simulorc/simulorc.fs
 	 	event drop 2drop \ clear mouse release
 	 ; 
 
-\ page
+' .hexframe is [default-display]
+
 .windowclear
 status dup .frame .clearframe 0 0 .xy
 

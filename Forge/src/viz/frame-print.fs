@@ -35,6 +35,7 @@
 : .printframe \ ( [c-str] frame -> nil "pane" )
 	\ "prints the contents of c-str into frame,"
 	\ "from top left."
+	dup .clearframe
 	.save
 	dup 
 		xy.into-frame

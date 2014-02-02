@@ -10,9 +10,9 @@ include ~+/simulorc/simulorc.fs
 
 : .#teststr s" this is a rather long test string. there are no newlines in it. it should fill a small buffer completely to capacity. I'm adding a great deal of extra test to this of the lorem ipsum etce because running out of test string is annoying at best." ;
 
-: .#tnl s\" this\n string\n has\n newlines." ;
+: .#tnl s\" this \nstring \nhas \nnewlines." ;
 
-: .#longnl s\" this \e[34mstring\e[0m has newlines. \nthey are sufficiently spaced for my nefarious purposes. \nthat should do." ;
+: .#longnl s\" this \e[34mstring\e[0m has newlines. \nthey are sufficiently \nspaced for my nefarious purposes. \nthat should do." ;
 
 : .#rstr s\" prefix: \e[34mthis \e[31mstring is red\e[0m" ;
 

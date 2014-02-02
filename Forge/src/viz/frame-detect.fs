@@ -11,7 +11,7 @@
 \ 			cr .m ." on" .!
 			2drop drop {on}
 		else
-	rot within if
+	1 + rot within if
 \ 		cr .b ." in" .! 
 		{in}
 	else

@@ -38,7 +38,7 @@ include ~+/simulorc/simulorc.fs
 : click-handle
 		cr .cy .s 
 	dup 0= if
-		.b status .frame
+		drop .b status .frame
 	else 0 < if
 		.g status .frame
 	else
@@ -47,14 +47,12 @@ include ~+/simulorc/simulorc.fs
 
 
  : clickloop
- 	0	
+
  	begin
 
 	 	event
 	 	dup 32 = if       \ mousedown
-	 		drop 
-	 		
-	 		\ 	.xy* 
+	 		drop  
 	 			in-status?
 	 			click-handle 0   \ make a star
 	 	else dup 35 = if  \ release

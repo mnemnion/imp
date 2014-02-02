@@ -18,13 +18,16 @@
 	.restore
 	;
 
+\ : print-advance  ." *.*" ;  \ dongle
+
+
 : .|print \ ( [c-str] row col -- "pane" )
 	\ (prints c-str into row col )
-	|innerbox \ ([c-str] x y -- )
+	swap |innerbox \ ([c-str] x y -- )
 	0 do \ ( [c-str] x --        )
 	\ 	.! cr .m .s  
 		dup >r print-advance r> 
-		last-xy 2@ swap 1 + swap .xy
+		last-xy 2@ 1 + .xy
 	loop
 	2drop drop
 	;

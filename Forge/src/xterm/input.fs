@@ -5,6 +5,8 @@
 
 -2048 constant {esc^2}
 
+-4096 constant {esc-csi}
+
 : mouse-parse
 	drop
 	key \ type
@@ -55,8 +57,15 @@
 \ 	    cr .r ." CSI"
 		csi-parse
 	else dup #esc = if
-	    recurse 
-	    drop {esc^2}
+	    key
+	    dup [char] [ = if
+	    	csi-other-parse
+	    	drop {esc-csi}
+	    else dup 27 = if
+	    	drop {esc^2}
+	    else
+	    	command-parse
+	    then then
 	else
 		command-parse
 	then then

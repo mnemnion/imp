@@ -68,8 +68,11 @@ include ~+/simulorc/simulorc.fs
 		drop true
 	else
 		cr .g ." command " 
-		.s
-		emit false
+		dup printable? if
+			emit
+		else 
+			." unprintable :-\ " .
+		then false
 	then
 	;
 
@@ -85,9 +88,15 @@ include ~+/simulorc/simulorc.fs
 	emit false
 	;
 
-: double-esc-respond
-	cr 145 xterm-fg ." double esc:"
+: esc-csi-respond
+	cr 223 xterm-fg .$ ." esc-csi: "
 	csi-respond
+	;
+
+: double-esc-respond
+	cr 145 xterm-fg .$ ." double esc: "
+	drop false 
+	.s
 	;
 
 : event-respond
@@ -102,6 +111,7 @@ include ~+/simulorc/simulorc.fs
 		34   	of	rclick-respond         endof
 		{csi} 	of  csi-respond            endof
 		{esc^2} of  double-esc-respond	   endof
+		{esc-csi} of esc-csi-respond	   endof
 
 	cr .r ." respond: other" .! cr .s 
 	true

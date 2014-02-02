@@ -18,3 +18,10 @@
 
 : printable? 
 	32 127 within ;
+
+: alpha?
+	dup 
+		65 91 within >r
+		97 123 within r>
+	or
+	;

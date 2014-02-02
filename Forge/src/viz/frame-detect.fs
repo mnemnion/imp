@@ -2,7 +2,7 @@
 
 -1 constant {in}   \ ( := hit-flag )
 0  constant {on}   \ ( := hit-flag )
-1  constant {out}  \ ( := hit-flag )
+2  constant {out}  \ ( := hit-flag )
 
 : in-between ( in? low high -> hit-flag )
 	3dup
@@ -38,12 +38,17 @@
 	in-between
 	;
 
-: in-on-out? \ ( x y frame -> hit-flag )	
-\   cr .cy ." y-detect" cr .s .!
-	y-detect 
-	dup 0 < if
-\ 		cr .b ." x-detect" cr .s .!
-		drop x-detect
-	else -rot 2drop
-	then
+: in-on-out? 
+	y-detect >r 
+	x-detect r>
+	+	
+	dup 0 > if
+		drop {out}
+		else dup -2 = if 
+			drop {in}
+		else 
+			drop {on}
+	then then
+	.!
 	;
+

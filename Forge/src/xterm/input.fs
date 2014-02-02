@@ -3,6 +3,8 @@
 
 -1024 constant {csi}
 
+-2048 constant {esc^2}
+
 : mouse-parse
 	drop
 	key \ type
@@ -12,8 +14,17 @@
 	;
 
 : csi-other-parse
-	cr .m ." unusual CSI sequence"
-	false
+	cr .cy ." unusual CSI sequence"
+	\ must parse until alphabetic
+	[char] [ swap
+	dup alpha? if
+	else 
+		begin
+			key 
+			dup alpha?
+		until
+	then
+    {csi}
 	;
 
 : csi-parse 
@@ -24,7 +35,7 @@
 \ 	    cr .m ." mouse event"
 	   		mouse-parse
 		else
-			csi-other-parse \ silently dispose of esc-[; blocks it as command.
+			csi-other-parse 
 		then
 	else 
 		[char] [ #esc 
@@ -43,9 +54,12 @@
 	key dup [char] [ = if
 \ 	    cr .r ." CSI"
 		csi-parse
-	else 
+	else dup #esc = if
+	    recurse 
+	    drop {esc^2}
+	else
 		command-parse
-	then 
+	then then
 	;
 
 : (event) ( nil - mu event-flag )

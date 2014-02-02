@@ -57,35 +57,51 @@ include ~+/simulorc/simulorc.fs
 	;
 
 : ascii-respond
-	dup 27 = if 
-	
-	else
-		emit \ something more interesting
-	then	
+	emit
 	false
 	;
 
 : command-respond 
 	dup 
 	[char] q = if
-		cr .b ." bye" 
+		cr .b ." bye!" .! 
 		drop true
 	else
 		cr .g ." command " 
+		.s
 		emit false
 	then
+	;
+
+: csi-respond
+	cr .m ." csi: "
+	begin
+		dup [char] [ = if
+			true
+		else 
+			emit false
+		then
+	until
+	emit false
+	;
+
+: double-esc-respond
+	cr 145 xterm-fg ." double esc:"
+	csi-respond
 	;
 
 : event-respond
 	case 
 
-		-127  of ascii-respond          endof
-		32    of click-respond          endof
-		#esc  of command-respond        endof
-		35    of release-respond        endof \ right click drop
-		96    of ." ⇓" 2drop false 	    endof
-		97    of ." ⇑" 2drop false 		endof
-		34    of rclick-respond         endof 
+		-127  	of 	ascii-respond          endof
+		32    	of 	click-respond          endof
+		#esc  	of 	command-respond        endof
+		35    	of 	release-respond        endof
+		96    	of 	." ⇓" 2drop false 	   endof
+		97    	of 	." ⇑" 2drop false 	   endof
+		34   	of	rclick-respond         endof
+		{csi} 	of  csi-respond            endof
+		{esc^2} of  double-esc-respond	   endof
 
 	cr .r ." respond: other" .! cr .s 
 	true

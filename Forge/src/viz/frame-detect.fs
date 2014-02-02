@@ -4,7 +4,6 @@
 0  constant {on}   \ ( := hit-flag )
 1  constant {out}  \ ( := hit-flag )
 
-
 : in-between ( in? low high -> hit-flag )
 	3dup
 		rot tuck = >r = r> or if 
@@ -19,7 +18,6 @@
 		{out}
 	then
 	then
-
 	;
 
 : y-detect ( x y frame -> x frame hit-flag )

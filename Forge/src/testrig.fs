@@ -37,32 +37,59 @@ include ~+/simulorc/simulorc.fs
 
 : click-handle
 		cr .cy .s 
+	in-status?
 	dup 0= if
 		drop .b status .frame
 	else 0 < if
 		.g status .frame
 	else
 		.r status .frame
-	then then ;
+	then then 
+	false
+	;
 
+: ascii-handle
+	emit \ something more interesting
+	false
+	;
 
- : clickloop
+: event-handle
+	case 
+		-127 of ascii-handle endof
+		32 of click-handle endof
+		35 of 2drop false endof \ right click drop
+		96 of ." scrolldown" 2drop false endof
+		97 of ." scrollup" 2drop false endof
+		34 of event 3drop 2drop true endof 
+	cr .r ." other" .! cr .s 
+	2drop true
+	endcase
+    ;
 
+ : clickloop~
  	begin
-
 	 	event
-	 	dup 32 = if       \ mousedown
+	 	dup -127 = if
+	 		drop ascii-handle
+	 	else dup 32 = if       \ mousedown
 	 		drop  
-	 			in-status?
-	 			click-handle 0   \ make a star
-	 	else dup 35 = if  \ release
+	 			click-handle   \ make a star
+	 	else dup 35 = if  \ mouse release
 	 		drop 2drop 0  \ dispose of
 	 	else dup 34 =     \ 'right'-click
-	 then then
+	 then then then
 	 until                \ exits loop
 	 	drop 2drop
 	 	event drop 2drop \ clear mouse release
 	 ; 
+
+: clickloop
+	begin 
+		event
+		event-handle
+	until
+	;
+
 
 ' .hexframe is [default-display]
 

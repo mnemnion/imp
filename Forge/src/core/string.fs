@@ -101,6 +101,7 @@ require roll-allot.fs
   34 parse 
   POSTPONE SLiteral 
   POSTPONE $pad  
+
    ;    interpret/compile: ;"
 
 : #->$ \ convert one cell to a counted string

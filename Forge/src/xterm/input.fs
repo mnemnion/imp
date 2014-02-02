@@ -24,6 +24,8 @@
 	then 
 	;
 
+-127 constant {ascii}
+
 : event ( nil - mu event-flag )
 	\ like "key" but refreshing and different
 	key 
@@ -31,7 +33,7 @@
 		escape-parse 
 	else dup 32 127 within if
 \ 		cr 56 xterm-fg .$ ." printable"
-		-127
+		{ascii}
 		else 
 \ 			cr .r ." other"
 			0

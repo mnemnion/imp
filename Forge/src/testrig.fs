@@ -35,7 +35,7 @@ include ~+/simulorc/simulorc.fs
 	status in-on-out?
 	;
 
-: click-handle
+: click-respond
 		cr .cy .s 
 	in-status?
 	dup 0= if
@@ -48,45 +48,33 @@ include ~+/simulorc/simulorc.fs
 	false
 	;
 
-: ascii-handle
-	emit \ something more interesting
+: ascii-respond
+	dup 27 = if 
+	
+	else
+		emit \ something more interesting
+	then	
 	false
 	;
 
-: event-handle
+: event-respond
 	case 
-		-127 of ascii-handle endof
-		32 of click-handle endof
+		-127 of ascii-respond endof
+		32 of click-respond endof
 		35 of 2drop false endof \ right click drop
-		96 of ." scrolldown" 2drop false endof
-		97 of ." scrollup" 2drop false endof
+		96 of ." ⇓" 2drop false endof
+		97 of ." ⇑" 2drop false endof
 		34 of event 3drop 2drop true endof 
-	cr .r ." other" .! cr .s 
-	2drop true
-	endcase
+		#esc of  cr .g ." command" false endof
+	cr .r ." respond: other" .! cr .s 
+	true
+	endcase 
     ;
-
- : clickloop~
- 	begin
-	 	event
-	 	dup -127 = if
-	 		drop ascii-handle
-	 	else dup 32 = if       \ mousedown
-	 		drop  
-	 			click-handle   \ make a star
-	 	else dup 35 = if  \ mouse release
-	 		drop 2drop 0  \ dispose of
-	 	else dup 34 =     \ 'right'-click
-	 then then then
-	 until                \ exits loop
-	 	drop 2drop
-	 	event drop 2drop \ clear mouse release
-	 ; 
 
 : clickloop
 	begin 
 		event
-		event-handle
+		event-respond
 	until
 	;
 

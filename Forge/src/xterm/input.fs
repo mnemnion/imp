@@ -15,12 +15,20 @@
 	then 
 	;
 
+: command-parse   
+	#esc \ put esc back 
+	cr .m ." command "
+	.s 
+	 ;
+
 : escape-parse 
 \ 	cr .cy ." escape sequence"
 	drop
 	key dup [char] [ = if
 \ 	    cr .r ." CSI"
 		csi-parse
+	else 
+		command-parse
 	then 
 	;
 

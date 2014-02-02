@@ -48,6 +48,10 @@ include ~+/simulorc/simulorc.fs
 	false
 	;
 
+: rclick-respond
+	2drop false
+	;
+
 : ascii-respond
 	dup 27 = if 
 	
@@ -57,15 +61,22 @@ include ~+/simulorc/simulorc.fs
 	false
 	;
 
+: command-respond 
+	cr .g ." command " emit
+    false
+	;
+
 : event-respond
 	case 
-		-127 of ascii-respond endof
-		32 of click-respond endof
-		35 of 2drop false endof \ right click drop
-		96 of ." ⇓" 2drop false endof
-		97 of ." ⇑" 2drop false endof
-		34 of event 3drop 2drop true endof 
-		#esc of  cr .g ." command" false endof
+
+		-127  of ascii-respond          endof
+		32    of click-respond          endof
+		#esc  of command-respond        endof
+		35    of rclick-respond         endof \ right click drop
+		96    of ." ⇓" 2drop false 	    endof
+		97    of ." ⇑" 2drop false 		endof
+		34    of event 3drop 2drop true endof 
+
 	cr .r ." respond: other" .! cr .s 
 	true
 	endcase 

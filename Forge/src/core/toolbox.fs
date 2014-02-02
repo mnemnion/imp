@@ -15,3 +15,6 @@
 	rot dup >r
 	r> r> swap r> -rot
 	;
+
+: printable? 
+	32 127 within ;

@@ -48,8 +48,12 @@ include ~+/simulorc/simulorc.fs
 	false
 	;
 
-: rclick-respond
+: release-respond
 	2drop false
+	;
+
+: rclick-respond
+	.xy* false
 	;
 
 : ascii-respond
@@ -62,8 +66,14 @@ include ~+/simulorc/simulorc.fs
 	;
 
 : command-respond 
-	cr .g ." command " emit
-    false
+	dup 
+	[char] q = if
+		cr .b ." bye" 
+		drop true
+	else
+		cr .g ." command " 
+		emit false
+	then
 	;
 
 : event-respond
@@ -72,10 +82,10 @@ include ~+/simulorc/simulorc.fs
 		-127  of ascii-respond          endof
 		32    of click-respond          endof
 		#esc  of command-respond        endof
-		35    of rclick-respond         endof \ right click drop
+		35    of release-respond        endof \ right click drop
 		96    of ." ⇓" 2drop false 	    endof
 		97    of ." ⇑" 2drop false 		endof
-		34    of event 3drop 2drop true endof 
+		34    of rclick-respond         endof 
 
 	cr .r ." respond: other" .! cr .s 
 	true

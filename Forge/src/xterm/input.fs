@@ -11,29 +11,25 @@
     rot    \ ( rows cols type -- )
 	;
 
-: csi-other-handle
+: csi-other-parse
 	cr .m ." unusual CSI sequence"
+	false
 	;
 
 : csi-parse 
 	drop
-	key? if
+	key? if  \ humans are slow
 		key
 		dup [char] M = if 
 \ 	    cr .m ." mouse event"
 	   		mouse-parse
 		else
-			csi-other-handle \ silently dispose of esc-[; blocks it as command.
+			csi-other-parse \ silently dispose of esc-[; blocks it as command.
 		then
 	else 
-		cr .y ." donk" .s
 		[char] [ #esc 
 	then 
 	;
-
-\ we may want access to esc-[-notM for consistency. If so we need a special
-\ return type, that says : there was a CSI before this next event. 
-\ this might be a good idea since sending CSIs is the kinda thing that happens.
 
 : command-parse   
 	#esc \ put esc back 

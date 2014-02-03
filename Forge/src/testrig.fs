@@ -93,10 +93,10 @@ include ~+/simulorc/simulorc.fs
 	csi-respond
 	;
 
-: double-esc-respond
-	cr 145 xterm-fg .$ ." double esc: "
-	drop false 
-	.s
+
+: control-respond
+	cr 177 xterm-fg .$ ." control: "
+	. false
 	;
 
 : event-respond
@@ -104,16 +104,16 @@ include ~+/simulorc/simulorc.fs
 
 		-127  	of 	ascii-respond          endof
 		32    	of 	click-respond          endof
-		#esc  	of 	command-respond        endof
+		{cmd} 	of 	command-respond        endof
 		35    	of 	release-respond        endof
 		96    	of 	." ⇓" 2drop false 	   endof
 		97    	of 	." ⇑" 2drop false 	   endof
 		34   	of	rclick-respond         endof
 		{csi} 	of  csi-respond            endof
-		{esc^2} of  double-esc-respond	   endof
 		{esc-csi} of esc-csi-respond	   endof
+		{ctrl}  of  control-respond		   endof
 
-	cr .r ." respond: other" .! cr .s 
+	cr .r ." respond: other: "  .s 
 	true
 	endcase 
     ;
@@ -122,6 +122,8 @@ include ~+/simulorc/simulorc.fs
 	begin 
 		event
 		event-respond
+		1 leftover?
+		.!
 	until
 	;
 

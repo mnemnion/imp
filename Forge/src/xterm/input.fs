@@ -1,11 +1,13 @@
 
+-27 constant {cmd}
+
 -127 constant {ascii}
+
+-512 constant {ctrl}
 
 -1024 constant {csi}
 
--2048 constant {esc^2}
-
--4096 constant {esc-csi}
+-2048 constant {esc-csi}
 
 : mouse-parse
 	drop
@@ -15,15 +17,16 @@
     rot    \ ( rows cols type -- )
 	;
 
+: csi-end?
+	64 127 within ;
+
 : csi-other-parse
-	cr .cy ." unusual CSI sequence"
-	\ must parse until alphabetic
 	[char] [ swap
-	dup alpha? if
+	dup csi-end? if
 	else 
 		begin
 			key 
-			dup alpha?
+			dup csi-end?
 		until
 	then
     {csi}
@@ -40,12 +43,12 @@
 			csi-other-parse 
 		then
 	else 
-		[char] [ #esc 
+		[char] [ {cmd}
 	then 
 	;
 
 : command-parse   
-	#esc \ put esc back 
+	{cmd} \ put esc back 
 \ 	 cr .m ." command "
 \ 	 .s 
 	 ;
@@ -53,22 +56,26 @@
 : escape-parse 
 \ 	cr .cy ." escape sequence"
 	drop
-	key dup [char] [ = if
-\ 	    cr .r ." CSI"
-		csi-parse
-	else dup #esc = if
-	    key
-	    dup [char] [ = if
-	    	csi-other-parse
-	    	drop {esc-csi}
-	    else dup 27 = if
-	    	drop {esc^2}
-	    else
-	    	command-parse
-	    then then
-	else
-		command-parse
-	then then
+	key? if
+		key dup [char] [ = if
+	\ 	    cr .r ." CSI"
+			csi-parse
+		else dup #esc = if
+		    key
+		    dup [char] [ = if
+		        2drop
+		        key
+		    	csi-other-parse
+		    	drop {esc-csi}
+		    else 
+		    	nip command-parse 
+		    then
+		else
+			command-parse
+		then then
+	else 
+		#esc {ctrl}
+	then
 	;
 
 : (event) ( nil - mu event-flag )
@@ -80,7 +87,7 @@
 		{ascii}
 		else 
 \ 			cr .r ." other"
-			0
+			{ctrl}
 		then
 	then 
 	.!

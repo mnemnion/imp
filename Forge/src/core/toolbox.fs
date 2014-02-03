@@ -25,3 +25,9 @@
 		97 123 within r>
 	or
 	;
+
+: leftover? ( count -- nil )
+	1 + depth <> if
+		cr .r ." leftovers: "
+	    .s .!
+	then ;

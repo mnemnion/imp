@@ -122,7 +122,7 @@ include ~+/simulorc/simulorc.fs
 	begin 
 		event
 		event-respond
-		1 leftover?
+		1 .left?
 		.!
 	until
 	;

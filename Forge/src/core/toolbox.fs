@@ -26,7 +26,7 @@
 	or
 	;
 
-: leftover? ( count -- nil )
+: .left? ( count -- nil )
 	1 + depth <> if
 		cr .r ." leftovers: "
 	    .s .!

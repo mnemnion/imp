@@ -1,76 +1,45 @@
 #Terminal Handling
 
-Of all the things I can be working on, I'm starting with a terminal library.
+Forge is an interactive text environment. We're making certain choices that I feel 2014 supports.
 
-Gforth provides one, which I don't care for. Also, it's GPL, and I'm making effort to rely on as few non-ANS words as possible. Eventually we need to be on pforth, which is AFAIK the only 64 bit native public-domain Forth. *Much* later we want a metacompiler that targets ARMs, and Intels if someone wants to bother. 
+One is that we're xterm-native. No attempt will be made to support any other weird terminal that used to exist, because the 'terminal' is a program like the 'browser'.
 
-I'm a visual coder, and I grew up in the BBS era. What I want is a colorful, interactive console that can be used for exploratory systems programming and microcontrol. I want that more than I want a Forth type system.
+That's actually a good way to think about it. Abstractions over all possible terminals are like JQuery supporting IE6. We don't need to support banks or libraries, and those are the last refuge of the actual terminal.
 
-Also I'm a babe in the way of the Forth. I'm learning the Sudoku of the stack juggle. It's refreshingly similar to forms juggling in Lisp. All it needs is annotative inferential stacking to have a truly playful and user-empowering kind of feel. 
+Our Chrome and Firefox are Mac Terminal and Xterm itself, respectively. I'm developing for Terminal. Right now it doesn't work in iTerm2, and I don't care, because I wrote it against the Xterm spec and don't care to figure out who is wrong. 
 
-I want a typed stack print. First, I want a simple stack print, that grows from the bottom, and lives in its own window. The kind of thing you could add to the interpreter loop and get an off-band update every time. 
+Chances are, it's broken under multiple values of actual Xterm as well. We need to support two keyboard paradigms anyway, but ultimately I don't care much and will support mostly the Mac.
 
-For that, I need a frame to display buffer contents, and some intelligent words to calculate the actual character width of a given sequence. This is non-trivial, since I like color and want to recognize ANSI escape sequences as zero width. I also like Unicode, though it's a bottomless pit. If someone wants to write a proper UTF-8 recognizer that can return all the state values of the Unicode state machine, I'm eager to see that happen.
+Why? Because within two seconds of going public, someone will take offense and make it work for all values of X-term. As long as they don't twerk my core word contracts, I'm good with that. 
 
-Halfwidth, Fullwidth, Bidi, composing characters, zero-print characters, backspace and print over characters, yeah. Someone else can do that. I'll buy you a case of your favorite. 
+Oh, and we're a UTF-8 shop, because we aren't stupid. Eventually, this means an enormous lookup table to correlate widths with font with code point. For the forseeable future, that means that double-width characters will badly twerk everything. Shikata ga nai.
 
+##Philosophy 
 
-##Basics
+An expert tool will require learning. We intend to build this in, since it's one big ball of introspection here. 
 
-I'm going to start by defining simple formats and move onto more complex arrangements when we start actually loading code. Current plan is to build the code editor around OrcForth, rather than ANS. We may well do this with Fabri also, which is (probably) easier to build alongside a new Forth than over an existing one. Pop the hood even slightly on gforth and there's a morass of implementation specific words. 
+There will be little effort made to support old, frail, or weird devices. Nor do we harbor resentment agianst the mouse or arrow keys. On my keyboard, the arrow keys are precisely where space cadet keys are found, just on the right. There is no ergonomic challenge in use. 
 
-###Output
+Practice has converged around '7-bit' terminal handling, because it's UTF-8 safe. Nor will Forge be any exception: 8 bit term will break it quite convincingly and rapidly. The command syntax of Forge is somewhat dictated by this constraint.
 
-The simplest possible thing is to output to the terminal. I've made progress with this. 
+In particular, the `alt` key generates escape and the alphanumeric that follows. Everything in Forge can be done with the usual keys (including arrows) or the use of `alt`. If you want `hjkl` navigation you may certainly implement it, but compatibility is a two-edged sword. There's a large, uncomfortable uncanny valley which is felt particularly with command syntax: it's better to learn something fresh, if it isn't weird.
 
-#### : 1-printable ( c-adr count -- := 1-char flag )
+##Handling
 
-Not yet written. Should have started here. ^_^ . 
+The equivalent of `key` in Forge is simply `event`. Event returns a type of event with the value beneath it. Currently events are of variable length, and a handler must know how to consume them.
 
-This word takes a counted string and returns a '1-char', which is a counted string that will produce one terminal character if typed. 
+`event` is written around Terminal's implementation of Xterm. Any standardization happens here, by writing entirely separate `event` words chosen on load. 
 
-The flag is `0` for 'no printable characters left', `-1` for printable character, and `10` for a newline. `2` means a double width character. 
+The master loop produces events, giving them to the selected i-handle. This triggers continuations that result in a display refresh, handing back to the master loop. These continuations may change the selected i-handle, or indeed any part of the chain may be modified by an action. Ideally, all exceptions will be caught by the master loop: file handling is an example of something traditionally handled locally. The master loop may taste the stack and handle mouse effects itself.
 
-My newline policy: all printers skip them if they are found at the head of a string. Everything which returns a line, returns it up to, but not including, the newline. This preserves the semantics of a newline without ever inserting one into the terminal, provided the frame handler does the correct thing.
+An i-handle is capable of parsing all possible events and consuming them, or it is badly written. They will inherit from a base handler that does the right thing, namely, nothing further. 
 
-1-printable becomes horribly complex as we start to support Unicode. The basic "get a glyph's worth of information" is fairly painless in UTF-8, which is all we'll ever support. Figuring out the width of the resulting glyph is a righteous pain. We'll want a hash to which we add glyphs as the system needs them: I have no interest in recognizing a character I don't personally use. If something screws up my own window, well, I'll add it, and I'll be generous with pull requests to `1-printable` that work. 
+There are only three types of handler, and only i-handles are called. t-handles and o-handles, which deal with transformation and display of subjects, are attached to i-handles and called as a consequence of invoking the handle. 
 
-#### : n-printables \ ( [c-str] n -- count )
+My next step is to actually write the fundamental handlers and get them working. My current thinking is that they are not interchangeable, that t-handles cannot change the type of the stack state by definition, and therefore i-handles may call o-handles directly. 
 
-I wrote this first. It was therefore hard, and is not easy to understand. Refactoring it with `1-printable` will be clearer.
+One important point: handles are immutable references to **handlers**. A handle calls two handlers in sequence, meaning any one handle may chain arbitrary handlers. The subjects stay on the stack, as does the active frame, and we sand rough edges with carefully chosen global state variables. 
 
-In any case, it consumes the address, returning only the count needed to print n characters across the screen.
+That done, I can pound off a quick, large rolling allocator that complains when it's full, and start writing some window sequences. This is when we refine the command vocabulary: at first, we just parse Forth, then we condense it. 
 
-#### : print-advance \ ( [c-str] n -> c-adr+ count- "string" )
-
-This takes n and prints it, advancing the c-str accordingly. This is buffer safe, and will not exceed a string's remaining offset if properly used. It returns up to n characters, or up to a newline, and when printing, skips the newline. 
-
-## Frames
-
-I wrote a little box drawing library and am going to jack it up with simple line drawing and the like.
-
-It uses the Unicode drawing set, rather than switching to graphics mode. This would be a relatively minor rewrite, if anyone out there needs it: all the drawing literals are abstracted behind words, as is the Forth way. 
-
-A frame, proper, is simply a `row col x y` array. There are access words; a frame gets its coordinates when created, and getters and setters are defined. The 'pane' of a frame is the part of that frame which is writable. In Fabri, these will be types. 
-
-## Printing
-
-Printing happens into a frame, and expects the frame on top of the counted buffer. 
-
-Right now, it's top-down, left-right. We can add right and center versions of that as we go: stacks should be right justified and down: we call it a 'push down' stack and this creates the right picture in my head at least. Moves like `rot` and `dup` will affect the same part of the stack frame every time: that helps push information into the subconscious where it belongs. 
-
-We'll eventually add fancy compound words like `size-frame-to-longest-line`, which will take a frame and a counted buffer, return the screen count of the longest line, and resize the cols of the frame accordingly. The window manager decides what to do after any frame gets sized. We'll also have `size-frame-to-buffer`, which does a rowcol resize in the same fashion. 
-
-We have no window manager yet, but we're almost ready to write one! Forge will have multiple windows in a single terminal, so we can pop between entire views. Useful when developing another interactive terminal program, among other purposes. Forge proper will use one of them; we'll keep the hooks to a minimum. Chuck always says you don't need them, I'm starting to get why. 
-
-## Buffer
-
-I keep talking about a buffer. It's specifically a composed view, just a chunk of string that may be fairly rapidly painted into a frame. It's not line based, but line movement words will be provided. It's not for editing text, it's for displaying composed text. 
-
-We'll be adding input handlers after this. That's a separate page.  
-
-## Key Handling
-
-This is arguable a terminal-level function. `key?` is native Forth, and we want a `termkey` that produces one 'event' in VT-100 terms, by collecting it into a pad and pushing it onto the stack, along with a flag showing the basic family of the key. This is more transparent than the Emacs I mean Gforth way of doing it, imho. 
-
-Our interpreter, which we build after the stack printer probably, will eat termkeys and respond appropriately. Line based, at first, so we're rewriting `accept` in our own terms. Also another page.
+Then it's time to hack the inner loop, so we parse, pad, and execute 'by hand' as it were. I need to clean up event handling so that handles UTF-8 correctly..

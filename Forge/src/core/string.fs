@@ -40,14 +40,9 @@ require roll-allot.fs
 	;
 
 
-\ the following is dubious.
-: $c+  \ char str -> nil -- char! )
-	\ "appends a single char to the end of string"
-	tuck $@ + !   \ ( str -- !char )
-	$@ 1 + swap cell - !  \ ( nil -- !offset+1 )
-	;
 
-: charpad \ pad a single character into a string
+
+: charpad \ pad a single character onto a string
 	2 cells roll-pad if
 		1 over !
 		tuck cell + !
@@ -74,8 +69,6 @@ require roll-allot.fs
 	then
 	;  
 
-
-
 : $cat  ( a.str b.str -> a+b.str )
 	\ "concatenates two strings into the cat pad"
 	swap 2dup @ swap @ cell + + cat-pad if
@@ -85,6 +78,9 @@ require roll-allot.fs
 		cr ." strings exceed cat pad"
 	then
 	;
+
+: $c+ \ cats a char to a string
+	charpad $cat ;
 
 : str \ creates a named string.
 	create \ ( str -> ,str := 'str' )

@@ -29,108 +29,23 @@ include ~+/simulorc/simulorc.fs
  loop decimal
  ;
 
-36 12 cols 36 - 1 frame: status
-
-: in-status? \ ( x y -> hit-flag )
-	status in-on-out?
-	;
-
-: click-respond
-		cr .cy .s 
-	in-status?
-	dup 0= if
-		drop .b status .frame
-	else 0 < if
-		.g status .frame
-	else
-		.r status .frame
-	then then 
-	false
-	;
-
-: release-respond
-	2drop false
-	;
-
-: rclick-respond
-	.xy* false
-	;
-
-: ascii-respond
-	emit
-	false
-	;
-
-: command-respond 
-	dup 
-	[char] q = if
-		cr .b ." bye!" .! 
-		drop true
-	else
-		cr .g ." command " 
-		dup printable? if
-			emit
-		else 
-			." unprintable :-\ " .
-		then false
-	then
-	;
-
-: csi-respond
-	cr .m ." csi: "
-	begin
-		dup [char] [ = if
-			true
-		else 
-			emit false
-		then
-	until
-	emit false
-	;
-
-: esc-csi-respond
-	cr 223 xterm-fg .$ ." esc-csi: "
-	csi-respond
-	;
-
-
-: control-respond
-	cr 177 xterm-fg .$ ." control: "
-	. false
-	;
-
-: event-respond
-	case 
-
-		-127  	of 	ascii-respond          endof
-		32    	of 	click-respond          endof
-		{cmd} 	of 	command-respond        endof
-		35    	of 	release-respond        endof
-		96    	of 	." ⇓" 2drop false 	   endof
-		97    	of 	." ⇑" 2drop false 	   endof
-		34   	of	rclick-respond         endof
-		{csi} 	of  csi-respond            endof
-		{esc-csi} of esc-csi-respond	   endof
-		{ctrl}  of  control-respond		   endof
-
-	cr .r ." respond: other: "  .s 
-	true
-	endcase 
-    ;
-
-: clickloop
-	begin 
-		event
-		event-respond
-		1 .left?
-		.!
-	until
-	;
+include ~+/test/see-and-say.fs
 
 
 ' .hexframe is [default-display]
 
+status colrow.frame status xy.frame 13 + frame: stack-fr
+
+: stack-handler \ ( buf off -> nil -- "str")
+	stack-fr .printframe
+	;
+
+: .stack
+	$s $@ stack-handler ;
+
 .windowclear
-status dup .frame .clearframe 0 0 .xy
+status dup .frame .clearframe 
+stack-fr dup .frame .clearframe 
+0 0 .xy
 
-
+: loupe see-and-say .! chill ;

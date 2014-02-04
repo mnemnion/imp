@@ -27,6 +27,10 @@ This is potentially confusing: I'm talking about literal handlers, not conceptua
 
 Something else that's confusing: handlers receive a subject as **input** and similarly output one. Neither of these should be confused for the subject of the **handler**, though they might be, in whole or in part. Other times, the input is a command, and the output is an entire new subject. Never a handler, though again, handlers may call other handlers as their last action.
 
+A consequence is that a handler can be written by calling a bunch of other handlers directly, as ordinary words, then attached to a *handle* and will behave identically to that handle, chained to other handles, that call all the handler words in sequence. 
+
+Confusing? It shouldn't be in practice. Handles are execution-driven linked lists that call handlers. A bit of Lisp, right? Of course right. With stack-driven continuation passing and just a taste of global state. 
+
 Flow control is accomplished by handlers that combine and pipe inputs and fork outputs, either dynamically in response to other handlers being called, or statically as a single command sequence. `><` probably means 'fork this output, once, into the next two handlers' while `}<` would do the same for an active pipe. Merging the output of two handlers is a rarer case, I think. We're getting a little Choosaphonic here: the main goal is observing data, not munging it. This isn't quite yet another language; we call Forth if we need heavy lifting in a command sequence: `` `forth here goes` `` or `:word`.
 
 We will rapidly need the full generality of these tools when we start taking over the inner loop. It's MVC, more or less.

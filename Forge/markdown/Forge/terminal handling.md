@@ -83,4 +83,12 @@ Vim is written backwards from my perspective. `insert` is the special mode and `
 
 Emacs is another case of language shaping thought. The fact that every keystroke calls an elisp function is perfect. The sequence of events in which those keystrokes are decoded... well, it does mean that Emacs can emulate Vim excellently, or do anything else. It's totally nuts though, like, crunchy nuts. Calvinball. `alt-/` is a good candidate for dropping into the Forge repl line. That's a separate vocabulary from a Forth program you might be working on, and we've got a long way to go before we do much besides developing Forge and Fabri in Forge. 
 
+###Keymaps and Masks
+
+A keymap must process all key type events. It's a dense array that covers all supported events, with guaranteed coverage.
+
+A mask is like a minor mode, and does what it sounds like: masks over a keymap, producing in effect a new keymap. We could implement this as a fallthrough case statement, and make them chainable, but I hate that crap. It's just a token table, they're cheap. 
+
+i-handles all have the default keymap attached as their fallthrough for key events they don't recognize. 
+
 

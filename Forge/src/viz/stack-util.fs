@@ -1,6 +1,6 @@
 ( stack utilities for Forge )
 
-: $xt? \ xt -- <'name'|"not found!">
+: $xt? \ ( ?xt -> str flag )
 	>name ?dup if 
 		name>string $pad true
 	else
@@ -37,6 +37,27 @@ variable stackpad
 		loop
 	;
 
+: (smart-print) \ (figurative stack print)
+	0 do
+		depth i 1 + - pick \ retrieve a stack value
+		dup $xt? if
+			cr .m ." xt found"
+			dup .$ 
+			#nl $c+
+			stackpad @ $cat
+			stackpad !
+		else 
+			drop
+			cr .b ." number"
+			dup .
+			#->$ #nl $c+
+			stackpad @ $cat
+			stackpad !
+		then
+		cr .w .s
+	loop .!
+	;
+
 : $s \ "turn stack into (literal), \n separated string"
 	#nl charpad stackpad !
 	depth dup 
@@ -48,3 +69,17 @@ variable stackpad
 	then
 	stackpad @
 	;
+
+: $smart \ "turn stack into (literal), \n separated string"
+	#nl charpad stackpad !
+	depth dup 
+	0 <> if
+		(smart-print)
+	else
+		drop
+		s" zero stack" $pad stackpad !
+	then
+	stackpad @
+	;
+
+

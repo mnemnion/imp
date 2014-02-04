@@ -34,3 +34,36 @@ Confusing? It shouldn't be in practice. Handles are execution-driven linked list
 Flow control is accomplished by handlers that combine and pipe inputs and fork outputs, either dynamically in response to other handlers being called, or statically as a single command sequence. `><` probably means 'fork this output, once, into the next two handlers' while `}<` would do the same for an active pipe. Merging the output of two handlers is a rarer case, I think. We're getting a little Choosaphonic here: the main goal is observing data, not munging it. This isn't quite yet another language; we call Forth if we need heavy lifting in a command sequence: `` `forth here goes` `` or `:word`.
 
 We will rapidly need the full generality of these tools when we start taking over the inner loop. It's MVC, more or less.
+
+
+###Flow Details
+
+Well, I'm about to write the handle architecture. Let's see if any of this holds water.
+
+####i-handle
+
+i-handles respond to `events`, which have variable stack effect. Predictable, in that the flag planted at the top implies an exact number of cells below. The `event->i-handle` contract has a large surface area in the interest of speed. A default event always has one cell below it, and it is always a 'string' type subject. 
+
+i-handles are called by frames, but have only an `event` on the stack. `this-frame` is set by the window-handler before calling i-handles. we'll probably have a special kind of handler for files, sockets, ports etc. since the events are fundamentally of a different kind. 
+
+i-handles leave a subject on the stack, having the total effect \ ( event -> buff off ). 
+
+####t-handle
+
+A t-handle leaves a new subject and calls the next handle.
+
+####o-handle
+
+an o-handle must know the output frame. There's no sense in having more than one of those at a time in a single-threaded loop, so o-handles will have `that-frame`, which is global. If and when we add concurrency, `that-frame` may be redefined along with o-handles to return a reference to their frame. 
+
+The benefit to this approach is that i/o chains are logically detached from frames. You can stretch the same transformation between frame #1 and #4 or #5 and #2, by setting `1 #frame i-frame! 4 #frame o-frame!`
+
+We're aiming for a short form command sequence. It's totally up in the air, but something like `$$}:compendium >$4` meaning "take the subject of the current frame, attach the 'compendium' transform to its input handler, and attach that transform to the display handler for frame 4." `:` takes one full-length Forth word, and is space-terminated. 
+
+This would then be executed once, because the command itself qualifies as input to the frames i-handle. Every following change to whatever frame was `$$` will be transformed accordingly. 
+
+There is only one o-handler that consumes its subject: `handle-ender`, which is the default next for an o-handle. An **o-handle** will consume its subject unless it is chained to another handle, which is plausible: we might want to return focus to a new frame, for example, or redraw some other frame. 
+
+t- and o- handles have interchangeable stack effects except for terminal o's. An i-t sequence that terminates without output is plausible, or even an i only sequence: `handle-ender` has consistent effects if put in the `next` cell of a handle. `handle-ender` may have an additional responsibility, leaving a unique stack token that demonstrates that a handle chain was terminated correctly. 
+
+The loop is very simple: we get events, dispatch mouse clicks, and pass the rest to the current i-handle. We check that the return is correct, attempt to recover if not, and otherwise take another event. 

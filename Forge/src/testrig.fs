@@ -41,7 +41,7 @@ status colrow.frame status xy.frame 13 + frame: stack-fr
 	;
 
 : .stack
-	$s $@ stack-handler ;
+	$smart $@ stack-handler ;
 
 .windowclear
 status dup .frame .clearframe 

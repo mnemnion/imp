@@ -82,17 +82,6 @@
     .|lli  0 do .|...  loop .|lri   
     ;
 
-: .|wipe \ ( cols rows -- "pane" )
-    swap |innerbox                   \ ( row col --  )
-    .di .w                      \ ( "ansi"      )
-    0 do                        \ ( row     --  )
-        dup 0 do ." *" loop     \ ( row -- "*+" )
-        dup .back 1 .down       \ ( row     --  )
-    loop
-    drop 
-    .!
-    ;
-
 : .|perform \ ( xt rows cols -> nil `xt` )
 	\ "performs a line action and carriage return "
 	\ "within the xy.pane 'rows cols'. "

@@ -1,5 +1,11 @@
 36 12 cols 36 - 1 frame: status
 
+status colrow.frame status xy.frame 13 + frame: stack-frame
+
+' stack-frame is stack-fr
+
+
+
 : in-status? \ ( x y -> hit-flag )
 	status in-on-out?
 	;
@@ -32,9 +38,10 @@
 
 : (command-default)
 	printable? if
-		cr .s
-		emit false false \ default case eats from the wrong place! damn
-		cr .s
+	
+		cr .g ." command " emit 
+		false false \ default case eats from the wrong place! damn
+\ 		cr .s
 	else 
 		." unprintable :-\ " 
 		. false false 
@@ -49,7 +56,7 @@
 		(command-default)
 		\ default
 	endcase	
-	cr .b .s
+
 	;
 
 : csi-respond
@@ -84,7 +91,7 @@
 		{ctrl}    of    control-respond		   endof
 
 	cr .r ." respond: other: "  .s 
-	true
+	true true
 	endcase 
     ;
 

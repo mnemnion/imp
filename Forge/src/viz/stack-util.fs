@@ -55,7 +55,7 @@ variable stackpad 128 cells allot
 			stackpad !
 		then
 \ 		cr .w .s
-	loop .!
+	loop 
 	;
 
 : $s \ "turn stack into (literal), \n separated string"
@@ -81,5 +81,21 @@ variable stackpad 128 cells allot
 	then
 	stackpad @
 	;
+
+defer stack-fr
+
+: stack-handler \ ( buf off -> nil -- "str")
+	stack-fr .printframe
+	;
+
+: .stack
+	$smart $@ stack-handler ;
+
+: .left? ( count -- nil )
+	1 + depth <> if
+		cr .r 
+		." leftovers: "
+	    .stack .!
+	then ;
 
 

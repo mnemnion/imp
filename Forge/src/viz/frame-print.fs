@@ -8,6 +8,17 @@
 	.restore
 	;
 
+: .|wipe \ ( cols rows -- "pane" )
+    swap |innerbox                   \ ( row col --  )
+    \ .di .w                      \ ( "ansi"      )
+    0 do                        \ ( row     --  )
+        dup 0 do bl emit loop     \ ( row -- "*+" )
+        dup .back 1 .down       \ ( row     --  )
+    loop
+    drop 
+    \ .!
+    ;
+
 : .clearframe \ ( frame -> nil "pane" )
 	\ clears the (screen) pane of a given frame
 	.save
@@ -35,7 +46,7 @@
 : .printframe \ ( [c-str] frame -> nil "pane" )
 	\ "prints the contents of c-str into frame,"
 	\ "from top left."
-	dup .clearframe
+	\ dup .clearframe
 	.save
 	dup 
 		xy.into-frame

@@ -34,15 +34,6 @@ include ~+/test/see-and-say.fs
 
 ' .hexframe is [default-display]
 
-status colrow.frame status xy.frame 13 + frame: stack-fr
-
-: stack-handler \ ( buf off -> nil -- "str")
-	stack-fr .printframe
-	;
-
-: .stack
-	$smart $@ stack-handler ;
-
 .windowclear
 status dup .frame .clearframe 
 stack-fr dup .frame .clearframe 

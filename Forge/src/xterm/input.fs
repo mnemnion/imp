@@ -93,8 +93,9 @@ variable inpad
 	then
 	;
 
-: (event) ( nil - mu event-flag )
+: event ( nil - mu event-flag )
 	\ like "key" but refreshing and different 
+	key
 	dup 27 = if
 		escape-parse 
 	else dup printable? if
@@ -108,8 +109,6 @@ variable inpad
 	.!
 	;
 
-: event 
-	key (event) ;
 
 : events \ "event, plural"
 	0 do event loop ;

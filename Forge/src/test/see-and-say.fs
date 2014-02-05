@@ -30,19 +30,26 @@
 	false
 	;
 
+: (command-default)
+	printable? if
+		cr .s
+		emit false false \ default case eats from the wrong place! damn
+		cr .s
+	else 
+		." unprintable :-\ " 
+		. false false 
+	then 
+	;
+
 : command-respond 
 	dup 
 	case 
 		[char] q of cr .b ." bye!" .! 
 			drop true endof
+		(command-default)
 		\ default
-		cr .g ." command " 
-		dup printable? if
-			emit
-		else 
-			." unprintable :-\ " .
-		then false
 	endcase	
+	cr .b .s
 	;
 
 : csi-respond

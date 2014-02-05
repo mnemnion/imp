@@ -7,20 +7,28 @@
 	;
 
 : (i-handle-next)  \ ( frame subject -> nil )
-	cr .r ." end of handle" .!
-	2drop ;
+	cr .r ." add a next" .!
+	\ 2drop 
+	;
 
-: i-handle, \ ( nil -> ,i-handle )
+: ooblick ." oo-blick! " ;
+
+: (i-handle), \ ( nil -> ,i-handle )
 	['] (i-handle-default) , \ ( ,xt )
 	['] (i-handle-next)    , \ ( ,xt )
 	;
 
-: i-handle: 
-	create i-handle,
-	 ;
+: i-handle, \ \ does next -> := i-handle )
+	here >r
+	swap , , r> @ ;
 
 : i-handle \ ( i-handle -> nil )
 	\ "calls an i-handle"
 	dup >r perform 
 	r> cell + perform
 	;
+
+: i-handle: 
+	create (i-handle),
+	does> i-handle
+	 ;

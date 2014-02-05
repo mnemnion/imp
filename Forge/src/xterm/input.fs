@@ -9,6 +9,10 @@
 
 -2048 constant {esc-csi}
 
+-4096 constant {subj}
+
+variable inpad 
+
 : mouse-parse
 	drop
 	key \ type
@@ -20,15 +24,26 @@
 : csi-end?
 	64 127 within ;
 
+: (inpad-on)
+	inpad @ swap
+		 		$c+ 
+		 		inpad ! ;
+
 : csi-other-parse
-	[char] [ swap
-	dup csi-end? if
+	[char] [ 
+
+	charpad inpad !  
+	dup (inpad-on)
+	csi-end? if
 	else 
 		begin
 			key 
-			dup csi-end?
+		    dup
+		 		(inpad-on)
+			csi-end?
 		until
 	then
+	inpad @
     {csi}
 	;
 

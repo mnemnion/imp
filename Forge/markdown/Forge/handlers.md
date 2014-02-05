@@ -44,13 +44,17 @@ Well, I'm about to write the handle architecture. Let's see if any of this holds
 
 i-handles respond to `events`, which have variable stack effect. Predictable, in that the flag planted at the top implies an exact number of cells below. The `event->i-handle` contract has a large surface area in the interest of speed. A default event always has one cell below it, and it is always a 'string' type subject. 
 
-i-handles are called by frames, but have only an `event` on the stack. `this-frame` is set by the window-handler before calling i-handles. we'll probably have a special kind of handler for files, sockets, ports etc. since the events are fundamentally of a different kind. 
+`event` codes (will be) are always negative, for the simple reason that buffers and offsets never are. 
 
-i-handles leave a subject on the stack, having the total effect \ ( event -> buff off ). 
+There is one global i-handle in play at a given moment, and it is called by the window handler. `this-frame` is a global variable containing the target frame for current input. The word which changes `this-frame` makes the global i-handle the handle for that frame. 
+
+i-handles leave a subject on the stack, having the total effect \ ( event -> buff off ). Because i-handles produce subjects, not events, they cannot be chained. One may write an i-handle that filters events and calls another i-handle, but this is handrolled. Call it an i-filter; the word fulfills the usual contract by generating and consuming an intermediate event. Totally kosher. 
 
 ####t-handle
 
-A t-handle leaves a new subject and calls the next handle.
+A t-handle leaves a subject, presumably new, and calls the next handle.
+
+T-handles are optional, and are always called by chain. Commands may invoke them first by placing a subject on the stack. 
 
 ####o-handle
 
@@ -65,5 +69,7 @@ This would then be executed once, because the command itself qualifies as input 
 There is only one o-handler that consumes its subject: `handle-ender`, which is the default next for an o-handle. An **o-handle** will consume its subject unless it is chained to another handle, which is plausible: we might want to return focus to a new frame, for example, or redraw some other frame. 
 
 t- and o- handles have interchangeable stack effects except for terminal o's. An i-t sequence that terminates without output is plausible, or even an i only sequence: `handle-ender` has consistent effects if put in the `next` cell of a handle. `handle-ender` may have an additional responsibility, leaving a unique stack token that demonstrates that a handle chain was terminated correctly. 
+
+Nothing returns to the master loop explicitly, it is quite possible to `dup` a subject, put it through two different handle cascades, and have them end twice. A handle which does this (a fork, of course) is responsible for dealing with the return token of the first handle cascade, as you might expect. 
 
 The loop is very simple: we get events, dispatch mouse clicks, and pass the rest to the current i-handle. We check that the return is correct, attempt to recover if not, and otherwise take another event. 

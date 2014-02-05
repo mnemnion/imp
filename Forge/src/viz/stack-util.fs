@@ -25,7 +25,7 @@
 		3 emits drop
 	then ;
 
-variable stackpad
+variable stackpad 128 cells allot
 
 : (dumb-print) \ ( literal stack print )
 	0 do
@@ -41,20 +41,20 @@ variable stackpad
 	0 do
 		depth i 1 + - pick \ retrieve a stack value
 		dup $xt? if
-			cr .m ." xt found"
-			dup .$ 
+\ 			cr .m ." xt found"
+\ 			dup .$ 
 			#nl $c+
 			stackpad @ $cat
 			stackpad !
 		else 
 			drop
-			cr .b ." number"
-			dup .
+\ 			cr .b ." number"
+\ 			dup .
 			#->$ #nl $c+
 			stackpad @ $cat
 			stackpad !
 		then
-		cr .w .s
+\ 		cr .w .s
 	loop .!
 	;
 

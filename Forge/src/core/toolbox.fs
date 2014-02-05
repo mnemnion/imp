@@ -1,3 +1,6 @@
+
+: ` comp' postpone, ; immediate
+
 : .. clearstack ;
 
 : keys 0 do key loop ;

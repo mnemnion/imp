@@ -8,15 +8,6 @@
 	.restore
 	;
 
-: .title \ ( buf off frame -> nil -- "frame" )
-	\ "titles a frame"
-	.save
-	xy.frame .xy
-	2 .fwd
-	type
-	.restore
-	;
-
 : .|wipe \ ( cols rows -- "pane" )
     swap |innerbox                   \ ( row col --  )
     \ .di .w                      \ ( "ansi"      )
@@ -55,7 +46,7 @@
 : .printframe \ ( [c-str] frame -> nil "pane" )
 	\ "prints the contents of c-str into frame,"
 	\ "from top left."
-	\ dup .clearframe
+	 dup .clearframe
 	.save
 	dup 
 		xy.into-frame

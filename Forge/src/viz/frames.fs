@@ -71,7 +71,7 @@ defer [default-display]
 : set-input.frame \ ( i-handle frame -> nil -- !i-handle )
 	 4 cells +  ! ; 
 
- : display.frame \ ( frame -> nil -- "display" )
+ : .display \ ( frame -> nil -- "display" )
  	dup
  	5 cells + perform ;
 

@@ -46,6 +46,7 @@ variable stackpad 128 cells allot
 			#nl $c+
 			stackpad @ $cat
 			stackpad !
+			drop
 		else 
 			drop
 \ 			cr .b ." number"
@@ -94,9 +95,10 @@ defer stack-fr
 : .left? ( count -- nil )
 	1 + depth <> if
 		cr .r 
-		s" leftovers: "
+		s" Leftovers: "
 		stack-fr .title
 	    .stack .!
+	    .s
 	then ;
 
 

@@ -7,6 +7,8 @@
 
 : emits 0 do emit loop ;
 
+: drops 0 do drop loop ;
+
 : 3dup \ chuck forgive me
 	2 pick 2 pick 2 pick ;
 

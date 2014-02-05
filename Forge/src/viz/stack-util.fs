@@ -94,7 +94,8 @@ defer stack-fr
 : .left? ( count -- nil )
 	1 + depth <> if
 		cr .r 
-		." leftovers: "
+		s" leftovers: "
+		stack-fr .title
 	    .stack .!
 	then ;
 

@@ -8,6 +8,15 @@
 	.restore
 	;
 
+: .title \ ( buf off frame -> nil -- "frame" )
+	\ "titles a frame"
+	.save
+	xy.frame .xy
+	2 .fwd
+	type
+	.restore
+	;
+
 : .|wipe \ ( cols rows -- "pane" )
     swap |innerbox                   \ ( row col --  )
     \ .di .w                      \ ( "ansi"      )

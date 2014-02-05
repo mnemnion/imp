@@ -7,6 +7,17 @@
 		s" not found!" $pad false
 	then ;
 
+: $var?
+	2 cells - >name ?dup if
+		name>string $pad true
+	else 
+	  s" nottavar!" $pad false
+	then
+	;
+
+: $var
+	$var? drop ;
+
 : $xt $xt? drop ;
 
 : .xt $xt .$ ;
@@ -37,24 +48,29 @@ variable stackpad 128 cells allot
 		loop
 	;
 
+: (pad-stack)
+	#nl $c+
+	stackpad @ $cat
+	stackpad !
+	drop
+	;
+
 : (smart-print) \ (figurative stack print)
 	0 do
 		depth i 1 + - pick \ retrieve a stack value
 		dup $xt? if
 \ 			cr .m ." xt found"
 \ 			dup .$ 
-			#nl $c+
-			stackpad @ $cat
-			stackpad !
-			drop
+			(pad-stack)
 		else 
 			drop
-\ 			cr .b ." number"
-\ 			dup .
+			dup $var? if
+				(pad-stack)
+			else
 			#->$ #nl $c+
 			stackpad @ $cat
 			stackpad !
-		then
+		then then
 \ 		cr .w .s
 	loop 
 	;
@@ -90,6 +106,7 @@ defer stack-fr
 	;
 
 : .stack
+
 	$smart $@ stack-handler ;
 
 : .left? ( count -- nil )

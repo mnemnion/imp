@@ -72,7 +72,7 @@ defer [default-display]
 	 4 cells +  ! ; 
 
  : .display \ ( frame -> nil -- "display" )
- 	dup
+ 	\ dup
  	5 cells + perform ;
 
 : set-display.frame \ ( o-handle frame -> nil -- !o-handle )

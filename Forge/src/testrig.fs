@@ -33,10 +33,10 @@ include ~+/test/see-and-say.fs
 
 
 ' .hexframe is [default-display]
-
+' .stack stack-frame set-display.frame 
 .windowclear
 status dup .frame .clearframe 
-stack-fr dup .frame .clearframe 
+stack-frame dup .frame .clearframe 
 0 0 .xy
 
 : loupe see-and-say .! chill ;

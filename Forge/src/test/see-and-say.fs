@@ -76,6 +76,17 @@ status colrow.frame status xy.frame 13 + frame: stack-frame
 	. false
 	;
 
+: utf-respond
+	cr 230 xterm-fg .$ ." UTF-8:"
+	.$
+	 false
+	;
+
+: malform-respond
+	cr .r  ." malformed UTF-8! "
+	. false
+	;
+
 : other-respond
 	cr 182 xterm-fg .$ ." other: "
 	. true
@@ -94,6 +105,9 @@ status colrow.frame status xy.frame 13 + frame: stack-frame
 		{csi} 	  of    csi-respond            endof
 		{esc-csi} of    esc-csi-respond 	   endof
 		{ctrl}    of    control-respond		   endof
+		{utf}     of    utf-respond            endof
+		{mal}	  of	malform-respond        endof
+
 		otherwise 		other-respond 		   endother 
 	endcase 
     ;

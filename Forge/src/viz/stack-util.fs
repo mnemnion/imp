@@ -95,7 +95,7 @@ variable stackpad 128 cells allot
 		(smart-print)
 	else
 		drop
-		s" zero stack" $pad stackpad !
+		\ s" zero stack" $pad stackpad !
 	then
 	stackpad @
 	;

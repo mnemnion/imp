@@ -13,6 +13,8 @@
 
 -4096 constant {subj}
 
+-8192 constant {mal}
+
 variable inpad 
 
 : mouse-parse
@@ -95,11 +97,51 @@ variable inpad
 	then
 	;
 
+: (utf-parse)
+	dup
+	charpad swap dup
+		194 224 within if \ two bytes
+			drop key $c+
+		else dup
+			224 240 within if
+			drop key $c+ key $c+
+		else 
+			drop key $c+ key $c+ key $c+
+
+		then then
+
+	;
+
+: (utf-parse)~
+	dup
+ 	cr .w
+	charpad swap
+\ 	cr .r ." wtf: " .s
+	dup
+		194 224 within if \ two bytes
+			cr . key . 
+		else dup
+			224 240 within if
+			cr 
+			. key . key .
+		else 
+			cr 
+			. key . key . key
+		then then
+    .!
+	;
+
 : utf-parse 
 	\ "parse one UTF character"
-	
-
-{utf} ; 
+	dup
+		194 245 within if
+			cr .g ." valid UTF-8"
+			(utf-parse)
+			{utf}
+		else
+			{mal}
+		then
+	 ; 
 
 : event ( nil - mu event-flag )
 	\ like "key" but refreshing and different 

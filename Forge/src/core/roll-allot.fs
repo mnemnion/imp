@@ -34,7 +34,7 @@
 
  )
 
-require ~+/ansi/ansi.fs
+\ require ~+/ansi/ansi.fs
 
 
 : (rollocate)  \ ( adr req -> )

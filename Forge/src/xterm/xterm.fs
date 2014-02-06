@@ -5,6 +5,7 @@ An MIT Licensed term handler for ANS Forth.
 )
 
 include xterm-core.fs
+include colors.fs
 include terminal.fs
 include input.fs
 include boxes.fs

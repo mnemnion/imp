@@ -18,7 +18,11 @@ require ~+/core/core.fs
 
 $esc char [ charpad $cat str $^
 
-: .^ $^ .$ ;
+27 constant #esc
+
+10 constant #nl
+
+: .^ 27 emit [char] [ emit ;
 
 : xterm-fg ( byte -> str )
 	\ "pads a string that changes the foreground color"

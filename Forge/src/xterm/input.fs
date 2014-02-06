@@ -102,9 +102,9 @@ variable inpad
 	swap dup 
 	utf-bytes?
 	case 
-		2 of .s key $c+ endof
-		3 of .s key $c+ key $c+ endof
-		4 of .s key $c+ key $c+ key $c+ endof
+		2 of  key $c+ endof
+		3 of  key $c+ key $c+ endof
+		4 of  key $c+ key $c+ key $c+ endof
 		otherwise ." wtf?" endother
 	endcase
 	;
@@ -128,7 +128,7 @@ variable inpad
 	\ "parse one UTF character"
 	dup
 		194 245 within if
-			cr .g ." valid UTF-8"
+\ 			cr .g ." valid UTF-8"
 			(utf-parse)
 			{utf}
 		else

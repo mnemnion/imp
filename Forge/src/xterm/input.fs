@@ -98,6 +98,18 @@ variable inpad
 	;
 
 : (utf-parse)
+	dup charpad
+	swap dup 
+	utf-bytes?
+	case 
+		2 of .s key $c+ endof
+		3 of .s key $c+ key $c+ endof
+		4 of .s key $c+ key $c+ key $c+ endof
+		otherwise ." wtf?" endother
+	endcase
+	;
+
+: (utf-parse)~
 	dup
 	charpad swap dup
 		194 224 within if \ two bytes
@@ -110,25 +122,6 @@ variable inpad
 
 		then then
 
-	;
-
-: (utf-parse)~
-	dup
- 	cr .w
-	charpad swap
-\ 	cr .r ." wtf: " .s
-	dup
-		194 224 within if \ two bytes
-			cr . key . 
-		else dup
-			224 240 within if
-			cr 
-			. key . key .
-		else 
-			cr 
-			. key . key . key
-		then then
-    .!
 	;
 
 : utf-parse 

@@ -31,6 +31,17 @@
 	or
 	;
 
+: utf-bytes? \ ( utf-lead -> flag )
+	194 224 within if
+		drop 2
+	else dup
+		224 240 within if
+			drop 3
+		else
+			drop 4
+	then then
+	;
+
 \ default case words
 
 : otherwise [ ' drop ] literal ; 

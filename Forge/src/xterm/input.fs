@@ -3,6 +3,8 @@
 
 -127 constant {ascii}
 
+-256 constant {utf}
+
 -512 constant {ctrl}
 
 -1024 constant {csi}
@@ -93,6 +95,12 @@ variable inpad
 	then
 	;
 
+: utf-parse 
+	\ "parse one UTF character"
+	
+
+{utf} ; 
+
 : event ( nil - mu event-flag )
 	\ like "key" but refreshing and different 
 	key
@@ -103,7 +111,11 @@ variable inpad
 		{ascii}
 		else 
 \ 			cr .r ." other"
-			{ctrl}
+			dup 127 > if
+				utf-parse
+			else
+				{ctrl}
+			then
 		then
 	then 
 	.!

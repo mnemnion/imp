@@ -30,3 +30,12 @@
 		97 123 within r>
 	or
 	;
+
+\ default case words
+
+: otherwise drop ;
+: endother false ;
+
+\ handy printers
+
+: .bin ['] . 2 base-execute ;

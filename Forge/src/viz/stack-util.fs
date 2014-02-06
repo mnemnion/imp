@@ -67,9 +67,10 @@ variable stackpad 128 cells allot
 			dup $var? if
 				(pad-stack)
 			else
-			#->$ #nl $c+
-			stackpad @ $cat
-			stackpad !
+				drop
+				#->$ #nl $c+
+				stackpad @ $cat
+				stackpad !
 		then then
 \ 		cr .w .s
 	loop 
@@ -108,6 +109,19 @@ defer stack-fr
 : .stack
 
 	$smart $@ stack-handler ;
+
+: (stack-title)
+	depth >r \ before we stuff the stack...
+	.g
+	s" Stack: " $pad 
+	r> #->$ $cat bl $c+
+	$@ stack-fr .title .!
+	;
+
+: .ss 
+	(stack-title)
+	.stack
+	;
 
 : .left? ( count -- nil )
 	1 + depth <> if

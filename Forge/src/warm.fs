@@ -1,5 +1,6 @@
 
 require core/core.fs
+require hammerspace/hammerspace.fs
 require xterm/xterm.fs
 \ require ansi/ansi.fs
 require util/util.fs

@@ -76,6 +76,11 @@ status colrow.frame status xy.frame 13 + frame: stack-frame
 	. false
 	;
 
+: other-respond
+	cr 182 xterm-fg .$ ." other: "
+	. true
+	;
+
 : event-respond
 	case 
 
@@ -89,9 +94,7 @@ status colrow.frame status xy.frame 13 + frame: stack-frame
 		{csi} 	  of    csi-respond            endof
 		{esc-csi} of    esc-csi-respond 	   endof
 		{ctrl}    of    control-respond		   endof
-
-	cr .r ." respond: other: "  .s 
-	true true
+		otherwise 		other-respond 		   endother 
 	endcase 
     ;
 

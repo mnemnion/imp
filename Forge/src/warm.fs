@@ -1,4 +1,6 @@
 
+vocabulary Forge also Forge definitions
+
 require core/core.fs
 require hammerspace/hammerspace.fs
 require xterm/xterm.fs

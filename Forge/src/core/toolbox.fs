@@ -33,7 +33,7 @@
 
 \ default case words
 
-: otherwise drop ;
+: otherwise [ ' drop ] literal ;
 : endother false ;
 
 \ handy printers

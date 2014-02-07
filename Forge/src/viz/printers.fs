@@ -38,6 +38,64 @@
 	drop nip \ drop advance adr and nip count, or 0 and 0 for newline.
 	;
 
+: esc-printables? 
+\ 	cr .m ." esc "
+	drop 1 swap
+	1 + dup c@
+	[char] [ <> if
+\ 		cr .bo .w ." 2-byte"
+		drop 1 +
+	else  
+		begin	
+			1 + dup c@
+\ 			cr .cy ." 3rd byte: " dup emit
+			csi-end? if
+				swap 1 + 
+				true
+			else
+				swap 1 + 
+				swap false
+			then
+		until	
+	then
+\ 	.!
+;
+
+: utf-printables? 
+	cr .cy ." utf?: " .s
+	dup utf-lead? if
+		utf-bytes?
+	else
+		-1
+	then
+	;
+
+: text-printables?
+	dup 127 < if
+		2drop 1
+	else
+		utf-printables?
+	then
+	;
+
+
+: 1-printable \ ( buf off -> count )
+	\ "returns the number of bytes needed to print 1 character on the screen"
+	\ "pretends all Unicode is single-width"
+	\ "negative counts are the number of malformed characters to skip"
+	dup 0 = if
+		cr .r ." end of buffer"
+		nip 
+	else
+		drop dup c@ dup
+		case 
+			#nl of drop 0			    endof
+			#esc of esc-printables? 	endof
+			otherwise text-printables? 	endother
+		endcase
+
+	then
+	;
 
 
 : print-n \ ( [c-str] n -> "string")

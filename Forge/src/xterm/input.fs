@@ -25,9 +25,6 @@ variable inpad
     rot    \ ( rows cols type -- )
 	;
 
-: csi-end?
-	64 127 within ;
-
 : (inpad-on)
 	inpad @ swap
 		 		$c+ 
@@ -109,25 +106,11 @@ variable inpad
 	endcase
 	;
 
-: (utf-parse)~
-	dup
-	charpad swap dup
-		194 224 within if \ two bytes
-			drop key $c+
-		else dup
-			224 240 within if
-			drop key $c+ key $c+
-		else 
-			drop key $c+ key $c+ key $c+
-
-		then then
-
-	;
 
 : utf-parse 
 	\ "parse one UTF character"
 	dup
-		194 245 within if
+		utf-lead? if
 \ 			cr .g ." valid UTF-8"
 			(utf-parse)
 			{utf}

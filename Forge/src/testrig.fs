@@ -29,6 +29,9 @@
  loop decimal
  ;
 
+: 1-pr
+	1-printable 1 .left? ;
+
 include ~+/test/see-and-say.fs
 
 

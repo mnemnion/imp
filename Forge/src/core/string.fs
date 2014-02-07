@@ -103,6 +103,16 @@ require roll-allot.fs
 : #->$ \ convert one cell to a counted string
 	0 <# #s #> $pad  ;
 
+ : signed>$ \ ( n -> str )
+ 	\ "signed number to string"
+       s>d            \ convert to signed double
+       swap over dabs \ leave sign byte followed by unsigned double
+       <#            \ start conversion
+       #s             \ convert all digits
+       rot sign       \ get at sign byte, append "-" if needed
+       #>             \ complete conversion
+       #> $pad ; 
+
 
 
 

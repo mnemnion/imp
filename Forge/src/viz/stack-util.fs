@@ -55,7 +55,19 @@ variable stackpad 128 cells allot
 	drop
 	;
 
+ : signed>$ ( n -- )
+       \ handling negatives.. behaves like Standard .
+       s>d            \ convert to signed double
+       swap over dabs \ leave sign byte followed by unsigned double
+       <#            \ start conversion
+       #s             \ convert all digits
+       rot sign       \ get at sign byte, append "-" if needed
+       #>             \ complete conversion
+     \ \  TYPE SPACE     \ display, with trailing space
+       #> $pad ;          \ release hold area
+
 : (smart-print) \ (figurative stack print)
+	\ this could stand to handle negative numbers correctly.
 	0 do
 		depth i 1 + - pick \ retrieve a stack value
 		dup $xt? if
@@ -68,11 +80,11 @@ variable stackpad 128 cells allot
 				(pad-stack)
 			else
 				drop
-				#->$ #nl $c+
-				stackpad @ $cat
-				stackpad !
-		then then
-\ 		cr .w .s
+					signed>$ #nl $c+
+					stackpad @ $cat
+					stackpad !
+		then then 
+		\ 		cr .w .s
 	loop 
 	;
 

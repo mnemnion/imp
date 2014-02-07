@@ -99,8 +99,8 @@
 			otherwise text-printables? 	    	endother
 		endcase
 	then
-	cr .g ." 1 print return: "
-	cr .s
+ 	cr .g ." 1 print return: "
+ 	cr .s
 	;
 
 : (advance) \ ( buf off count -> buff+count off-count )
@@ -117,21 +117,21 @@
  	0 >r
 	begin	
 		2dup (1-print)
-		cr .cy .s
+\  		cr .cy .s
 		false = if
 			dup r> + >r 
 		 	(advance)	
 		 	false
 		else 
-			cr .r .s
+\ 			cr .r .s
 			 r>  + true 
-			cr ." after: " .s
+\ 			cr ." after: " .s
 		then \ test for malformation
 	until 
 	nip nip .!
 	;
 
-: n-printable~ \ (buf off n -> count )
+: n-printable \ (buf off n -> count )
 	0 >r
 	0 do
 		2dup 
@@ -142,7 +142,7 @@
 	r>
 	;
 
-: n-printable \ ( buf off n -> count )
+: n-printable~ \ ( buf off n -> count )
 	\ retrieve enough characters to print n text cells.
 	0 swap
 	0 do

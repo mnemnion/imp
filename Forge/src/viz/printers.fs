@@ -50,19 +50,20 @@
 			1 + dup c@
 \ 			cr .cy ." 3rd byte: " dup emit
 			csi-end? if
-				swap 1 + 
+				swap 2 + \ extra for [, spares some swap 
 				true
 			else
 				swap 1 + 
 				swap false
 			then
 		until	
+		nip
 	then
 \ 	.!
 ;
 
 : utf-printables? 
-	cr .cy ." utf?: " .s
+\ 	cr .cy ." utf?: " .s
 	dup utf-lead? if
 		utf-bytes?
 	else
@@ -79,6 +80,8 @@
 	;
 
 
+\ tab handling? Currently returns 1 for any ctrl character < 127.
+
 : 1-printable \ ( buf off -> count )
 	\ "returns the number of bytes needed to print 1 character on the screen"
 	\ "pretends all Unicode is single-width"
@@ -93,21 +96,47 @@
 			#esc of esc-printables? 	endof
 			otherwise text-printables? 	endother
 		endcase
-
 	then
 	;
 
+: n-printable \ ( buf off n -> count )
+	\ retrieve enough characters to print n text cells.
+	0 swap
+	0 do
+		>r 
+		2dup 1-printable dup 0 > if
+			tuck dup r> + >r
+			- >r + r> 
+			r> 
+			cr .m .s
+		else 
+			dup 0 = if 
+				2drop
+				r>
+				cr .g .s
+				leave
+			else
+				r> drop
+				nip nip
+				cr .r ." malformed" .s
+				leave
+			then
+		then
+	loop
+	nip nip
+	.!
+	;
 
-: print-n \ ( [c-str] n -> "string")
+\ : print-n \ ( [c-str] n -> "string")
 \ "prints n characters, up to a newline, ansi escaped."
 \ "will not overflow a c-str with proper count."
-	>r 2dup drop r> n-printables
-	2dup > if \ safe to print as counted
-		nip type
-	else      \ print the whole thing
-		drop type
-	then
-	; 
+\ 	>r 2dup drop r> n-printables
+\  2dup > if \ safe to print as counted
+\ 		nip type
+\ 	else      \ print the whole thing
+\ 		drop type
+\ 	then
+\  	; 
 
 : skip-cr \ ( [c-str] -> [c-str] | [c-str+] )
 	\ "skip a leading newline"

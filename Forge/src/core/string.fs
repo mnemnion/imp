@@ -88,6 +88,8 @@ require roll-allot.fs
 	does>
 	;
 
+variable null-str 0 , 
+
 \ note: we need to natively compile this;
 \ the compile time behavior is fundamentally broken. 
 

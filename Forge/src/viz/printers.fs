@@ -63,9 +63,10 @@
 ;
 
 : utf-printables? 
-\ 	cr .cy ." utf?: " .s
+ 	cr .cy ." utf?: " .s
 	dup utf-lead? if
 		utf-bytes?
+		cr .cy ." bytes: " dup .
 	else
 		-1
 	then
@@ -108,7 +109,7 @@
 			tuck dup r> + >r
 			- >r + r> 
 			r> 
-			cr .m .s
+\ 			cr .m .s
 		else 
 			dup 0 = if 
 				2drop

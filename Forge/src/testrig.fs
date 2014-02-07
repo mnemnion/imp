@@ -18,6 +18,8 @@
 
 : .#hex s\" 0123\e[31m4567\e[0m\e[2m89AB\e[0mCDEF" ;
 
+: .#grec s\" ψΓωͲῶ≤+∢" ;
+
 : hex-n \ "print the hex, over n over"
  hex 0 do
  	i 16 mod  

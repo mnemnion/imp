@@ -96,7 +96,7 @@ variable inpad
 
 : (utf-parse)
 	dup charpad
-	swap dup 
+	swap  
 	utf-bytes?
 	case 
 		2 of  key $c+ endof

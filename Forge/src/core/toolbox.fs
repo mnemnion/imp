@@ -39,7 +39,7 @@
 	194 245 within ;
 
 : utf-bytes? \ ( utf-lead -> flag )
-	194 224 within if
+	dup 194 224 within if
 		drop 2
 	else dup
 		224 240 within if

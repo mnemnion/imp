@@ -75,9 +75,9 @@
 
 : text-printables?
 	dup 127 < if
-		2drop 1
+		2drop 1 true
 	else
-		utf-printables?
+		nip utf-printables?
 	then
 	;
 
@@ -99,6 +99,8 @@
 			otherwise text-printables? 	    	endother
 		endcase
 	then
+	cr .g ." 1 print return: "
+	cr .s
 	;
 
 : (advance) \ ( buf off count -> buff+count off-count )
@@ -122,14 +124,22 @@
 		 	false
 		else 
 			cr .r .s
-			drop r> 1 + true 
+			 r>  + true 
+			cr ." after: " .s
 		then \ test for malformation
 	until 
-	nip .!
+	nip nip .!
 	;
 
 : n-printable~ \ (buf off n -> count )
-
+	0 >r
+	0 do
+		2dup 
+		1-printable
+		>r + r>
+	loop
+	2drop
+	r>
 	;
 
 : n-printable \ ( buf off n -> count )

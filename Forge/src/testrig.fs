@@ -20,6 +20,10 @@
 
 : .#grec s\" ψΓωͲῶ≤+∢" ;
 
+: .#e\  s\" \e[34mfoo" ;
+
+: .#emo s\" 😇😏😑👲" ;
+
 : hex-n \ "print the hex, over n over"
  hex 0 do
  	i 16 mod  

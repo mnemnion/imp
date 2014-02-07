@@ -66,7 +66,8 @@
  	cr .cy ." utf?: " .s
 	dup utf-lead? if
 		utf-bytes?
-		cr .cy ." bytes: " dup .
+		cr .cy ." bytes: " dup . 
+		1
 	else
 		-1
 	then
@@ -83,21 +84,52 @@
 
 \ tab handling? Currently returns 1 for any ctrl character < 127.
 
-: 1-printable \ ( buf off -> count )
-	\ "returns the number of bytes needed to print 1 character on the screen"
-	\ "pretends all Unicode is single-width"
-	\ "negative counts are the number of malformed characters to skip"
+: (1-print) \ ( buf off -> count flag)
+	\ returns next printing value
+	\ flags: 1 is a printable, 0 an unprintable sequence, -1
+	\ a malformed character
 	dup 0 = if
 		cr .r ." end of buffer"
 		nip 
 	else
 		drop dup c@ dup
 		case 
-			#nl of drop 0			    endof
-			#esc of esc-printables? 	endof
-			otherwise text-printables? 	endother
+			#nl of drop 0 				1   	endof
+			#esc of esc-printables? 	false	endof
+			otherwise text-printables? 	    	endother
 		endcase
 	then
+	;
+
+: (advance) \ ( buf off count -> buff+count off-count )
+	\ " advances the buffer by the counted quantity"
+	tuck - >r
+	+ r>
+	;
+
+: 1-printable \ ( buf off -> count flag )
+	\ "returns the number of bytes needed to print 1 character on the screen"
+	\ "pretends all Unicode is single-width"
+	\ "negative counts are the number of malformed characters to skip"
+	\ "true flag indicates 1 printable; false means we need to keep parsing"
+ 	0 >r
+	begin	
+		2dup (1-print)
+		cr .cy .s
+		false = if
+			dup r> + >r 
+		 	(advance)	
+		 	false
+		else 
+			cr .r .s
+			drop r> 1 + true 
+		then \ test for malformation
+	until 
+	nip .!
+	;
+
+: n-printable~ \ (buf off n -> count )
+
 	;
 
 : n-printable \ ( buf off n -> count )

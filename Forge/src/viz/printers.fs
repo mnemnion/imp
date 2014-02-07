@@ -124,28 +124,29 @@
 		 	(advance)	
 		 	false
 		else 
-\ 			cr .r .s
-			 r>  + true 
+ 			cr .r .s
+			nip nip r>  + true 
 \ 			cr ." after: " .s
 		then \ test for malformation
 	until 
-	nip nip 
+	cr 175 xterm-fg .$ .s
 	.!
 	;
 
 : n-printable \ (buf off n -> count )
-	0 >r
+	0 >r cr .r .s
 	0 do
 		2dup 
 		1-printable
+		r> 
 		cr .bo .m .s
-		r> + 
+		+ 
 		cr .y .s
 		>r
 	loop
 	2drop
 	r>
-	cr .g .s
+	cr .g .s .!
 	;
 
 : n-printable~ \ ( buf off n -> count )

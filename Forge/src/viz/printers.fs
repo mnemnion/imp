@@ -168,16 +168,21 @@
 	;
 
 : print-advance \ ( buf off n -> buf+ off- "string" )
-	>r 2dup r@ printables 
-	dup 0 > if
-		cr .g .s
-		3dup nip type (advance)
+	over 0 <> if 
+		>r 2dup r@ printables 
+		dup 0 > if
+	\ 		cr .g .s
+			3dup nip type (advance)
+		else 
+	\ 		cr .y .s
+			drop
+			1 (advance) r@ recurse
+		then
+		r> drop
 	else 
-		cr .y .s
 		drop
-		1 (advance) r@ recurse
 	then
-	r> drop
+	.!
 	;
 
 : print-advance~ \ ( [c-str] n -> c-adr+ count- "string" )

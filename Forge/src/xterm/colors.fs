@@ -33,6 +33,8 @@
 : .ib"  s\" \e[0m\e[1;7m" ;
 : .fu"  s\" \e[0m\e[5;1m" ;
 
+.!" $pad str: $.!
+
 \ control holds for number printing
 : .#[e  [char] [ hold 27 hold ;
 : .#_  32 hold ;

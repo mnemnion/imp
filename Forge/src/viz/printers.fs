@@ -47,7 +47,6 @@
 	    true 
 	else
 		drop dup c@ dup
-		cr .y .s .!
 		case 
 			#nl of drop 0 				1   	endof
 			#esc of esc-printables? 	false	endof
@@ -97,24 +96,50 @@
 	drop nip swap -
 	;
 
-: print-advance \ ( buf off n -> buf+ off- "string" )
-	over 0 <> if 
+: print-advance~ \ ( buf off n -> buf+ off- "string" )
+	over 0 <> if  						\ ( buf off n  -- )
 		>r 2dup r@
-		cr .cy .s .!
-		 printables 
+ 		cr .cy .s .!
+		printables 
 
 		dup 0 > if
-			3dup nip type (advance)
+			3dup nip type (advance) r> drop
 		else 
 			drop
-			1 (advance) r@ 
-			cr .g .s .!
+			1 (advance) 
+			r> drop 
+\ 			cr .g .s .!
 			recurse
 		then
-		r> drop
 	else 
+		 drop
+	then
+	;
+
+: print-advance \ ( buf off n -> buf+ off- -- "string" )
+	\ "prints n printables, advancing the buffer."
+	\ "safe to call: skips front newlines"
+	\ "returns original buffer and offset for off = 0"
+	over 0 <> if
+\ 		cr .g ." buffer"
+		3dup printables 
+		dup 0 <> if
+\ 			cr .m ." no leading newline"
+			nip 3dup 
+			nip type
+			(advance) 
+		else
+\ 			cr .bo .y ." leading newline"
+			drop >r
+			1 (advance)
+			r>
+			recurse
+		then
+	else
+\ 		cr .r ." no buffer"
 		drop
 	then
+\ 	.!
 	;
 
 : print-length \ ( buf off -> length )

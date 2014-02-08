@@ -63,10 +63,10 @@
 ;
 
 : utf-printables? 
- 	cr .cy ." utf?: " .s
+ \ 	cr .cy ." utf?: " .s
 	dup utf-lead? if
 		utf-bytes?
-		cr .cy ." bytes: " dup . 
+\ 		cr .cy ." bytes: " dup . 
 		1
 	else
 		-1
@@ -94,14 +94,14 @@
 	else
 		drop dup c@ dup
 		case 
-			cr .bo .w .s
+\ 			cr .bo .w .s
 			#nl of drop 0 				1   	endof
 			#esc of esc-printables? 	false	endof
 			otherwise text-printables? 	    	endother
 		endcase
 	then
- 	cr .g ." 1 print return: "
- 	cr .s .!
+\ 	cr .g ." 1 print return: "
+\  	cr .s .!
 	;
 
 : (advance) \ ( buf off count -> buff+count off-count )
@@ -124,29 +124,27 @@
 		 	(advance)	
 		 	false
 		else 
- 			cr .r .s
+\ 			cr .r .s
 			nip nip r>  + true 
 \ 			cr ." after: " .s
 		then \ test for malformation
 	until 
-	cr 175 xterm-fg .$ .s
-	.!
+\ 	cr 175 xterm-fg .$ .s
+\ 	.!
 	;
 
 : n-printable \ (buf off n -> count )
-	0 >r cr .r .s
+	>r 2dup r>
 	0 do
-		2dup 
-		1-printable
-		r> 
-		cr .bo .m .s
-		+ 
-		cr .y .s
-		>r
+		2dup 1-printable
+		dup 0 > if
+			(advance)
+		else 
+			2drop leave
+		then
 	loop
-	2drop
-	r>
-	cr .g .s .!
+	drop nip swap -
+	.!
 	;
 
 : n-printable~ \ ( buf off n -> count )

@@ -133,6 +133,7 @@
 			drop >r
 			1 (advance)
 			r>
+			cr .s
 			recurse
 		then
 	else

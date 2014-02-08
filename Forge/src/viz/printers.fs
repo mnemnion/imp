@@ -23,6 +23,7 @@
 		utf-bytes?
 		1
 	else
+		cr .r ." malformed"
 		-1
 	then
 	;
@@ -46,6 +47,7 @@
 	    true 
 	else
 		drop dup c@ dup
+		cr .y .s .!
 		case 
 			#nl of drop 0 				1   	endof
 			#esc of esc-printables? 	false	endof
@@ -93,17 +95,21 @@
 		then
 	loop
 	drop nip swap -
-	.!
 	;
 
 : print-advance \ ( buf off n -> buf+ off- "string" )
 	over 0 <> if 
-		>r 2dup r@ printables 
+		>r 2dup r@
+		cr .cy .s .!
+		 printables 
+
 		dup 0 > if
 			3dup nip type (advance)
 		else 
 			drop
-			1 (advance) r@ recurse
+			1 (advance) r@ 
+			cr .g .s .!
+			recurse
 		then
 		r> drop
 	else 

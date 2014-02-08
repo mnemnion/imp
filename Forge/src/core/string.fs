@@ -82,7 +82,7 @@ require roll-allot.fs
 : $c+ \ cats a char to a string
 	charpad $cat ;
 
-: str \ creates a named string.
+: str: \ creates a named string.
 	create \ ( str -> ,str := 'str' )
 	str,
 	does>

@@ -14,9 +14,9 @@ require ~+/core/core.fs
 \  takes a byte, composes the appropriate xterm-color background command. 
 
 
-27 charpad str $esc  \ there we go
+27 charpad str: $esc  \ there we go
 
-$esc char [ charpad $cat str $^
+$esc char [ charpad $cat str: $^
 
 27 constant #esc
 

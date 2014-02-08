@@ -89,8 +89,9 @@
 	\ flags: 1 is a printable, 0 an unprintable sequence, -1
 	\ a malformed character
 	dup 0 = if
-		cr .r ." end of buffer"
-		nip 
+\ 		cr .r ." end of buffer"
+	    true 
+\ 	    cr .s
 	else
 		drop dup c@ dup
 		case 
@@ -124,8 +125,13 @@
 		 	(advance)	
 		 	false
 		else 
-\ 			cr .r .s
-			nip nip r>  + true 
+ \ 			cr .g .s
+			dup 0 > if 
+				nip nip r>  + true
+			else
+\ 				cr .cy .s 
+				nip nip r> + true
+			then 
 \ 			cr ." after: " .s
 		then \ test for malformation
 	until 
@@ -133,7 +139,7 @@
 \ 	.!
 	;
 
-: n-printable \ (buf off n -> count )
+: printables \ (buf off n -> count )
 	>r 2dup r>
 	0 do
 		2dup 1-printable
@@ -146,45 +152,6 @@
 	drop nip swap -
 	.!
 	;
-
-: n-printable~ \ ( buf off n -> count )
-	\ retrieve enough characters to print n text cells.
-	0 swap
-	0 do
-		>r 
-		2dup 1-printable dup 0 > if
-			tuck dup r> + >r
-			- >r + r> 
-			r> 
-\ 			cr .m .s
-		else 
-			dup 0 = if 
-				2drop
-				r>
-				cr .g .s
-				leave
-			else
-				r> drop
-				nip nip
-				cr .r ." malformed" .s
-				leave
-			then
-		then
-	loop
-	nip nip
-	.!
-	;
-
-\ : print-n \ ( [c-str] n -> "string")
-\ "prints n characters, up to a newline, ansi escaped."
-\ "will not overflow a c-str with proper count."
-\ 	>r 2dup drop r> n-printables
-\  2dup > if \ safe to print as counted
-\ 		nip type
-\ 	else      \ print the whole thing
-\ 		drop type
-\ 	then
-\  	; 
 
 : skip-cr \ ( [c-str] -> [c-str] | [c-str+] )
 	\ "skip a leading newline"
@@ -200,11 +167,25 @@
 	else then 
 	;
 
+: print-advance \ ( buf off n -> buf+ off- "string" )
+	>r 2dup r@ printables 
+	dup 0 > if
+		cr .g .s
+		3dup nip type (advance)
+	else 
+		cr .y .s
+		drop
+		1 (advance) r@ recurse
+	then
+	r> drop
+	;
 
-: print-advance \ ( [c-str] n -> c-adr+ count- "string" )
+: print-advance~ \ ( [c-str] n -> c-adr+ count- "string" )
 	\ 	"prints n characters, advances the address correspondingly "
 	\   
-		>r skip-cr 2dup drop r> n-printables
+		>r skip-cr 2dup drop r> 
+		n-printables
+	\ 	cr .m .s
 	2dup > if \ safe to print as counted
 		swap >r 2dup type r> over >r 
 	\ 	.! cr .cy .s .!
@@ -218,6 +199,8 @@
 		drop dup >r 2dup type r@ - swap r> + swap
  	then
 	; 
+
+
 
 : .title \ ( buf off frame -> nil -- "frame" )
 	\ "titles a frame"

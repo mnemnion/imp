@@ -124,13 +124,17 @@ defer stack-fr
 	.stack
 	;
 
+: .left
+	cr .r 
+	s" Leftovers: "
+	stack-fr .title
+    .stack .!
+    .s	
+	;
+
 : .left? ( count -- nil )
 	1 + depth <> if
-		cr .r 
-		s" Leftovers: "
-		stack-fr .title
-	    .stack .!
-	    .s
+		.left
 	then ;
 
 

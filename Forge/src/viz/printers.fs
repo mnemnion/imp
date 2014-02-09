@@ -55,6 +55,25 @@
 	then
 	;
 
+1  constant {1pr}
+0  constant {0pr}
+-1 constant {skip}
+-2 constant {eob} 
+
+: 1-pr \ ( buf off -> count flag )
+	\ "returns count for next 'print unit' "
+	\ "flags: "
+	\ " {1pr}: count generates 1 printable character"
+	\ " {0pr}: count is a zero-width print (ansi-escape)"
+	\ " {skip}: count should be skipped (non-printable, return, malformed)"
+	\ " {eob}: end of buffer"
+	dup 0 = if 
+		{eob}
+	else
+		cr .cy .s .!
+	then
+	;
+
 : (advance) \ ( buf off count -> buff+count off-count )
 	\ " advances the buffer by the counted quantity"
 	tuck - >r

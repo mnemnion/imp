@@ -55,7 +55,7 @@
 	then
 	;
 
-1  constant {1pr}
+1  constant {pr}
 0  constant {0pr}
 -1 constant {skip}
 -2 constant {eob} 
@@ -63,14 +63,21 @@
 : 1-pr \ ( buf off -> count flag )
 	\ "returns count for next 'print unit' "
 	\ "flags: "
-	\ " {1pr}: count generates 1 printable character"
+	\ " {pr}: count generates 1 printable character"
 	\ " {0pr}: count is a zero-width print (ansi-escape)"
-	\ " {skip}: count should be skipped (non-printable, return, malformed)"
+	\ " {skip}: skip one byte"
 	\ " {eob}: end of buffer"
 	dup 0 = if 
 		{eob}
 	else
 		cr .cy .s .!
+		drop  \ for safety, should compare this to the return count...
+		dup c@ dup \ ( buff char char -- )
+		case
+			#nl of  2drop 0 {skip} endof
+			#esc of esc-printables? {0pr} endof
+			otherwise text-printables?    endother
+		endcase
 	then
 	;
 

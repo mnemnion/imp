@@ -11,19 +11,19 @@
 : .#emj s\" 😇😏😑👲" ;
 : .#zh s\" 道德經" ;
 : .#\nlead s\" \nlead" ;
-: .#\n2    s\" 1\n2"   ;
+: .#\n2    s\" \n2"   ;
 
 2 5 ' + 1 test \ false
 
 2 3 ' noop 2 3 2test \ true
 2 3 ' noop 2 4 2test \ false
 
-.#emo  ' 1-pr 4 1  2test
-.#tnl  ' 1-pr 1 1  2test
-.#\e\n ' 1-pr 5 0  2test
-.#\e   ' 1-pr 5 0  2test
-.#\n2  ' 1-pr 0 -1 2test
-
+ .#emo    ' 1-pr 4 1  2test
+ .#tnl    ' 1-pr 1 1  2test
+ .#\e\n   ' 1-pr 5 0  2test
+ .#\e     ' 1-pr 5 0  2test
+  .#\n2    ' 1-pr 0 -1 2test
+ null-str $@ ' 1-pr 0 {eob} 2test
 
 ( 
 .#emo ' 1-printable 4 test

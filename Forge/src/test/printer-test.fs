@@ -19,6 +19,7 @@
 2 3 ' noop 2 4 2test \ false
 
 .#emo  ' 1-pr 4 1  2test
+.#tnl  ' 1-pr 1 1  2test
 .#\e\n ' 1-pr 5 0  2test
 .#\e   ' 1-pr 5 0  2test
 .#\n2  ' 1-pr 0 -1 2test

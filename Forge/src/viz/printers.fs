@@ -97,11 +97,20 @@
     dup >r (advance)
 	2dup 1-pr 
 	case
-		{pr} of \ r>
+		{pr} of 
+				cr .g .s .!
 				nip dup >r type 
-				r> r> + true
-				\ cr .cy .s .!
-		  	 endof
+				r> r> + true endof
+		{nl} of
+			nip nip r> swap	endof
+		{eob} of 
+			nip nip r> swap endof
+		{0pr} of 
+			r>
+			+
+			 .w .s .!
+		    recurse endof
+		{skip} of (skipper) recurse endof
 		otherwise r> cr .b .s .! endother
 	endcase
 \ 	r>

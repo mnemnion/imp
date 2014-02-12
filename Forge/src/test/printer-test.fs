@@ -12,13 +12,14 @@
 : .#zh s\" 道德經" ;
 : .#\nlead s\" \nlead" ;
 : .#\n2    s\" \n2"   ;
+: .#\b.r   s\" \e[34m\e[31mbar" ;
 
 (  test tests
 2 5 ' + 1 test \ false
 
 2 3 ' noop 2 3 2test \ true
 2 3 ' noop 2 4 2test \ false
-) 
+)  
  .#emo    	  ' 1-pr 4 {pr}  2test
  .#tnl    	  ' 1-pr 1 {pr}  2test
  .#\e\n   	  ' 1-pr 5 {0pr} 2test
@@ -29,7 +30,8 @@
  .#\e  		  ' 1-print 6 true  2test
  .#emo        ' 1-print 4 true  2test
  .#zh         ' 1-print 3 true  2test
-
+ .#\e\n       ' 1-print 5 false 2test
+ .#\b.r       ' 1-print 11 true 2test
 .!
 ( 
 

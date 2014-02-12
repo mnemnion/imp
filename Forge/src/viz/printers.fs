@@ -1,9 +1,16 @@
+-127  	constant 	{pr}
+-27 	constant 	{0pr}
+-1 		constant 	{skip}
+-2 		constant 	{nl}
+-3 		constant 	{eob}
+0  		constant 	{done} 
+
 : esc-printables? 
 	drop 1 swap
 	1 + dup c@
 	[char] [ <> if
-		drop 1 +
-	else  
+		drop 1 + \ 2 byte sequence
+	else         \ CSI
 		begin	
 			1 + dup c@
 			csi-end? if
@@ -21,16 +28,16 @@
 : utf-printables? 
 	dup utf-lead? if
 		utf-bytes?
-		1
+		{pr}
 	else
 		cr .r ." malformed"
-		-1
+		{skip}
 	then
 	;
 
 : text-printables?
-	dup 127 < if
-		2drop 1 1
+	dup printable? if
+		2drop 1 {pr}
 	else
 		nip utf-printables?
 	then
@@ -55,10 +62,7 @@
 	then
 	;
 
-1  constant {pr}
-0  constant {0pr}
--1 constant {skip}
--2 constant {eob} 
+
 
 : 1-pr \ ( buf off -> count flag )
 	\ "returns count for next 'print unit' "
@@ -70,21 +74,64 @@
 	dup 0 = if 
 		{eob}
 	else
-		cr .cy .s .!
+\ 		cr .cy .s .!
 		drop  \ for safety, should compare this to the return count...
 		dup c@ dup \ ( buff char char -- )
 		case
-			#nl of  2drop 0 {skip} endof
-			#esc of esc-printables? {0pr} endof
-			otherwise text-printables?    endother
+			#nl of  2drop 0 			{nl}   endof
+			#esc of esc-printables? 	{0pr}  endof
+			otherwise text-printables?         endother
 		endcase
 	then
 	;
 
 : (advance) \ ( buf off count -> buff+count off-count )
 	\ " advances the buffer by the counted quantity"
-	tuck - >r
-	+ r>
+	tuck - >r + r> ;
+
+: (skipper)
+	drop 1 (advance) ;
+
+: (next-pr)
+	3dup nip type 
+    dup >r (advance)
+	2dup 1-pr 
+	case
+		{pr} of \ r>
+				nip dup >r type 
+				r> r> + true
+				\ cr .cy .s .!
+		  	 endof
+		otherwise r> cr .b .s .! endother
+	endcase
+\ 	r>
+\    cr .g .s .!
+	;
+
+: 1-print \ ( buf off -> count flag )
+	\ "prints 1 char to the screen"
+	\ 5 return states:
+	\ {1pr} : we have 1 char; print
+	\ {skip} : advance and recurse
+	\ {nl}   : we're done
+	\ {eob}  : we're done
+	\ {0pr} : get another, if:
+	\     	{pr} : we (now) have 1 char : print
+	\  		{skip} : print *then* skip, done
+	\   	{nl} : print return {done}
+	\ 	    {eob} : same
+	\       {0pr} : recurse
+	\ flag is true if we advanced the cursor,
+	\ false if we've reached nl or eob
+
+	2dup 1-pr
+	case 
+		{pr} 	of 	nip dup -rot type true		endof
+		{skip} 	of 	(skipper) recurse			endof
+		{nl} 	of 	nip nip     				endof
+		{eob} 	of 	nip nip         			endof
+		{0pr} 	of 	(next-pr)					endof
+	endcase
 	;
 
 : 1-printable \ ( buf off -> count flag )
@@ -101,7 +148,7 @@
 		 	false
 		else 
 			dup 0 > if 
-				nip nip r>  + true
+				nip nip r> + true
 			else
 				nip nip r> + true
 			then 

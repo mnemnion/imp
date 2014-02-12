@@ -20,6 +20,15 @@ Orcs have no rack, doubling up with the bag, in common Forthian fashion.
 
 The bag is an excellent candidate for register optimizations. This is a dumb compiler thing: trace the bag path, assign registers to safe `>b` cases, and read from them with the corresponding `b>` or `b@`. This segregation should also make trace optimization cleaner, because the return stack contains only returns. 
 
+### Bag and defining words
+
+Having the bag around can help us get around one of the major problems in writing Forth in a functional idiom, namely,
+that `:` covers the data stack. 
+
+We want to be able to leave values on the data stack, start a definition, and call immediate words that have effects on those values. A simple case would be a `:noname` lambda, which leaves its xt on the stack when we reach `;`. It would be nice if we could use `literal` to compile that XT where we want it: this can be combined with `postpone immediate` to macro-generate code. 
+
+If we build words on the bag, we can make this work. Off all the weird things you can do while compiling, switching to interpretation mode to read-write the return stack is the weirdest. Even if we switch to interpretation mode and call a word that uses the bag, bag effects are expected to always be balanced, so this should be fine. 
+
 ### Another note about juggling
 
 Stack juggling is the most feared and disliked aspect of Forth. That's because you have to learn it with a blindfold.

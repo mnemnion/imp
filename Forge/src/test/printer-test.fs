@@ -13,19 +13,26 @@
 : .#\nlead s\" \nlead" ;
 : .#\n2    s\" \n2"   ;
 
+(  test tests
 2 5 ' + 1 test \ false
 
 2 3 ' noop 2 3 2test \ true
 2 3 ' noop 2 4 2test \ false
+) 
+ .#emo    	  ' 1-pr 4 {pr}  2test
+ .#tnl    	  ' 1-pr 1 {pr}  2test
+ .#\e\n   	  ' 1-pr 5 {0pr} 2test
+ .#\e     	  ' 1-pr 5 {0pr} 2test
+ .#\n2    	  ' 1-pr 0 {nl}  2test
+ null-str $@  ' 1-pr 0 {eob} 2test
 
- .#emo    ' 1-pr 4 1  2test
- .#tnl    ' 1-pr 1 1  2test
- .#\e\n   ' 1-pr 5 0  2test
- .#\e     ' 1-pr 5 0  2test
-  .#\n2    ' 1-pr 0 -1 2test
- null-str $@ ' 1-pr 0 {eob} 2test
+ .#\e  		  ' 1-print 6 true  2test
+ .#emo        ' 1-print 4 true  2test
+ .#zh         ' 1-print 3 true  2test
 
+.!
 ( 
+
 .#emo ' 1-printable 4 test
 .#grec ' 1-printable 2 test
 .#\e ' 1-printable 6 test
@@ -42,7 +49,9 @@
 .#grec   4 ' printables 8 test
 .#zh     3 ' printables 9 test
 .#tnl   20 ' printables 5 test
- )
+ 
 
 .#emo ' print-length 4 test
 .#emo ' print-length -1 stack-test
+
+)

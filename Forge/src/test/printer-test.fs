@@ -32,13 +32,13 @@
  .#\e  		  ' 1-print 6 true  2test
  .#emo        ' 1-print 4 true  2test
  .#zh         ' 1-print 3 true  2test
- .#\e\n       ' 1-print 5 false 2test
+ .#\e\n       ' 1-print 5 true 2test
  .#\b.r       ' 1-print 11 true 2test
- .#\b\n       ' 1-print 10 false 2test
+ .#\b\n       ' 1-print 10 true 2test
  .#\nlead     ' 1-print 0 false  2test
 
  \ add tests with malformed strings
- 
+
 .!
 ( 
 

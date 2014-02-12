@@ -69,6 +69,10 @@ null-str failpad !
 	= ($check) r> and
 	;
 
+: check $check? drop .$ ;
+
+: 2check 2$check? drop .$ ;
+
 : test  \ ( mu xt tos? -> nil -- < !pass | !fail > )
 	$check? if
 		pass!

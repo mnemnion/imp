@@ -141,6 +141,11 @@
 	endcase
 	;
 
+: print-advance ( buf off -> buf+ off - )
+	2dup 1-print >r (advance) r> 
+	cr .! .s 
+	 ;
+
 : 1-printable \ ( buf off -> count flag )
 	\ "returns the number of bytes needed to print 1 character on the screen"
 	\ "pretends all Unicode is single-width"
@@ -196,7 +201,7 @@
 	then
 	;
 
-: print-advance \ ( buf off n -> buf+ off- -- "string" )
+: print-advance~ \ ( buf off n -> buf+ off- -- "string" )
 	\ "prints n printables, advancing the buffer."
 	\ "safe to call: skips front newlines"
 	\ "returns original buffer and offset for off = 0"

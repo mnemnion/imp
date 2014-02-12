@@ -101,12 +101,15 @@
 				nip dup >r type 
 				r> r> + true endof
 		{nl} of
-			nip nip r> swap	endof
+	\ 		r@ cr .r ." reached" .s .! drop
+			3drop r>  true 
+	\ 		cr .cy .s .!
+				endof
 		{eob} of 
 		    nip r> swap endof
 		{0pr} of 
 		    recurse 
-		    r> rot + swap 
+		    r> rot + swap
 		    endof
 		{skip} of (skipper) recurse endof
 		otherwise r> cr .b .s .! endother

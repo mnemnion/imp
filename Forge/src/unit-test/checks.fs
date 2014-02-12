@@ -41,9 +41,9 @@ null-str failpad !
 	then
 	;
 
-.g" $pad s" ✓" $pad $cat .!" $pad $cat str: green-check
+.g" $pad s" ✓" $pad $cat $.! $cat str: green-check
 
-.r" $pad s" ✗" $pad $cat .!" $pad $cat str: red-check
+.r" $pad s" ✗" $pad $cat $.! $cat str: red-check
 
 : ($check)
  	if

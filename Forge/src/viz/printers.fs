@@ -157,9 +157,9 @@
 		swap
 	then
 	;
-	 
-: prints-advance ( buf off -> buf+ off- "chars")
-	0 do print-advance loop
+
+: prints-advance ( buf off count-> buf+ off- "chars")
+	>r cr-skip r> 0 do print-advance loop
 	;
 
 : prints 0 do print-advance loop 2drop ;

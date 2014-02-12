@@ -37,7 +37,7 @@
 	swap |innerbox \ ([c-str] x y -- )
 	0 do \ ( [c-str] x --        )
 	\ 	.! cr .m .s  
-		dup >r print-advance r> 
+		dup >r prints-advance r> 
 		last-xy 2@ 1 + .xy
 	loop
 	2drop drop

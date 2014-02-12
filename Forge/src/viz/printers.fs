@@ -106,10 +106,10 @@
 		{eob} of 
 			nip nip r> swap endof
 		{0pr} of 
-			r>
-			+
-			 .w .s .!
-		    recurse endof
+			.w .s .!
+		    recurse 
+		    r> rot + swap cr .y .s .! 
+		    endof
 		{skip} of (skipper) recurse endof
 		otherwise r> cr .b .s .! endother
 	endcase

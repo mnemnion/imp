@@ -98,7 +98,6 @@
 	2dup 1-pr 
 	case
 		{pr} of 
-				cr .g .s .!
 				nip dup >r type 
 				r> r> + true endof
 		{nl} of
@@ -106,9 +105,8 @@
 		{eob} of 
 			nip nip r> swap endof
 		{0pr} of 
-			.w .s .!
 		    recurse 
-		    r> rot + swap cr .y .s .! 
+		    r> rot + swap 
 		    endof
 		{skip} of (skipper) recurse endof
 		otherwise r> cr .b .s .! endother

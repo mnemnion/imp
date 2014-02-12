@@ -14,6 +14,8 @@
 : .#\n2    s\" \n2"   ;
 : .#\b.r   s\" \e[34m\e[31mbar" ;
 
+: .#\b\n  s\" \e[34m\e[31m\n" ; \ ouch?
+
 (  test tests
 2 5 ' + 1 test \ false
 
@@ -32,6 +34,7 @@
  .#zh         ' 1-print 3 true  2test
  .#\e\n       ' 1-print 5 false 2test
  .#\b.r       ' 1-print 11 true 2test
+ .#\b\n       ' 1-print 10 false 2test
 .!
 ( 
 

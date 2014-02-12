@@ -103,7 +103,7 @@
 		{nl} of
 			nip nip r> swap	endof
 		{eob} of 
-			nip nip r> swap endof
+		    nip r> swap endof
 		{0pr} of 
 		    recurse 
 		    r> rot + swap 
@@ -135,16 +135,19 @@
 	case 
 		{pr} 	of 	nip dup -rot type true		endof
 		{skip} 	of 	(skipper) recurse			endof
-		{nl} 	of 	nip nip     				endof
+		{nl} 	of  nip nip false      			endof
 		{eob} 	of 	nip nip         			endof
 		{0pr} 	of 	(next-pr)					endof
 	endcase
 	;
 
 : print-advance ( buf off -> buf+ off - )
-	2dup 1-print >r (advance) r> 
-	cr .! .s 
-	 ;
+	2dup 1-print if
+		(advance)
+	else 
+		drop 
+	then
+	;
 
 : 1-printable \ ( buf off -> count flag )
 	\ "returns the number of bytes needed to print 1 character on the screen"

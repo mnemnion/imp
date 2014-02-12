@@ -35,6 +35,7 @@
  .#\e\n       ' 1-print 5 false 2test
  .#\b.r       ' 1-print 11 true 2test
  .#\b\n       ' 1-print 10 false 2test
+ .#\nlead     ' 1-print 0 false  2test
 .!
 ( 
 

@@ -141,13 +141,56 @@
 	endcase
 	;
 
-: print-advance ( buf off -> buf+ off - )
+: print-advance ( buf off -> buf+ off- "char" )
 	2dup 1-print if
 		(advance)
 	else 
 		drop 
 	then
 	;
+
+: cr-skip ( buff off -> < buf off | buf+ off -> )
+	\ "skip a newline"
+	swap dup c@ #nl = if
+		swap 1 (advance)
+	else
+		swap
+	then
+	;
+	 
+: prints-advance ( buf off -> buf+ off- "chars")
+	0 do print-advance loop
+	;
+
+: prints 0 do print-advance loop 2drop ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 : 1-printable \ ( buf off -> count flag )
 	\ "returns the number of bytes needed to print 1 character on the screen"

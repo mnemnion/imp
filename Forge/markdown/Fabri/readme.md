@@ -8,7 +8,7 @@ Fabri is conceptually simple. It builds on the word annotations that good Forth 
 
 Fabri will successively formalize the relevant pieces of this language, extending and changing it where necessary. It will then interpret the annotations in parallel with the outer interpreter, validating the transformations a word at a time and checking the correctness of newly annotated words. 
 
-With development, we should be able to infer the minimum stack effect of a single word, rendering Fabri almost invisible. The annotations may be created and hidden dynamically, and never effect the actual threaded or optimized code. 
+With development, we should be able to infer the minimum stack effect of a single word, rendering Fabri almost invisible. The annotations may be created and hidden dynamically, and never affect the actual threaded or optimized code. 
 
 It should be possible to compile an image, forget the Fabri code, and run the resulting Forth with a corresponding loss of introspection. From the other side, the Fabri environment will have a vocabulary supporting introspection of running code, smart dumps and stack printing, annotation generation, and conceivably quite a bit more. 
 

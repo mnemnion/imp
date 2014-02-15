@@ -1,3 +1,5 @@
+\ include ./compat/all.fs
+
 [ifundef] possibly
 
 : possibly  ( "name" -- )  

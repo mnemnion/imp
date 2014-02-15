@@ -4,7 +4,7 @@
 \ include ~+/test/vocab.fs
 \ include ~+/simulorc/simulorc.fs
 
-include ~+/test/printer-test.fs
+
 include ~+/test/see-and-say.fs
 \ end includes
 
@@ -15,8 +15,13 @@ include ~+/test/see-and-say.fs
 ' .hexframe is [default-display]
 ' .stack stack-frame set-display.frame 
 .windowclear
-status dup .frame .clearframe 
-stack-frame dup .frame .clearframe 
-0 0 .xy
+
+\ printer tests
+
+include ~+/test/printer-test.fs
+
+\ status dup .frame .clearframe 
+\ stack-frame dup .frame .clearframe 
+ 0 0 .xy
 
 : loupe see-and-say .! chill ;

@@ -37,6 +37,20 @@
  .#\b\n       ' 1-print 10 true 2test
  .#\nlead     ' 1-print 0 false  2test
 
+.! .windowclear
+
+ 3 5 10 10 frame: emoji
+ 7 2 14 10 frame: zhong
+ 20 12 25 10 frame: passage
+
+ passage .frame 
+ s" Passing " passage .title
+ passing $@ passage .printframe
+
+ zhong .frame .#zh zhong .printframe
+
+ emoji .frame .#emo emoji .printframe
+
  \ add tests with malformed strings
 
 .!

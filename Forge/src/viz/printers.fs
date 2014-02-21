@@ -174,13 +174,3 @@
 	;
 
 
-: .title \ ( buf off frame -> nil -- "frame" )
-	\ "titles a frame"
-	.save
-	dup xy.frame .xy
-	colrow.frame drop \ buff off cols
-	over - 2 / 
-	.fwd bl emit
-	type
-	.restore
-	;

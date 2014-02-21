@@ -42,6 +42,9 @@
  3 5 10 10 frame: emoji
  7 2 14 10 frame: zhong
  20 12 25 10 frame: passage
+ 28 7 30 1  frame: longstr
+
+ longstr .frame .#longnl longstr .printframe
 
  passage .frame 
  s" Passing " passage .title

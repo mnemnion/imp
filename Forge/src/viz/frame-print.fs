@@ -8,6 +8,18 @@
 	.restore
 	;
 
+: .title \ ( buf off frame -> nil -- "frame" )
+	\ "titles a frame"
+	.save
+	dup .frame
+	dup xy.frame .xy
+	colrow.frame drop \ buff off cols
+	over - 2 / 
+	.fwd bl emit
+	type
+	.restore
+	;
+
 : .|wipe \ ( cols rows -- "pane" )
     swap |innerbox                   \ ( row col --  )
     \ .di .w                      \ ( "ansi"      )
@@ -66,7 +78,10 @@
 	;
 
 : .windowclear \ ( nil -- "clear screen" )
-	.save 1 1 .xy cols 0 do 
-				 rows 0 do 
-				 32 emit
-				 loop loop .restore ; 
+	1 1 .xy cols 0 do 
+		 rows 0 do 
+			 32 emit
+		 loop 
+	loop 
+	1 1 .xy
+	; 

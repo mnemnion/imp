@@ -22,13 +22,11 @@
 
 : .|wipe \ ( cols rows -- "pane" )
     swap |innerbox                   \ ( row col --  )
-    \ .di .w                      \ ( "ansi"      )
     0 do                        \ ( row     --  )
         dup 0 do bl emit loop     \ ( row -- "*+" )
         dup .back 1 .down       \ ( row     --  )
     loop
     drop 
-    \ .!
     ;
 
 : .clearframe \ ( frame -> nil "pane" )
@@ -80,7 +78,7 @@
 : .windowclear \ ( nil -- "clear screen" )
 	1 1 .xy cols 0 do 
 		 rows 0 do 
-			 32 emit
+			 bl emit
 		 loop 
 	loop 
 	1 1 .xy

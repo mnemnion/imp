@@ -40,7 +40,7 @@ $esc char [ charpad $cat str: $^
 	;
 
 : ansi-color ( byte -> str )
-	\ "pads a string that changes the background color"
+	\ "pads a string that emits an ansi color code"
 	$^ swap #->$ $cat  
     ;" m" $cat 
 	;

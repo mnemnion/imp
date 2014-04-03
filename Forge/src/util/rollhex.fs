@@ -3,7 +3,7 @@ require ~+/xterm/xterm.fs
 	a simple closure. 
 )
 
-: offset-hexpr ( offset n -- new-offset )
+: offset-hexpr ( offset n -> new-offset )
 
  tuck                            \ ( n offset n -- )
  hex 0 do                        \ ( n -- `hex`    )

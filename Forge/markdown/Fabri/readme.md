@@ -6,7 +6,7 @@ Fabri works to build on that foundation by adding static, inferential type valid
 
 Fabri is conceptually simple. It builds on the word annotations that good Forth practice insists on. This is an informal type system, specifying the stack effect and 'types' of the begin and end stacks. There are standard variations which specify most of the states in which stack effects can occur, and ways to express some side effects also.
 
-Fabri will successively formalize the relevant pieces of this language, extending and changing it where necessary. It will then interpret the annotations in parallel with the outer interpreter, validating the transformations a word at a time and checking the correctness of newly annotated words. 
+Fabri will successively formalize the relevant pieces of this language, extending and changing it where necessary. It will then interpret the annotations in tandem with the outer interpreter, validating the transformations a word at a time and checking the correctness of newly annotated words. 
 
 With development, we should be able to infer the minimum stack effect of a single word, rendering Fabri almost invisible. The annotations may be created and hidden dynamically, and never affect the actual threaded or optimized code. 
 

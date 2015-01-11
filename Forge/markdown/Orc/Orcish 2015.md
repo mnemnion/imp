@@ -73,6 +73,8 @@ It may or may not be harder to read. Orcish is made to be legible, not familiar,
 
 The sometimes-optional nature of whitespace may be somewhat unnerving, but shouldn't be. Well-spoken and written Orcish will include semantic whitespaces as a matter of course, there being such little harm in it. A spaz must follow any one-byte word, which is in effect a two-byte word where the second byte is either space or newline, but edge cases must work correctly: a valid letta, followed by a byte that isn't valid, followed in turn by a space, must parse as the single-letta word. So `D✣✣␠` drops the Unicode and becomes D-spaz. 
 
+There is important resilience in this forward-only semantics. Forth words don't break silently, if they did, they'd leave the stack in a weird state. Orcish words do break silently, and they consume anything they were trying to parse. This probably leaves us in a bad way anyhow, unless the default action is to go back to work, which it often is. A function is both dependant upon and responsible for the input stream it consumes. 
+
 ## Semantics
 
 ###Self Report

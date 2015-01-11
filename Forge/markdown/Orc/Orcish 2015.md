@@ -21,7 +21,7 @@ Arguably our `numba` range should be `jklmno`, which is `6A-6F` in ASCII and mea
 
 The really steez alternative is to replace them with `:;<=>?`, we mask for the `3` and take the low four. I won't do that, it would render the language unreadable. 
 
-##Syntax
+##Words
 
 Orcs parlay through the simplest parser that could possibly work. If they receive a byte that isn't phonemically valid, undefined behavior occurs, which normally includes ignoring you, and may also provoke consternation or even hostility. Given a `numba`, they try to make a number out of it, and remember that number. They will stop if they see a `spaz` or indeed any phoneme which is not a `numba`. How many numbaz they eat before digesting depends on the Orc. I don't know or care what your architectural width is, nor which end it cracks the egg from. Orcish is a language, it's up to the users to understand each other. 
 
@@ -45,6 +45,30 @@ There is some structure to the madness: the `@` symbol in both cases indicates m
 
 ###Architectural assumptions
 
-Here we're going to dial out a bit.
+Here we're going to dial out a bit. What is the point of all this?
+
+Simply put: leaving straps on the boot. The original concept of Orcish was closely tied to Forth, and it inherits the philosophy that a computer, no matter how small, should be interactive and capable of being programmed incrementally. 
+
+Orcish is now a language, with dramatically fewer assumptions. Even a burnt ROM can spare enough bits to reply, in broken Orcish, that it has certain abilities. This chip, which we can't really call an Orc, might not even know that `a0 D` is equivalent to saying `a0 a0`. 
+
+The minimum a chip which speaks Orcish might be expected to do is tell you what it can do, and do it when asked. An actual Orc will contain an interpreter, which may be moderately sophisticated, or may not be, but will suffice to operate the Orc, inclusive of programming it with new behavior.
+
+###Syntax
+
+I would like to thank Alan Kay and Chuck Moore for their relentlessness in the pursuit of the good.
+
+Orcish is an agglutinative language. The parser is a state machine, each word puts it into a new state and each return falls out to the same starting place. This allows us to make very few assumptions, as we have combinatoric richness available. 
+
+To illustrate, `W@g!` could be defined as precisely the same as `W@ g!` and I might choose to do so. Equally possible is that `W@` puts the state machine in a mood to recognize only the token `g!`, otherwise executing a fail-and-ignore. That would make `W@g!` the Cheer and `W@ g!` the word `W@`, which has no effect, and the word `g!` which does something else.
+
+The Cheer being important, I won't likely do this, since it's harder to understand. Another example is the word `/`, which either discards information up to the next `/` or writes it to a scratch buffer. This is similar to a comment. 
+
+In general, a word is a function followed by sufficient arguments. This is Smalltalk like, so `+ 10 20` not `10 20 +`. `$` refers to the latest value so `10 + $ 20` is equivalent to `+ 10 20`. `$` is the same as `$0`, `$1` is the previous stack member, and so on. Stack values are consumed when the function has sufficient arguments so `10 + $ $` is `+ 10 10`. We don't really want to dup, swap, pop or lock. Nothing underflows, any input a core function doesn't understand causes fail-and-ignore. If the stack is empty, `+ 5 $` will do nothing: when + calls `$`, `$` will fail-ignore, and `+` will fail-ignore (let's call that a fail), losing the `5` in the process.  
+
+This is more consistent behavior than Forth, because Forth words such as `:`, `s"`, and `(` cause the forward-parsing behavior to change, while most Forth words take action on the implicit results of the preceding action. In Orcish, your debug mode is to switch from fail-and-ignore to fail-and-complain. 
+
+It may or may not be harder to read. Orcish is made to be legible, not familiar, and is for communication, not programming. The `$` notation uses an implicit stack with consumption, while the `#` notation uses explicit registers with all the attendant hair. What we provide are tools to manage the complexity of hardware, while guaranteeing that you can send the resulting information in an email, SMS or tweet. 
+
+
 
 

@@ -27,3 +27,4 @@ LLVM is, in a way, an amusing match for Forth. It's register-only and single-ass
 Any way you slice it up, we'll be left with three languages: the implementation language for the runtime, the representation language for the machine (virtual or actual), and the actual Forth. Either Ficus, C, Assembly, or Ficus, C++/Python, LLVM. In the latter, we can do more with the actual LLVM and less with the C++. Ideally, we can write the compiler entirely in Python and port it to native C++ when it's reasonably stable. 
 
 That may be the clinching vote, in fact. Writing a compiler is exacting work without having manage memory and security in the compiler itself while doing so. Operating LLVM is in effect a series of object calls, making Python well suited as a binding language. Merely having access to a primitive REPL helps immensely. 
+

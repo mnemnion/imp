@@ -69,6 +69,26 @@ This is more consistent behavior than Forth, because Forth words such as `:`, `s
 
 It may or may not be harder to read. Orcish is made to be legible, not familiar, and is for communication, not programming. The `$` notation uses an implicit stack with consumption, while the `#` notation uses explicit registers with all the attendant hair. What we provide are tools to manage the complexity of hardware, while guaranteeing that you can send the resulting information in an email, SMS or tweet. 
 
+The sometimes-optional nature of whitespace may be somewhat unnerving, but shouldn't be. Well-spoken and written Orcish will include semantic whitespaces as a matter of course, there being such little harm in it. A spaz must follow any one-byte word, which is in effect a two-byte word where the second byte is either space or newline, but edge cases must work correctly: a valid letta, followed by a byte that isn't valid, followed in turn by a space, must parse as the single-letta word. So `D✣✣␠` drops the Unicode and becomes D-spaz. 
+
+## Semantics
+
+###Self Report
+
+Self report is the vital ability of an Orc. If it can't provide at least some behavior, there's little point in knowing the Cheer. 
+
+This can of course be arbitrarily complex. The simplest case is an Orc programmed in C. It has functions, they expect the chip to be in a certain state (arguments). Such an Orc should be able to tell the user what its functions 'are', and the arguments they expect. 
+
+Not so much 'what' as 'where': the minimal report is a list of addresses and function signatures that tells us that calling those addresses with those values might do something meaningful. This is useful since Orcs also know how to report their identity as a matter of habit, so if you can find a code repo you're pretty good to go. 
+
+Other reports include contents of memory, registers, flash, EEPROM, the ability to ask for periodic polls from a pin, the usual kind of helpful commands. At this level, Orcish functions similarly to [bitlash](http://bitlash.net/), and has a similar memory footprint. 
+
+###Assembly
+
+Orcish will provide a syntax for assemblers. It should be relatively straightforward to write Orcish assembler as a C target, without much hairpulling or pain, and we should be able to fit such an assembler in a K or so. The bootloader for an Orc is nothing but the relevant USB functions and an incremental assembler, code is loaded as ASCII regardless of dialect. 
+
+We really want the C compiler to follow certain conventions, so that we can add functions a bit at a time. This might take some hacking but it's worthwhile for ARM and Atmel at least to have this nailed down. Something like each function containing a cell that has a back reference to the prior function definition, so we can walk back in memory and and retrieve all function pointers and signatures with compact code. The signatures will also be needed, I realize I know but little about the assemblage and linkage of C. 
+
 
 
 

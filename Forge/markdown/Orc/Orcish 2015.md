@@ -23,7 +23,7 @@ The really steez alternative is to replace them with `:;<=>?`, we mask for the `
 
 ##Words
 
-Orcs parlay through the simplest parser that could possibly work. If they receive a byte that isn't phonemically valid, undefined behavior occurs, which normally includes ignoring you, and may also provoke consternation or even hostility. Given a `numba`, they try to make a number out of it, and remember that number. They will stop if they see a `spaz` or indeed any phoneme which is not a `numba`. How many numbaz they eat before digesting depends on the Orc. I don't know or care what your architectural width is, nor which end it cracks the egg from. Orcish is a language, it's up to the users to understand each other. 
+Orcs parley through the simplest parser that could possibly work. If they receive a byte that isn't phonemically valid, undefined behavior occurs, which normally includes ignoring you, and may also provoke consternation or even hostility. Given a `numba`, they try to make a number out of it, and remember that number. They will stop if they see a `spaz` or indeed any phoneme which is not a `numba`. How many numbaz they eat before digesting depends on the Orc. I don't know or care what your architectural width is, nor which end it cracks the egg from. Orcish is a language, it's up to the users to understand each other. 
 
 If an Orc can't make a `numba`, it makes a `slang`. This is either one `letta` or `roon` followed by a `spaz`, or it is one `letta` or `roon` followed by a non-spaz phoneme. 
 
@@ -35,7 +35,7 @@ The Orcish Cheer is how Orcs establish a line of communication.
 
 Orcs in the wild may be presumed to be busy. Their inner loop could be quite tight, leaving little time to poll a pin for data. The Orcish Cheer is emitted at 360 baud, no more, no less. 
 
-The Cheer consists of the string `W@g!`, which is pronounced `ⱱaaʀχ!`, more or less. The response is `@rc!`, typically, and this is pronounced "Orc!" as one would expect. 
+The Cheer consists of the string `W@g!`, which is pronounced `ⱱaaʀχ!`, more or less. The response is `@rk!`, typically, and this is pronounced "Orc!" as one would expect. 
 
 Note that each of these is two slangz long. When an Orc makes a slang, the parser simply resets. Numbaz get eaten to a certain width and then reset also. 'certain width' being as unreliable as it sounds: I neither know nor care what a comfortable way to break up a numba might be, nor the endianity of the architecture. The Orcish language contains only the hexadecimal base, as is proper. 
 
@@ -49,9 +49,9 @@ Here we're going to dial out a bit. What is the point of all this?
 
 Simply put: leaving straps on the boot. The original concept of Orcish was closely tied to Forth, and it inherits the philosophy that a computer, no matter how small, should be interactive and capable of being programmed incrementally. 
 
-Orcish is now a language, with dramatically fewer assumptions. Even a burnt ROM can spare enough bits to reply, in broken Orcish, that it has certain abilities. This chip, which we can't really call an Orc, might not even know that `a0 D` is equivalent to saying `a0 a0`. 
+Orcish is now a language, with dramatically fewer assumptions. Even a burnt ROM can spare enough bits to reply, in broken Orcish, that it has certain abilities, and understand enough Orcish to do things when asked.
 
-The minimum a chip which speaks Orcish might be expected to do is tell you what it can do, and do it when asked. An actual Orc will contain an interpreter, which may be moderately sophisticated, or may not be, but will suffice to operate the Orc, inclusive of programming it with new behavior.
+The minimum a chip which speaks Orcish might be expected to do is tell you what it can do, and do it. An actual Orc will contain an interpreter, which may be moderately sophisticated, or may not be, but will suffice to operate the Orc, inclusive of programming it with new behavior.
 
 ###Syntax
 

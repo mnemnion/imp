@@ -15,6 +15,12 @@ Besides spazez, Orcs recognize `numbaz`, which are in the range `0-9a-f`, `letta
 
 The `spaz`, `numba`, `letta` and `roon` are the phonemic categories of Orcish, from which we construct an equally brute, simple-minded syntax. 
 
+#### jklmno
+
+Arguably our `numba` range should be `jklmno`, which is `6A-6F` in ASCII and means we apply a consistent bitmask to all `numbaz`. I abhor waste, but won't do this unless I can prove that it's faster than converting a more conventional representation, on at least Atmels and Arms. 
+
+The really steez alternative is to replace them with `:;<=>?`, we mask for the `3` and take the low four. I won't do that, it would render the language unreadable. 
+
 ##Syntax
 
 Orcs parlay through the simplest parser that could possibly work. If they receive a byte that isn't phonemically valid, undefined behavior occurs, which normally includes ignoring you, and may also provoke consternation or even hostility. Given a `numba`, they try to make a number out of it, and remember that number. They will stop if they see a `spaz` or indeed any phoneme which is not a `numba`. How many numbaz they eat before digesting depends on the Orc. I don't know or care what your architectural width is, nor which end it cracks the egg from. Orcish is a language, it's up to the users to understand each other. 
@@ -31,8 +37,14 @@ Orcs in the wild may be presumed to be busy. Their inner loop could be quite tig
 
 The Cheer consists of the string `W@g!`, which is pronounced `ⱱaaʀχ!`, more or less. The response is `@rc!`, typically, and this is pronounced "Orc!" as one would expect. 
 
-Note that each of these is two slangz long. When an Orc makes a slang, the parser simply resets. Numbaz get eaten to a certain width and then reset also. 'certain width' being as unreliable as it sounds: I neither know nor care what a comfortable way to break up a numba might be, nor the endianity of the architecture. 
+Note that each of these is two slangz long. When an Orc makes a slang, the parser simply resets. Numbaz get eaten to a certain width and then reset also. 'certain width' being as unreliable as it sounds: I neither know nor care what a comfortable way to break up a numba might be, nor the endianity of the architecture. The Orcish language contains only the hexadecimal base, as is proper. 
 
 There is some structure to the madness: the `@` symbol in both cases indicates message passing, and the `!` has an imperative nature when preceded by a letta. 
 
 `W@g!` is the only valid call, while the responses vary. `@rc!` means the Orc is now listening and in the mood for conversation, at the established baud rate. `@rc.` means the Orc is an Orc, or pretending to be, but will most likely ignore you unless you attract his attention in another fashion. `@rc:` is an Orc reporting for duty: it has things to tell you, which come after the `:`, and serve to establish further conveniences. 
+
+###Architectural assumptions
+
+Here we're going to dial out a bit.
+
+

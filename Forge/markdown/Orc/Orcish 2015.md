@@ -41,7 +41,7 @@ Note that each of these is two slangz long. When an Orc makes a slang, the parse
 
 There is some structure to the madness: the `@` symbol in both cases indicates message passing, and the `!` has an imperative nature when preceded by a letta. 
 
-`W@g!` is the only valid call, while the responses vary. `@rc!` means the Orc is now listening and in the mood for conversation, at the established baud rate. `@rc.` means the Orc is an Orc, or pretending to be, but will most likely ignore you unless you attract his attention in another fashion. `@rc:` is an Orc reporting for duty: it has things to tell you, which come after the `:`, and serve to establish further conveniences. 
+`W@g!` is the only valid call, while the responses vary. `@rk!` means the Orc is now listening and in the mood for conversation, at the established baud rate. `@rk.` means the Orc is an Orc, or pretending to be, but will most likely ignore you unless you attract his attention in another fashion. `@rk:` is an Orc reporting for duty: it has things to tell you, which come after the `:`, and serve to establish further conveniences. 
 
 ###Architectural assumptions
 

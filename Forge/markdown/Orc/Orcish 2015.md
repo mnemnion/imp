@@ -63,7 +63,7 @@ To illustrate, `W@g!` could be defined as precisely the same as `W@ g!` and I mi
 
 The Cheer being important, I won't likely do this, since it's harder to understand. Another example is the word `\`, which either discards information up to the next `\` or writes it to a scratch buffer. This is similar to a comment. 
 
-In general, a word is a function followed by sufficient arguments. This is Smalltalk like, so `+ 10 20` not `10 20 +`. `$` refers to the latest value so `10 + $ 20` is equivalent to `+ 10 20`. `$` is the same as `$0`, `$1` is the previous stack member, and so on. Stack values are consumed when the function has sufficient arguments so `10 + $ $` is `+ 10 10`. We don't really want to dup, swap, pop or lock. Nothing underflows, any input a core function doesn't understand causes fail-and-ignore. If the stack is empty, `+ 5 $` will do nothing: when + calls `$`, `$` will fail-ignore, and `+` will fail-ignore (let's call that a fail), losing the `5` in the process. 
+In general, a word is a function followed by sufficient arguments. This is Smalltalk like, so `+ 10 20` not `10 20 +`. Smalltalk provides the ability to define simple infix operators, a user convenience we have no need for. `$` refers to the latest value so `10 + $ 20` is equivalent to `+ 10 20`. `$` is the same as `$0`, `$1` is the previous stack member, and so on. Stack values are consumed when the function has sufficient arguments so `10 + $ $` is `+ 10 10`. We don't really want to dup, swap, pop or lock. Nothing underflows, any input a core function doesn't understand causes fail-and-ignore. If the stack is empty, `+ 5 $` will do nothing: when + calls `$`, `$` will fail-ignore, and `+` will fail-ignore (let's call that a fail), losing the `5` in the process. 
 
 A more advanced sequence: `+ 10 5 * $ 6 / $ 10` translates into infix as `(10 + 5) * 6 / 10`. Whether translated to a stack or straight to registers, this is very short code. 
 
@@ -92,6 +92,48 @@ Other reports include contents of memory, registers, flash, EEPROM, the ability 
 Orcish will provide a syntax for assemblers. It should be relatively straightforward to write Orcish assembler as a C target, without much hairpulling or pain, and we should be able to fit such an assembler in a K or so. The bootloader for an Orc is nothing but the relevant USB functions and an incremental assembler, code is loaded as ASCII regardless of dialect. 
 
 We really want the C compiler to follow certain conventions, so that we can add functions a bit at a time. This might take some hacking but it's worthwhile for ARM and Atmel at least to have this nailed down. Something like each function containing a cell that has a back reference to the prior function definition, so we can walk back in memory and and retrieve all function pointers and signatures with compact code. The signatures will also be needed, I realize I know but little about the assemblage and linkage of C. 
+
+###Message Passing
+
+When Orcs need to share large volumes of data, they do so directly. When being more interrogatory or imperative, they habitually switch to Orcish. This is a blessing for some poor sod, somewhere, reading off a logic probe. 
+
+Many Orcs will therefore contain functions wherein they Cheer at another Orc and tell it something useful. The language contains imperative primitives commanding an Orc to do this. As a result, it's normally possible to talk to an Orc several pins away from anything you can reach. If you can talk to it, and it's not truly dull, you can program it as well. 
+
+###Interactivity
+
+Non-trivial Orcs will have a useful interpretation loop, with functions that make it moderately pleasant to program. It will be possible to incrementally compile these interpretations in a Forth-like manner. This mode will be cryptic, certainly, but writing and reading it using long-form expansion of the slangs should be at least useable. Early attempts at Orcish focused on this aspect, which I no longer feel is as important. 
+
+
+##Details
+
+### $ and #
+
+`$` refers to TOS at any given time, while `#` refers to the prime register. These are almost always equivalent or can be made so, and this may be a made a semantic requirement. `$0` is equivalent to `$`, while `#0` more likely is the literal R0, likely not to be equivalent to `#`. 
+
+Assuming there are more than four slots on the stack is unwise unless one has good reason. Stack juggling is not a part of the core language. 
+
+###Strings
+
+The `"` roon causes immediate string mode. The only escapes are `\"` which translates to `"` and `\\` which translates to `\`. It is terminated by a non-escaped `";`. 32 bytes is a virtual guarantee, many Orcs will be able to take a lengthy string. Any bytes within this parse space are valid, meaning you can use utf-8 and nulls don't terminate. 
+
+###Quotations
+
+`(` begins a quotation and is conventionally followed by a space. Up to the next `)`, the quotation builds a series of calls and places an execution pointer in `$`. Note that `x $`, which would immediately execute the quotation, will also take the execution pointer off the stack, so references to `$` in the quotation, if they exist, will be to the value that was `$1` before the execution of `x $`. 
+
+###Definitions 
+
+`:` causes the beginning of a definition, and always has a space. The slang following is defined by the input stream until a concluding `:;`, and is immediately available for recursive calling. 
+
+An attempt to redefine a slang fails. As a result, the following input stream would be interpreted, not compiled, which means this is often fail-and-complain. This is why the concluding slang is `:;`, not `:`. It prevents figure-ground reversal, which is bad. You'll note we do the same thing with strings. 
+
+The bare word `;` compiles a return, used in control structures. `:;` is a return also. These returns are conceptual, it's okay to turn them into jumps when possible. 
+
+###Comments
+
+Mentioned before, anything between two `\` is a comment. When Orcs reply to a command, they often do so within a comment. Orcs frequently discuss various subjects and this lets them be chatty without compelling signficant computation. It's perfectly reasonable to write a comment to scratch and do something with the information, though if an Orc feels strongly that you should act on data it will normally provide it as a command. 
+
+About commands: Orcish is a message passing architecture, Orcs ignore anything they don't care to act on. Optionally they may interpret your attempts to boss them around as hostility and act accordingly. Language, not programming language. Programming a docile Orc is generally feasible and even pleasant. 
+
 
 
 

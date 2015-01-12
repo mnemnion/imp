@@ -21,6 +21,8 @@ Arguably our `numba` range should be `jklmno`, which is `6A-6F` in ASCII and mea
 
 The really steez alternative is to replace them with `:;<=>?`, we mask for the `3` and take the low four. I won't do that, it would render the language unreadable. 
 
+Neither of these will happen. We'll use `abcdef`, take the hit, and wish, wistfully, that ASCII was slightly more well designed. 
+
 ##Words
 
 Orcs parley through the simplest parser that could possibly work. If they receive a byte that isn't phonemically valid, undefined behavior occurs, which normally includes ignoring you, and may also provoke consternation or even hostility. Given a `numba`, they try to make a number out of it, and remember that number. They will stop if they see a `spaz` or indeed any phoneme which is not a `numba`. How many numbaz they eat before digesting depends on the Orc. I don't know or care what your architectural width is, nor which end it cracks the egg from. Orcish is a language, it's up to the users to understand each other. 

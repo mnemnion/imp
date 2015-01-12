@@ -122,7 +122,7 @@ The `"` roon causes immediate string mode. The only escapes are `\"` which trans
 
 ###Quotations
 
-`(` begins a quotation and is conventionally followed by a space. Up to the next `)`, the quotation builds a series of calls and places an execution pointer in `$`. Note that `x $`, which would immediately execute the quotation, will also take the execution pointer off the stack, so references to `$` in the quotation, if they exist, will be to the value that was `$1` before the execution of `x $`. 
+`(` begins a quotation. As with most single-byte slangs (`"` notable as an exception) it has a mandatory spaz that follows. Up to the next `)`, the quotation builds a series of calls and places an execution pointer in `$`. Note that `x $`, which would immediately execute the quotation, will also take the execution pointer off the stack, so references to `$` in the quotation, if they exist, will be to the value that was `$1` before the execution of `x $`. 
 
 ###Definitions 
 
@@ -161,7 +161,7 @@ About commands: Orcish is a message passing architecture, Orcs ignore anything t
 | Rune | Name | Notes | Rune | Name | Notes | Rune | Name | Notes |
 |------|------|-------|------|------|-------|------|------|-------|
 | ~    |      |       | `    |      |       | !    |      |       |
-| @    |      |       | #    |      |       | $    |      |       |
+| @    |  At    | Message      | #    |      |       | $    |      |       |
 | ^    |      |       | &    |      |       | *    |      |       |
 | (    |      |       | )    |      |       | -    |      |       |
 | _    |      |       | +    |      |       | =    |      |       |

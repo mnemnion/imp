@@ -135,25 +135,24 @@ Mentioned before, anything between two `\` is a comment. When Orcs reply to a co
 About commands: Orcish is a message passing architecture, Orcs ignore anything they don't care to act on. Optionally they may interpret your attempts to boss them around as hostility and act accordingly. Language, not programming language. Programming a docile Orc is generally feasible and even pleasant. 
 
 
-###Symbol Table
-
-| A 	|   	| P 	|   	| k 	|   	|
-|---	|---	|---	|---	|---	|---	|
-| B 	|   	| Q 	|   	| l 	|   	|
-| C 	|   	| R 	|   	| m 	|   	|
-| D 	|   	| S 	|   	| n 	|   	|
-| E 	|   	| T 	|   	| o 	|   	|
-| F 	|   	| U 	|   	| p 	|   	|
-| G 	|   	| V 	|   	| q 	|   	|
-| H 	|   	| W 	|   	| r 	|   	|
-| I 	|   	| X 	|   	| s 	|   	|
-| J 	|   	| Y 	|   	| t 	|   	|
-| K 	|   	| Z 	|   	| u 	|   	|
-| L 	|   	| g 	|   	| v 	|   	|
-| M 	|   	| h 	|   	| w 	|   	|
-| N 	|   	| i 	|   	| x 	|   	|
-| O 	|   	| j 	|   	| y 	|   	|
-|   	|   	|   	|   	| z  	|   	|
+| S | y | m | b | o | l |
+|---|---|---|---|---|---|
+| A |   | P |   | k |   |
+| B |   | Q |   | l |   |
+| C |   | R |   | m |   |
+| D |   | S |   | n |   |
+| E |   | T |   | o |   |
+| F |   | U |   | p |   |
+| G |   | V |   | q |   |
+| H |   | W |   | r |   |
+| I |   | X |   | s |   |
+| J |   | Y |   | t |   |
+| K |   | Z |   | u |   |
+| L |   | g |   | v |   |
+| M |   | h |   | w |   |
+| N |   | i |   | x |   |
+| O |   | j |   | y |   |
+|   |   |   |   |   |   |
 
 
 

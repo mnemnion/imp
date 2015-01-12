@@ -65,6 +65,8 @@ The Cheer being important, I won't likely do this, since it's harder to understa
 
 In general, a word is a function followed by sufficient arguments. This is Smalltalk like, so `+ 10 20` not `10 20 +`. Smalltalk provides the ability to define simple infix operators, a user convenience we have no need for. `$` refers to the latest value so `10 + $ 20` is equivalent to `+ 10 20`. `$` is the same as `$0`, `$1` is the previous stack member, and so on. Stack values are consumed when the function has sufficient arguments so `10 + $ $` is `+ 10 10`. We don't really want to dup, swap, pop or lock. Nothing underflows, any input a core function doesn't understand causes fail-and-ignore. If the stack is empty, `+ 5 $` will do nothing: when + calls `$`, `$` will fail-ignore, and `+` will fail-ignore (let's call that a fail), losing the `5` in the process. 
 
+A word may take an optional argument, in a limited way. The recognizer has no backtracking, but it may be called on the latest slang without taking another bite. So `fu br` could eat the `br`, decide not to use it, and call the recognizer on `br`. By default, failure to parse loses the information, and exactly two bytes may be handed back to the global context. 
+
 A more advanced sequence: `+ 10 5 * $ 6 / $ 10` translates into infix as `(10 + 5) * 6 / 10`. Whether translated to a stack or straight to registers, this is very short code. 
 
 This is more consistent behavior than Forth, because Forth words such as `:`, `s"`, and `(` cause the forward-parsing behavior to change, while most Forth words take action on the implicit results of the preceding action. In Orcish, your debug mode is to switch from fail-and-ignore to fail-and-complain, and we are always parsing forward. 
@@ -156,7 +158,7 @@ About commands: Orcish is a message passing architecture, Orcs ignore anything t
 
 | Rune | Name | Notes | Rune | Name | Notes | Rune | Name | Notes |
 |------|------|-------|------|------|-------|------|------|-------|
-| ~    | adsfsdfdfads     |       | `    |      |       | !    |      |       |
+| ~    |      |       | `    |      |       | !    |      |       |
 | @    |      |       | #    |      |       | $    |      |       |
 | ^    |      |       | &    |      |       | *    |      |       |
 | (    |      |       | )    |      |       | -    |      |       |

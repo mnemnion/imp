@@ -156,7 +156,7 @@ About commands: Orcish is a message passing architecture, Orcs ignore anything t
 
 | Rune | Name | Notes | Rune | Name | Notes | Rune | Name | Notes |
 |------|------|-------|------|------|-------|------|------|-------|
-| ~    |      |       | `    |      |       | !    |      |       |
+| ~    | adsfsdfdfads     |       | `    |      |       | !    |      |       |
 | @    |      |       | #    |      |       | $    |      |       |
 | ^    |      |       | &    |      |       | *    |      |       |
 | (    |      |       | )    |      |       | -    |      |       |

@@ -14,3 +14,9 @@ Are Orcs Smalltalk objects? Yep. Very small, talking objects. Smalltalk on a sin
 
 Most of the rest of the `@` slangs are ways to question the Orc about various matters. 
 
+## @k and n@
+
+A general reply in the affirmative takes the form `@k`, while a negative is passed as `n@`. "Ahhh, k", "nahhh".
+
+These are also our boolean values. 
+

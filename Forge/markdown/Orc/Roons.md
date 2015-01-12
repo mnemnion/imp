@@ -8,4 +8,6 @@ Roons in particular are chosen for their semantic utility. The single roon form 
 
 This becomes less true for argument slangs. The function slang consumes the argument, so it may be anything we find useful. Sometimes, we may overload the meaning of a rune for such a second purpose.
 
-Paradigm case: We have the replies `@rk!`, `@rk.` and `@rk:`. Normally, `.` is a field separator and `:` refers to definitions. Here we use them in a more conventionally punctuated sense. Note that we don't say `@rc!` because `c!` is not a valid slang. We **could** accept this argument, and we never will because that's phonemically invalid Orcish, just as "ngnarrrp" is invalid English.  
+Paradigm case: We have the replies `@rk!`, `@rk.` and `@rk:`. Normally, `.` is a field separator and `:` refers to definitions. Here we use them in a more conventionally punctuated sense. Note that we don't say `@rc!` because `c!` is not a valid slang. We **could** accept this argument, and we never will because that's phonemically invalid Orcish, just as "ngnarrrp" is invalid English.  `@r c !` could be a valid string, but most likely is meaningless. Neither of the spaz marks is semantically required here, but one must follow the `!`. 
+
+This means that none of `k!`, `k.` or `k:` have currently defined meanings, and this pattern will remain common. `k!`, being a command, is properly imperative, there being no harm in using a roon consistently. 

@@ -35,7 +35,7 @@ What's a slang? Every other command we need. The shortest slangs, and ones with 
 
 The Orcish Cheer is how Orcs establish a line of communication. 
 
-Orcs in the wild may be presumed to be busy. Their inner loop could be quite tight, leaving little time to poll a pin for data. The Orcish Cheer is emitted at 360 baud, no more, no less. 
+Orcs in the wild may be presumed to be busy. Their inner loop could be quite tight, leaving little time to poll a pin for data. The Orcish Cheer is emitted at 360 baud, no more, no less. A more normal conversation bandwidth is 9720 or 19440, Orcs have a thing for highly divisible numbers. 
 
 The Cheer consists of the string `W@g!`, which is pronounced `ⱱaaʀχ!`, more or less. The response is `@rk!`, typically, and this is pronounced "Orc!" as one would expect. 
 
